@@ -25,8 +25,7 @@ def main():
     for event in events["posts"]:
         if "tribe_events" in event.get("post_type"):
             date = event.get("postmeta").get("_EventStartDate")
-            if (date and datetime.fromisoformat(date).month == datetime.now().month
-                    and datetime.fromisoformat(date).year == datetime.now().year):
+            if (date and datetime.fromisoformat(date) > datetime.now()):
                 day = datetime.fromisoformat(date).strftime('%d')
                 day_of_week = datetime.fromisoformat(date).strftime('%a')
                 time = datetime.fromisoformat(date).strftime('%I:%M %p').replace("0", " ", 1)
