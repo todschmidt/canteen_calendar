@@ -20,26 +20,29 @@ def main():
 
     lines = []
 
-    if args.debug: pp(events)
+    if args.debug > 2: pp(events)
 
     for event in events["posts"]:
         if "tribe_events" in event.get("post_type"):
             date = event.get("postmeta").get("_EventStartDate")
-            if (date and datetime.fromisoformat(date) > datetime.now()):
-                day = datetime.fromisoformat(date).strftime('%d')
+            if (date and datetime.fromisoformat(date) > datetime.today()):
+                day = datetime.fromisoformat(date).strftime('%m%d')
                 day_of_week = datetime.fromisoformat(date).strftime('%a')
                 time = datetime.fromisoformat(date).strftime('%I:%M %p').replace("0", " ", 1)
                 lines.append({day: f"{day_of_week} {time} {event.get('title')}"})
                 if args.debug:
                     print(f"Event {event.get('title')} on {date}")
-
     if args.debug:
-        print(f"\n{datetime.fromisoformat(date).strftime('%B')} Events\n")
-
+        print("=======================")
+    month = datetime.today().month
     if args.debug:
         for event in sorted(lines, key=lambda d: list(d.keys())):
             for key, value in event.items():
-                print(f"{int(key):2} {value}")
+                if args.debug and month == int(key[0:2]):
+                    print(f"\n {datetime(2024, month, 1).strftime('%B')} Events\n")
+                    month+=1
+                day = f"{key[len(key)-2:]}"
+                print(f"{day} {value}")
 
     calendar = Image.new(mode="RGB", size=(1080,1920), color=(64, 64, 64))
     with Image.open("canteenmonthlyposterheader.jpg") as header:
@@ -48,20 +51,26 @@ def main():
         calendar.paste(ImageOps.contain(footer, (1080, int(1980*.27))), (0,int(1980*.82)))
 
     font = ImageFont.truetype(r'arialbd.ttf', 24)
-    header_font = ImageFont.truetype(r'arialbd.ttf', 48)
+    header_font = ImageFont.truetype(r'arialbd.ttf', 40)
 
     text = ImageDraw.Draw(calendar)
-    text.text((0, int(1980*.275)), f"  {datetime.fromisoformat(date).strftime('%B')} Events",
-            font=header_font, fill=(255,255,255))
 
-    list_start = int(1980*.29)
-    list_spacing = int(1980*.018)
+    month = datetime.today().month
+    list_start = int(1980*.26)
+    list_spacing = int(1980*.016)
     for event in sorted(lines, key=lambda d: list(d.keys())):
         for key, value in event.items():
             list_start += list_spacing
-            if list_start > int(1980*.82):
+            if list_start+list_spacing > int(1980*.82):
                 break
-            text.text((0, list_start), f"  {int(key):2} {value}", font=font, fill=(255,255,255))
+            if args.debug and month == int(key[0:2]):
+                text.text((0, list_start), f"{datetime(2024, month, 1).strftime('%B')} Events",
+                        font=header_font, fill=(255,255,255))
+                month+=1
+                list_start += list_spacing*2
+            day = f"{key[len(key)-2:]}"
+
+            text.text((0, list_start), f"  {day} {value}", font=font, fill=(255,255,255))
 
 
     calendar.show()
