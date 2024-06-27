@@ -54,6 +54,7 @@ def main():
                 day = datetime.fromisoformat(date).strftime('%m%d')
                 day_of_week = datetime.fromisoformat(date).strftime('%a')
                 time = datetime.fromisoformat(date).strftime('%I:%M %p')
+                # strip the leading zero from just the hour
                 time_stripped = re.sub(r'^0+',' ', time)
                 lines.append({day: f"{day_of_week} {time_stripped} {event.get('post_title')}"})
                 if args.debug:
@@ -61,17 +62,7 @@ def main():
     if args.debug:
         print("=======================")
     
-    # # This is just to print out put and is 
-    # if args.debug:
-    #     month = datetime.today().month
-    #     for event in sorted(lines, key=lambda d: list(d.keys())):
-    #         for key, value in event.items():
-    #             if args.debug and month == int(key[0:2]):
-    #                 print(f"\n {datetime(2024, month, 1).strftime('%B')} Events\n")
-    #                 month+=1
-    #             day = f"{key[len(key)-2:]}"
-    #             print(f"{day} {value}")
-
+    # Create the calendar image
     calendar = Image.new(mode="RGB", size=(1080,1920), color=(64, 64, 64))
     with Image.open("canteenmonthlyposterheader.jpg") as header:
         calendar.paste(ImageOps.contain(header, (1080, int(1980*.27))), (0,0))
@@ -80,28 +71,34 @@ def main():
 
     font = ImageFont.truetype(r'arialbd.ttf', 24)
     header_font = ImageFont.truetype(r'arialbd.ttf', 40)
-
     text = ImageDraw.Draw(calendar)
 
     month = datetime.today().month
+
+    # Add the events to the calendar
     list_start = int(1980*.26)
     list_spacing = int(1980*.016)
     for event in sorted(lines, key=lambda d: list(d.keys())):
         for key, value in event.items():
             list_start += list_spacing
+            # break so we don't write past footer
             if list_start+list_spacing > int(1980*.82):
                 break
+            # add month separator
             if month == int(key[0:2]):
+                list_start += list_spacing*.05
                 text.text((0, list_start), f"{datetime(2024, month, 1).strftime('%B')} Events",
                         font=header_font, fill=(255,255,255))
                 month+=1
-                list_start += list_spacing*2
+                list_start += list_spacing*1.8
             day = f"{key[len(key)-2:]}"
+            day_of_week, event_time, event_name = value.split(" ", 2)
             if args.debug: 
-                print(f"{day} {value}")
-            text.text((0, list_start), f"  {day} {value}", font=font, fill=(255,255,255))
+                print(f"{day} {day_of_week} {event_time} {event_name}")
+            text.text((0, list_start), f"  {day}  {day_of_week}", font=font, fill=(255,255,255))
+            text.text((1080*.10, list_start), f"{event_time} {event_name}", font=font, fill=(255,255,255))
 
-
+    # Show the calendar in an image viewer
     calendar.show()
     calendar.save("canteenmonthlyposter.jpg")
 
