@@ -21,11 +21,15 @@ function custom_event_export_endpoint() {
 }
     
 function custom_event_export_callback($data) {
-    $events = tribe_get_events();
+    $events = tribe_get_events([
+        'start_date'     => 'now',
+        'posts_per_page' => 50,
+    ]);
     $complete_events = array();
     foreach ($events as $event) {
         $post_meta = tribe_get_event_meta($post_id = $event->ID);
-        array_push($complete_events, $event);
+        $merged_event = array_merge($event->to_array(), $post_meta);
+        array_push($complete_events, $merged_event);
     }
     return rest_ensure_response($complete_events);
 }

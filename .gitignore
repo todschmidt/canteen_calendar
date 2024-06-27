@@ -162,6 +162,7 @@ cython_debug/
 #.idea/
 
 export.xml
-export-events.xml
+export-events.*
+events-export.*
 events.dict
 canteenmonthlyposter.jpg
