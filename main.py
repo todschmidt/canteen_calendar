@@ -1,9 +1,11 @@
-import wpparser
+#import wpparser
 import argparse
 import re
 from datetime import datetime
 from pprint import pp
 from PIL import Image, ImageOps, ImageDraw, ImageFont
+from urllib.request import Request, urlopen
+import json
 
 parser = argparse.ArgumentParser(
                     prog='export-events',
@@ -16,15 +18,27 @@ parser.add_argument('-d', '--debug', action='store_true',
 args = parser.parse_args()
 
 def main():
-    events = wpparser.parse("./export-events.xml")
+    headers = {
+        'Accept-Language': 'en-US,en',
+        'Accept': 'text/html,application/xhtml+xml,application/xml',
+        'User-Agent': 'me',
+        'Upgrade-Insecure-Requests': '1',
+    }
+    # events = wpparser.parse("./export-events.xml")
+    #request = Request('https://cedarmountaincanteen.com/wp-json/custom/v1/custom-event-exporter/')
+    request = Request('http://localhost:10004/wp-json/custom/v1/custom-event-exporter/')
+    request.add_header('User-Agent', 'canteen-calendar')
+    with urlopen(request) as f:
+        events = json.loads(f.read().decode('utf-8'))
 
+    if args.debug: 
+        pp(events)
+    
     lines = []
 
-    if args.debug > 2: pp(events)
-
-    for event in events["posts"]:
+    for event in events:
         if "tribe_events" in event.get("post_type"):
-            date = event.get("postmeta").get("_EventStartDate")
+            date = event.get("event_date")
             if (date and datetime.fromisoformat(date) > datetime.today()):
                 day = datetime.fromisoformat(date).strftime('%m%d')
                 day_of_week = datetime.fromisoformat(date).strftime('%a')
