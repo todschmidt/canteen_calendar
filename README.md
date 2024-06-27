@@ -1,19 +1,26 @@
 # canteen_calendar
 
-- Export export-events.xml
-- 
 
-Hello,
-Thought I would send this to you because I am working on it now and didn't want to forget.
 
-One thing that came out of the focus group meeting was for us to create a poster each month of our events.  Something like the attached.  Still lots of work to be done.
+## Installation
 
-I am wondering if you could write a script that would eliminate me creating the schedule by hand.  I copied the data from the website and then spent a lot of time getting the data parsed down to the few fields for the poster.  We can download an xml file of the entire events calendar but I only need it for a month at a time and only the elements on the poster.
+### Install the wordpress plugin
+``` zip custom-event-exporter.php
 
-I have attached the xml file provided by Wordpress of events.
+Install plugin
 
-Would appreciate any thoughts.
-Thanks!
-Kim
+This will allow events exported to be viewed here. Lists 50 events starting from now
+so that will need to be modified for the calendar I would think
 
+https://cedarmountaincanteen.com/wp-json/custom/v1/custom-event-exporter
+
+### Script installation
+```
 python -m venv ./venv
+source venv/Scripts/activate
+pip install -r requirements.txt
+python main.py
+```
+This generates a canteenmonthlyposter.jpg in 1080x1920 format, suitable for a TV in portrait mode.
+
+Will probably need to tweak that since TVs tend to overscan, ie cut off edges.
