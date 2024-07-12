@@ -22,8 +22,11 @@ cd canteen_calendar
 python -m venv ./venv
 source venv/Scripts/activate
 pip install -r requirements.txt
+# To run the script
 python main.py
 ```
+
+### Generating the image
 
 Running the script will then just be a case of running these commands
 
