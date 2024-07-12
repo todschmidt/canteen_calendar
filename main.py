@@ -1,4 +1,3 @@
-#import wpparser
 import argparse
 import re
 from datetime import datetime
