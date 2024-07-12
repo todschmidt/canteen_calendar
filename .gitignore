@@ -166,3 +166,5 @@ export-events.*
 events-export.*
 events.dict
 canteenmonthlyposter.jpg
+
+.ruff_cache
