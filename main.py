@@ -88,6 +88,8 @@ def main():
                 break
             # add month separator
             if month == int(key[0:2]):
+                if list_start + (list_spacing * 2) > int(1920 * 0.82):
+                    break
                 list_start += list_spacing * 0.05
                 text.text(
                     (0, list_start),
@@ -97,6 +99,8 @@ def main():
                 )
                 month += 1
                 list_start += list_spacing * 1.8
+            if list_start + list_spacing > int(1920 * 0.82):
+                break
             day = f"{key[len(key)-2:]}"
             day_of_week, event_time, event_name = value.split(" ", 2)
             if args.debug:
