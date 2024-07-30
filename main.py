@@ -80,6 +80,8 @@ def main():
     list_spacing = int(1920 * 0.016)
     for event in sorted(lines, key=lambda d: list(d.keys())):
         for key, value in event.items():
+            if month < int(key[0:2]):
+                month += 1
             list_start += list_spacing
             # break so we don't write past footer
             if list_start + list_spacing > int(1920 * 0.82):
