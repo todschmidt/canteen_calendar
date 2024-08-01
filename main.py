@@ -76,7 +76,7 @@ def main():
     month = datetime.today().month
 
     # Add the events to the calendar
-    list_start = int(1920 * 0.26)
+    list_start = int(1920 * 0.257)
     list_spacing = int(1920 * 0.016)
     for event in sorted(lines, key=lambda d: list(d.keys())):
         for key, value in event.items():
@@ -90,7 +90,7 @@ def main():
             if month == int(key[0:2]):
                 if list_start + (list_spacing * 2) > int(1920 * 0.82):
                     break
-                list_start += list_spacing * 0.05
+                list_start += list_spacing * 0.04
                 text.text(
                     (0, list_start),
                     f"{datetime(2024, month, 1).strftime('%B')} Events",
