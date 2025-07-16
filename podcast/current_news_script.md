@@ -1,152 +1,133 @@
-# Cedar Mountain Community Podcast Script - Current News
+# Cedar Mountain Community Podcast Script
 
 ## Introduction
-Hello and welcome back to the Cedar Mountain Community Podcast. I am Tod Schmidt, and we have some important updates and exciting events to share with you from our mountain community today.
+Hello and welcome to the Cedar Mountain Community Podcast. I'm your host, Tod Schmidt and I am happy to have Diane Lewis here with me as well.
+
+We've got some great events and news to share from our beautiful mountain 
+Community so let's dive into what's happening around Cedar Mountain.
+
+Actually first I should apologize to Jill Whalen for misnaming her. Jill Whalen did these wonderful paintings behind us here and Julianne Hogarth did the wonderful paintings over there.
 
 ## Cedar Mountain Community News
 
-### Important Debris Cleanup Update
+### Sherwood Forest Friends Summer Series
+This Saturday, July 19th, the Sherwood Forest Friends Summer Series kicks off 
+with "Gaia Herbs: Soil to Supplement." Free admission! Head over to the Robin 
+Hood Barn at 7 p.m. where Kate Renner, Director of Farm Operations at Gaia Herbs, 
+will dig into the history of the Gaia farm and its evolution.
 
-First up, we have an important community notice that came out on Monday, July 8th, 2025. 
+Since 1997, Gaia Herbs has been rooted in Transylvania County as one of its 
+largest employers and agricultural land steward of 350 acres. You'll discover 
+what inspired them to become the first Regenerative Organic Certified farm in 
+the Carolinas and learn about the migrant farm crews who've made operations 
+possible over the decades.
 
-As of Tuesday, July 8, County Manager Jaime Laughter and Emergency Management Director Kevin Shook met with state and federal teams to keep things moving on storm debris cleanup. Good news — funding is now available to support continued waterway and private property debris removal, including demolition services.
+Wine and water will be available for a donation starting at 6:30 p.m. There's 
+also a silent auction for artwork and experiences, plus raffle baskets. All 
+proceeds benefit the Allikas Scholarship for environmental education and arts 
+preservation.
 
-Teams from FEMA and the Army Corps of Engineers are evaluating sites later this week, and 412 private property debris applications are under review. NCDOT has also hired a contractor to finish debris pickups along their roadways.
+Coming up in the series: July 26th brings songs and stories with Josh Goforth, 
+and August 9th features a journey through Western North Carolina with Chris 
+Bainbridge. Details at Sherwoodforestfriends.org/events.
 
-We should see another update next week, so stay tuned.
+### Faith Memorial Chapel
+Faith Memorial Chapel welcomes folks of all denominations to Sunday services at 
+11:00 AM. They meet only in the summer with no membership roll, so you won't 
+feel like a guest. Each Sunday features visiting clergy from different churches 
+and great music.
 
-This is definitely something our community needs to stay informed about, so please pay attention to the details.
+This Sunday, July 20th, they welcome Reverend Kyle Matthews, Minister of Worship 
+Arts at First Baptist Church in Greenville, South Carolina. They'll also have 
+Rudy Polk as soloist - a talented tenor from Clinton, Mississippi who's studying 
+vocal performance at the University of North Texas.
 
-### Additional Community Updates  
+### Rocky Hill Baptist Vacation Bible School
+Rocky Hill Baptist's Vacation Bible School begins this Sunday, July 20th at 
+6:00 p.m. Join them for three days of worship and fun through music, Bible 
+character reenactments, crafts, food, and recreation. Children ages four through 
+middle school are invited. Contact Patty Stahl at 885-2498 for more information.
 
-The Cedar Mountain Fire/Rescue Department is looking for volunteers. If you would like to join the Fire Department, please fill out the forms on their website cmfr.org.
+### See Off Homesteaders Community Center
+The July potluck is this Sunday, July 20th at 5:30 p.m. for socializing, with 
+dinner at 6:00 p.m. Amy Freeman will present about Community Action Opportunities 
+and Life Works, an important program helping individuals obtain living wage jobs 
+and move out of poverty. Everyone's welcome - just bring a dish to share and 
+your own utensils if you can. That news is from Doug Poad
 
-The fire department now has STARLINK internet coverage for emergency conditions.   
+### Transylvania 2050 Community Survey
+The Transylvania 2050 Comprehensive Plan Update is asking for community feedback. 
+The survey is open through the end of July at transylvaniacounty.org/2050communitysurvey. 
+Your input helps plan our county's next 25 years, so please participate!
 
-FD AUXILIARY MEMBERS NEEDED
-Time spent can be as little or as much as an individual is comfortable with. In addition, High school National Honor Society Members can also earn hours by participating in CMFR Fund Raisers.  If you are interested in joining the Auxiliary, attend the next meeting on the first Tuesday of each month at 6 pm at CMFR or contact Miriam Pflug, Auxiliary President at 864-237-3648 or Samuel Tenenbaum, Vice President at 803-261-7966.
+There are links to both surveys on the cedarmountaincommunitycenter.com website
 
-ROCKY HILL BAPTIST CHURCH (just down Greenville Hwy)
-Vacation Bible School will be held at Rocky Hill Baptist Church on Sunday, July 20th through Tuesday, July 22nd from 6 to 8 pm.  Each evening’s program will include Bible study, music, worship, crafts, snacks and recreation.  All children aged four through middle school invited.
+### Cedar Mountain Rotary Club
+Monday, July 21st The Cedar Mountain Rotary Club will meet with Melissa Smith, Development Manager 
+at SAFE, as the speaker. She'll inform us about SAFE's work in our community. 
+Everyone's welcome, and a potluck meal will follow. Contact Cathy Haupert at 
+607-280-0889 for details.
 
-TRANSYLVANIA SHARES
-Can you fix things?  We need you for our free Repair Cafe.
-The Cedar Mountain Canteen and Transylvania Shares has partnered with WNC Repair Cafe to bring fix-it clinics to Transylvania County.  Our first clinic will be in September.  We need volunteers who can fix things like furniture, tools and appliances.  We also need folks who can sew and mend.  If you have skills and are willing to donate your time, please let us know.  We need a local community of fixers.  We know you are out there.
-
-A reasonable ratio of volunteers to participants is essential for a successful repair event, and volunteers of all skill levels are greatly appreciated. Email Transylvania Shares at TransylvaniaShares@gmail.com if you are interested in helping.  Thank you!  Everything on this earth is supremely valuable.  Nothing is disposable.
-
-COMING UP at CMCC  
-Aug 12th Potluck, Sept 9th Potluck & Crockpot Cook-off, Oct 14th Potluck BBQ Fundraiser, and Thanksgiving Potluck November 11th.  Updates will be forthcoming.  
-
-FAITH MEMORIAL CHAPEL welcomes folks of all denominations to our services, held on Sundays at 11:00 AM.  We meet only in the summer and have no membership roll, so you won’t feel like a guest.  Each Sunday, we have clergy from different churches that visit us to lead the service and we are blessed to also have great music to accompany the great message!
-
-On July 13th, we welcome the Rev. Dr. Fred W. Andrea III.   Dr. Andrea has served previously as pastor of the Rock Creek Baptist Church in Westport, Indiana, the Augusta Heights Baptist Church in Greenville, South Carolina, and the First Baptist Church of Savannah, Georgia. 
-
-Music this Sunday will be provided by Craig Price.  Bass-Baritone Craig Philip Price, a native of Gilbert, South Carolina, holds degrees in Voice Performance from Furman University and Manhattan School of Music, as well as a Doctor of Musical Arts degree from the University of South Carolina.  
-Earle Oxner earleoxner@me.com
-
-
-RED CROSS BLOOD DRIVE
-Cedar Mountain Volunteer Fire Department
-8725 Cascade Lake Road, Cedar Mountain, NC 28718
-08/16/2025 | 08:30 AM - 12:30 PM
-Make your appointment now.  Please contact Cindy Green 828-606-0949 to register. Walk-ins are welcome, but registration is suggested.
+### Emerald Lake Grand Opening
+From Tamika Hunter, Executive Director of the Brevard/Transylvania Chamber of Commerce
+Emerald Lake, formerly The Sassy Goose, is celebrating its Grand Opening and 
+Ribbon Cutting this Tuesday, July 22nd at 4:00 p.m. Owner Fann Greer welcomes 
+the Cedar Mountain community to enjoy on-site tours, refreshments, and live 
+music. Contact info@emeraldlakenc.com for more information.
 
 AROUND THE HOUSE by Linda Packer Young
-Well, some progress is being made.  As some of you might remember two households were combined into one stuffed one in the fall of 2021.  My honey brought a lot of things with him that we didn’t have room for and we had to store shop equipment in a storage unit.  After all this time we decided that a workshop was not going to happen in this small cabin.  Our favorite handyman agreed to take it all.  He is a woodworker and has a large shop where he can put these machines to good use.  We are going to work out a deal where he will do work for us in exchange.  I’m just glad to empty that storage unit.  
+I’m getting serious about weeds and undesirable plants in the front yard.  Most of the yard is ferns and moss including an absolute forest of Maidenhair ferns but the area right in front is supposed to be Hostas and little more.  I planted a native whose name I don’t recall, but it is very invasive.  I’d spray them but don’t want to harm desirables.  So I have to sit on the ground and pull weeds.  I’m a picky weeder so it takes a lot of time.  Last Wednesday my left eyebrow met a bench when I tripped over a hose.  I am keeping a low profile until this shiner goes away.
 
-Helene took care of another storage unit we had in Cedar Mountain.  Nearly everything in it was destroyed by the flood including a “treasured” collection of cookbooks.  Only a few items were salvaged.  Que sera sera.
-
-Please note that the deadline to submit articles for the Cedar Mountain News is Monday night.  If your contribution will be later you need to let me know.  Email cedarmountainnews@gmail.com with all community news.  Photos are welcome and need to be 900kb or more to be used in the paper.
 
 
 ## Cedar Mountain Canteen News
 
-We’ve got live music, jams, potlucks, and even our own livestream station now. That’s right — Cedar Mountain Canteen TV is streaming shows straight from our backyard. Got a show idea? Let the team know. They’re all about community-made media.
+### Regular Weekly Programming
+The Cedar Mountain Canteen continues to be our musical hub with great weekly events:
 
-Here’s what’s coming up:
+**Thursdays** from 6 to 8 p.m. - Join Paddle for Song Swap. Acoustic music, all 
+genres, all instruments welcome. Just bring yourself and a tune or two to share.
 
-Thursday, from 6 to 8 p.m., join Paddle for a Song Swap — acoustic, all genres, all instruments welcome. Just bring yourself and a tune or two to share.
+**Saturdays** from 2 to 4 p.m. - Bluegrass Jam led by Bruce Threlkeld. Whether 
+you want to pick, grin, or just tap your feet, everyone's welcome.
 
-Saturday afternoons, from 2 to 4 p.m., it’s the Bluegrass Jam led by Bruce Threlkeld. Whether you want to pick, grin, or just tap your feet, everyone’s welcome.
+**Sundays** from 3 to 5 p.m. - Mountain Music Jam featuring mostly old-time 
+fiddle tunes and acoustic fun. Come play or just soak in the sound.
 
-Every Sunday from 3 to 5 p.m., it’s the Mountain Music Jam — mostly old-time fiddle tunes and acoustic fun. Come play or just soak in the sound.
+**Mondays** from 6 to 8 p.m. - Evening of original music with host Owen Grooms. 
+They're also hosting a community potluck dinner every Monday during these hours. 
+Bring a dish to share and your own non-disposable place setting. If you can't 
+bring food, they're happy to feed you anyway.
 
-Monday, July 14th from 6:00-8:00
+**Tuesdays** from 9:30 to 11:30 a.m. - The Carolina Flat Tops perform "Acoustic 
+Music Without Borders" featuring Marc Brown, Richard Hardy, and Ed Phillips.
 
-Join us for an evening of original music with Dustin Maxwell and host, Owen Grooms. Dustin has spent most of his life right here in Western North Carolina, and is known for his work with bands like The Shotgun Gypsies and Dust in the Wind. His songs are soulful, evocative, and rooted in real life experiences right here in the mountains.
+### Special Upcoming Events
+**Monday, July 21st** - Host Owen Grooms will be presenting an Album release celebration for Brian Vanatwerp & Friends for his album "Songs for kids (suitable for all)." Brian is an amazing fiddler so always a pleasure to have him here.
 
-We will also be hosting a community potluck dinner this evening and every Monday from 6–8 pm. Please bring a dish to share and your own non-disposable place setting. If you cannot bring food, for any reason, we are happy to feed you. We look forward to sharing a meal together.
+**Tuesday, July 22nd** from 12 to 2 p.m. - Free live-stream art class led by 
+Arianna, one of the Canteen's bartenders and artist behind White Wolf Stone 
+Creations. Join online or in person! You'll need a canvas, acrylic paints in 
+red, blue, yellow, white, and black, palette, and brushes. An easel helps but 
+a table works fine. We always encourage upcycling so feel free bring an old canvas, piece of weather wood, or anything else you want to paint on. Completely free - details at cedarmountaincanteen.com.
 
-Tuesday, July 15th
+## Other Events
 
-The Carolina Flat Tops
-
-Acoustic Music Without Borders
-
-Marc Brown- Vocals, Guitar, Harmonica
-Music Stories
-
-Richard Hardy- Vocals, Guitar, Fiddle, Harmonica,
-Mandolin
-Longer Music Stories
-
-Ed Phillips- Vocals, 6 & 12 string guitar
-Shorter Music Stories
-
-## Additional Events and Announcements
-
-And finally, mark your calendars for the Sherwood Forest Friends 2025 Summer Series. These events are free and start at 7 p.m. in the Robin Hood Barn. There’s a silent auction, beverages, and raffle tickets too — all to benefit the Greg Allikas Scholarship Fund. Doors open at 6:30 p.m.
-
-Here’s the lineup:
-
-Saturday, July 19 – Gaia Herbs: Soil to Supplement
-Kate Renner, Director of Farm Ops at Gaia Herbs, will be sharing the history and evolution of the farm.
-
-Saturday, July 26 – Songs and Stories
-Storyteller and musician Josh Goforth takes the stage with tales and tunes, playing everything from fiddle to euphonium.
-
-Saturday, August 9 – Journeys Through WNC
-Chris Bainbridge, host of “Open Road” on Ingles TV, shares stories and sights from around Western North Carolina.
-
-Should be a great way to end a summer evening.
-
-## Community Reminders
-
-As we head into the warmer months, remember to:
-- Stay hydrated during outdoor activities
-- Check on your neighbors, especially our older community members
-- Keep an eye on local weather conditions
-- Support our local businesses and events
+### Cedar Mountain Moonshine Music
+This Friday, July 18th from 6 to 8 p.m., it's Cedar Mountain Moonshine Music 
+featuring Hanna Ross and Nicki Talley. Nicki is a local favorite - a great 
+singer and songwriter you won't want to miss.
 
 ## Closing
+That wraps up our Cedar Mountain Community news! From art classes to album 
+releases, potlucks to live music, there's something for everyone this week. 
+Remember to mark your calendars for the Sherwood Forest Friends event this 
+Saturday, the various Sunday activities, and all the great music happening 
+throughout the week.
 
-That brings us to the end of today's Cedar Mountain Community update. We've covered some important community business with the debris cleanup situation, and also highlighted some wonderful opportunities to come together as a community through music and fellowship.
-
-Remember to mark your calendars for the upcoming music event, and please stay informed about the debris cleanup efforts in our area. 
-
-Thanks for listening to the Cedar Mountain Community Podcast. Keep supporting each other, stay connected, and we'll see you next time with more news from our beautiful mountain home.
+Thanks for listening to the Cedar Mountain Community Podcast. Keep supporting 
+your neighbors, enjoy the beautiful summer weather, and we'll see you next time 
+with more news from our mountain home.
 
 Take care, Cedar Mountain!
 
----
-
-## Production Notes for Host:
-
-1. **Before Recording:** 
-   - Extract specific content from all 4 news files
-   - Replace all bracketed placeholders with actual information
-   - Verify all dates include days of the week
-   - Check for any duplicate information between sections
-
-2. **Tone Guidelines:**
-   - Keep conversational and low-key as specified
-   - Sound genuinely interested in community events
-   - Use natural transitions between topics
-   - Maintain warm, neighborly feeling throughout
-
-3. **Technical Notes:**
-   - Estimated reading time: 8-12 minutes (depending on content added)
-   - Remember to pause between sections
-   - Emphasize important dates and times clearly
-   - Include contact information where relevant 
