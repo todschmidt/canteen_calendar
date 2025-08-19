@@ -168,3 +168,6 @@ events.dict
 canteenmonthlyposter.jpg
 
 .ruff_cache
+
+credentials.json
+token.pickle

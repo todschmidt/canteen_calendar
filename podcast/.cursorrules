@@ -8,7 +8,8 @@
   - cm_canteen_events.txt for normally scheduled events for Cedar Mountain Canteen News
   - cm_canteen_news will have additional events and possibly additional information about
     normally scheduled events
-  - other_events.txt will have any additional events fromaround CM (Cedar Mountain)
+  - Cedar Mountain Canteen events and news should be consolidated and events married. For instance Monday night Owen Grooms will be in events with more details in news    
+  - other_events.txt will have any additional events from around CM (Cedar Mountain)
 
 
 # Specific Formatting
@@ -22,6 +23,8 @@
   consolidating as makes sense.
  - Include days of the weeks and dates Month,Day when providing a date, ex. Monday June 14th.
  - Text should be limited to 100 character line lengths to make it easier to read
+ - There should be a header with the current date similar to this
+   # Cedar Mountain Community Podcast Script for 07-30-2025
 
 # Tone
  - The tone should be conversational and low key.

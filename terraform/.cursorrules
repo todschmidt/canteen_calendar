@@ -1,0 +1,5 @@
+### File Layout
+
+ - a provider.tf will contain required providers and backends
+ - we will use an s3 backend
+ - all other resources should be logically grouped by server, s3.tf, lambda.tf, etc.
