@@ -1,238 +1,293 @@
-# Cedar Mountain Community Podcast Script for 08-14-2025
+# Cedar Mountain Community Podcast Script for 08-21-2025
 
-## Introduction
-Hello and welcome to the Cedar Mountain Community Podcast. I'm your host, Tod Schmidt
-We've got some great events and news to share from our beautiful mountain 
-Community so let's dive into what's happening around Cedar Mountain.
+**Estimated reading time: 12-15 minutes**
 
-## Cedar Mountain Community News
+## Community News
 
-### Hunger Coalition Monthly Food Distribution Sites
-The Hunger Coalition provides monthly food distribution at various locations:
+*Cedar Mountain Community News compiled by Linda Packer Young*
 
-**1st Thursday** - Old GO Grocery parking lot (1232 Asheville Hwy), 2:30 to 4:00 PM
+**Faith Memorial Chapel**
 
-**2nd Thursday** - Rosman Town Hall Pavilions, 2:30 to 4:00 PM
+Faith Memorial Chapel welcomes folks of all denominations to our services, held 
+on Sundays at 11:00 AM. We meet only in the summer and have no membership roll, 
+so you won't feel like a guest. Each Sunday, we have clergy from different 
+churches that visit us to lead the service and we are blessed to also have great 
+music to accompany the great message!
 
-**3rd Thursday** - Cedar Mountain Community Center, 2:30 to 4:00 PM
+On August 24th, we welcome The Rev. Dr. Keith Thompson. Keith is Senior Pastor 
+of Brevard-Davidson River Presbyterian Church. This Sunday, we also welcome 
+Jackson Collins. Jackson is a junior tenor studying Vocal Performance at Furman 
+University. He is an active member of Furman's choirs, including the Furman 
+Singers and the Furman Chamber Choir.
 
-**4th Thursday** - Quebec Community Center, 2:30 to 4:00 PM
+Thanks, Earle Oxner, earleoxner@me.com
 
-### Faith Memorial Chapel
-Faith Memorial Chapel welcomes folks of all denominations to Sunday services at 
-11:00 AM. They meet only in the summer with no membership roll, so you won't 
-feel like a guest. Each Sunday features visiting clergy from different churches 
-and great music.
+Tod needs to speak slower
 
-This Sunday, August 17th, they welcome the Reverend Thomas C. Brown to lead 
-their worship service and proclaim the gospel. Rev. Thomas "T" Brown is the 
-Rector of St. Paul's Anglican Church in Greenville, South Carolina.
+**Authentic Indian Cuisine & More for a Cause**
 
-This Sunday, they also welcome Kelsie Barrineau. Kelsie is a rising senior at 
-Furman University, studying Vocal Performance under Dr. Bronwen Forbay for a 
-Bachelor's of Music as well as a minor in Linguistics. She is a soprano with 
-a passion for singing Opera and Classical music. She currently sings as part 
-of the Furman Singers Choir and the Sanctuary Choir of First Baptist Church 
-of Greenville as a Choral Herring Scholar. That news is submitted by Earle Oxner.
+Authentic Indian Cuisine & more for a Cause | SAT Aug 23 | Terra Nova Center. 
+Join us for the EVENING PROGRAM (2:30-7:30pm) or FULL DAY (10am-7:30pm). 
+Participating in our fundraiser event not only supports the 105-year-old Terra 
+Nova Chapel and the dedicated artists, but it also gives you a complete 
+experience of relaxation and renewal. Our signature program is designed to 
+strengthen your personal growth and community bonds by combining wellness 
+workshops with creative, health-based activities.
 
-### See Off Homesteaders Community Center
-Greetings, neighbors and friends. As summer marches on, please join them for 
-their August potluck this Sunday, August 17th.
+This initiative is a unique opportunity to benefit your body, mind, and energy, 
+bringing you a deep sense of enrichment, inner discovery, and the fulfillment 
+of supporting a cause. Itinerary and registration at https://www.originintegrative.com/upcoming
 
-Their program speaker will be Maury Bandurraga. It promises to be a very 
-colorful program, as she tells them about how she grows and maintains beautiful 
-Dahlias at their place in Slick Rock.
+*Seating in the chapel is limited and available on a first-come, first-served 
+basis. Tickets are priced to be affordable for everyone. Vegetarian Buffet Menu 
+(vegan/gf options): Whole Wheat Naan, Protein Chickpea curry, Masala Dosa, 
+Jeera Rice, Aloo Gobi, Digestive Rasam soup, Appalam, Cucumber Raita, Mango 
+Lassi Dessert. Activities: Sound Bath, Food presentation & dinner, Perspectives 
+on reality through Art, Indian Dance concert, Classical Hatha yoga, Foraged 
+woodland design Creative workshop, Lake & Labyrinth, Hike & Thai Chi Gong by 
+campfire. Artists: Yogesh Cutler, Tanamayi Vaiyapuri, Kimberly Johnson, 
+Melissa Martin Julien, Joyce Kuhn Baila Martha Land. Please note that offered 
+as part of the full day program, the creative workshop by Melissa from 
+properflower.com is a rare opportunity in WNC! She is gracious to include us 
+in her schedule for the cause!*
 
-Bring a friend and bring your dish at 5:30 PM and they'll socialize for a bit 
-before eating at 6:00 PM. Michael and Nancy Rosenthal, Dana Greenberg, and 
-Lesin Dippold are their hosts for this potluck. Bring your own plates and 
-utensils if you're of a mind to do so – it reduces their contributions to the 
-landfill.
+Contacts: 615-900-4320, originintegrative@gmail.com, info@terranovecenter.org
 
-If you haven't seen any of the videos of the work to rebuild/repair Becky 
-Mountain Road that Heath Cowart and Melinda Hendershott have been making, you 
-can see them online. The first one is after the storm and the others show 
-several days in the life of the project. It's still scheduled to be open for 
-traffic in early-mid October. They plan on having some sort of event to 
-celebrate regaining this convenient way on and off their mountain, so watch 
-for more info about it.
+With Love, Tanamayi
 
-If you see work starting across from Holden cemetery on the land owned by 
-Transylvania Habitat for Humanity, it's to start grading for two homes that 
-will be built for families displaced by Hurricane Helene. They'll get word out 
-when it's possible to go help build them and welcome the new neighbors to their 
-community. In the meantime, Habitat has also started prep work on the Leviskia's 
-house a little down from the Slick Rock mailbox row. That news is from Doug Poad.
+Tod needs to speak slower
 
-### Support and Renewal at Terra Nova Center
-The Terra Nova Center, a 501(c)(3) nonprofit organization, is hosting a 
-fundraiser Indian dinner and cultural event on August 23rd. Located on Reasonover 
-Road in Cedar Mountain, the center sustained significant damage from Hurricane 
-Helene, including building damage and over 100 fallen trees across the property. 
-Your support is vital to clear and restore the trails for visitors, repair the 
-cherished spaces, and to ensure the continued preservation of the 105-year-old 
-chapel.
+**150th Year Celebration at Homecoming at the Rocky Hill Baptist Church**
 
-Fundraiser Indian Dinner and Cultural Event itinerary options:
+After several successful workdays of cleaning, painting, pressure washing, weed 
+pulling, and de-cluttering, the Rocky Hill Baptist Church buildings and grounds 
+are ready for our Homecoming service and lunch this Sunday, August 24th at 10:30. 
+Fresh creamed corn and green beans, fried chicken, ham, potato salad, deviled 
+eggs, tomato pie and marinated cucumbers are just a few of the dishes prepared 
+for the covered dish meal. But the bragging rights are saved for the cakes, 
+pies and puddings. Beth Owings chocolate cake, the Jones – Burns black walnut 
+cake prepared by Randy Pace, banana pudding, coconut cake, carrot cake and 
+German chocolate cake are just a few of the dessert favorites.
 
-**Evening Program**: 2:30 to 7:30 PM ($65/guest)
-- 2:30 to 4:15 PM: Sound Bath - A deeply relaxing session led by Kim Johnson
-- 4:30 to 5:30 PM: Indian Dinner - A captivating food presentation and 
-delicious Indian buffet dinner by Tanamayi
-- 5:45 to 6:45 PM: Perspectives on reality through Art - A concise exposure 
-to shared truth through the medium of Buddhist Art by Yogesh
-- 7:00 to 7:30 PM: Dance Concert - A heartwarming Indian classical fusion 
-dance concert by Tanamayi
+Thank you to all members, visitors and volunteers for the work done to "spruce 
+up" the place and the efforts to bring such delicious food to the table. We 
+look forward to a special time of worship and fellowship. Come and celebrate 
+150 years with us!
 
-**Full-Day Experience**: ($85/guest) In addition to the evening program, this 
-full-day option includes a variety of fun workshops and activities, including 
-a special creative workshop offered by Melissa Martin Julien, the founder of 
-Properflower.com.
+Tod needs to speak slower
 
-- 10:00 to 11:30 AM: Classical Yoga - Learn Brain Yoga and gentle Breathing 
-practice to help with Alzheimer's, ADHD and anxiety, led by Yogesh and Tanamayi
-- 11:30 AM to 1:00 PM: Lake Activities and Guided Hike - Enjoy leisurely lake 
-activities facilitated by Joyce Baila and a guided hike by Kamala Beissinger
-- 1:00 to 2:00 PM: Foraged Woodlands Design - Join Melissa Martin Julien from 
-Properflower.com for an exciting creative workshop
+**A "Cedar Mountain Baptist Church Grief Share Group**
 
-Complimentary for all: 8:00 to 9:00 PM - Campfire, storytelling and star 
-gazing if weather permits.
+Tuesdays, August 26th - November 18, 6:00-7:30 pm. In our support group, 
+you'll learn helpful ways of coping with grief, to realize you have access to 
+God's resources and learn that God often uses tragedy and suffering to help us 
+grow. You can register by calling 828-966-4812 or visit the website at 
+https://www.griefshare.org/groups/268956.
 
-To register, please contact 615-900-4320, info@terranovacenter.org, or 
-originintegrative@gmail.com.
+Cedar Mountain Baptist Church, 7765 Greenville Hwy, Brevard, NC 28712
 
-### Rocky Hill Baptist Church
-**Singing Schools and Conventions** - Homecoming will be held on Sunday, August 24th 
-at 10:30 AM. Their guest singers this year are brothers Travis, Justin, and 
-Jared Burns and their father Jim Burns of South Carolina. They are leaders of 
-music in their churches and descendants of Street Burns, one of the original 
-trustees of Rocky Hill Baptist Church. Dr. Mike Whitson, also a descendant of 
-Street Burns, will bring the message.
+Cindy Kiser, Administrative Assistant
 
-In the early 1900s, all day or week long singing schools were held in the 
-mountain churches for young and old alike. These schools taught the "Rudiments 
-of Music, Sight Singing, Ear Training, Voice Culture, Harmony and Composition, 
-and Method of Teaching and Conducting." This description of the instruction was 
-taken from a first-grade certificate of proficiency awarded to Miss Nellie Lee 
-of Rocky Hill Baptist Church in Cedar Mountain in February of 1916 by the 
-Eagle's Normal Musical Institute.
+Tod needs to speak slower
 
-Interdenominational singing conventions of the county church choirs were also 
-held with J.W. Burns of Cedar Mountain presiding over the competitions between 
-the choirs. Mr. Burns also taught singing schools in the churches of the area. 
-In May of 1921, an all-day open air singing for Carr's Hill, Glady Branch and 
-Rocky Hill Baptist Churches was held at Connestee Falls with dinner on the 
-grounds and another all-day singing was held on Easter Sunday of 1919 on the 
-grounds of the Brevard Institute. Please join them in worship as they celebrate 
-the 150th year of Rocky Hill Baptist Church. They, too, will have dinner on 
-the grounds. That news is submitted by Patricia Stahl.
+**"Bear Wise" Program from NC Wildlife**
 
-### Bear Wise Program
-A "Bear Wise" program from NC Wildlife will be held at the Cedar Mountain 
+"Bear Wise" program from NC Wildlife will be held at the Cedar Mountain 
 Community Center on Saturday, August 30th at 2 o'clock. Hosted by the Sequoyah 
 Woods Homeowners Association and the Community Center, the program is free and 
 open to everyone.
 
-AROUND THE HOUSE by Linda Packer Young
-The Cedar Mountain News broadcast can be seen on CMCTV at streamyard.com/i3pxgk6ysgzp 
-this week and can also be seen at The Cedar Mountain Canteen website 
-cedarmountaincanteen.com. Tod and I shared the Cedar Mountain News this last 
-week so be sure to check it out.
+Tod needs to speak slower
 
-Excellent program at the Cedar Mountain Community Center Tuesday night. Habitat 
-for Humanity educated us on the things Habitat does to help people. More than 
-I ever imagined. Thanks Habitat.
+**Hunger Coalition Monthly Food Distribution Sites**
 
-## Cedar Mountain Canteen News
+1st Thursday, Old GO Grocery parking lot (1232 Asheville Hwy), 2:30-4:00 pm. 
+2nd Thursday, Rosman Town Hall Pavilions, 2:30-4:00 pm. 3rd Thursday, Cedar 
+Mountain Community Center, 2:30-4:00 pm – 8-21-25. 4th Thursday, Quebec 
+Community Center, 2:30-4:00 pm.
 
-### Regular Weekly Programming
-The Cedar Mountain Canteen continues to be our musical hub with great weekly events:
+Tod needs to speak slower
 
-**Thursdays** from 6 to 8 p.m. - Join Paddle Faster for Song Swap. Acoustic music, all 
+**Bike Race**
+
+The Assault on the Carolinas, an annual fundraiser for the Pisgah Forest Rotary 
+Club, is scheduled for Saturday, September 13th. The 50k winds through the 
+river valleys of scenic Transylvania County, while the 100k explores the 
+mountains and valleys of North and South Carolina. This fully supported ride 
+features 5 well-stocked rest stops, including the Cedar Mountain Community 
+Center on Hwy 276 (Greenville Hwy). Please be extra cautious on these roads 
+or plan to avoid them during the race.
+
+Tod needs to speak slower
+
+**The Cedar Mountain Canteen announces Community Storytelling**
+
+The Cedar Mountain Canteen announces Community Storytelling on Friday, September 
+26 @ 6:30 pm - 8:00 pm a year after Helene. Share your stories of love and 
+community resilience. There will be a potluck dinner too. As we near the one 
+year anniversary of Hurricane Helene we hold in our hearts the love and 
+community we experienced and continue to experience. The Canteen would not be 
+open if it wasn't for all the volunteer labor, help and donations our community 
+provided and continues to provide.
+
+We still have a lot to do to get back to where we were. We want to take a 
+moment and celebrate how far we have come in the past year because of our 
+community. We are hosting an evening of storytelling on September 26th and a 
+community potluck. We will be recording the stories and will share them on our 
+Canteen TV station. Please join us and share your story and listen to others 
+as we celebrate the strength and love of our precious village.
+
+With deep gratitude. The Cedar Mountain Canteen. An employee-owned cooperative
+
+Tod needs to speak slower
+
+**Cedar Mountain Community Center – Changes to the September Calendar**
+
+The Cedar Mountain Community Center has a change to the September Calendar - 
+The Crockpot Cook-off that was scheduled for September 9 will now be held on 
+Saturday September 27 at 6:00 pm. The September Cedar Mountain Community 
+Center Potluck on September 9 will host Dr. Ora Wells, he will speak on his 
+journey through Alzheimer's diagnosis, medications, treatments and lifestyle 
+changes with ways to help prevent Alzheimer's.
+
+Tod needs to speak slower
+
+**Sherwood Forest Arboretum Group**
+
+GREAT SOUTH EAST POLLINATOR CENSUS 8-22 – 23. The Sherwood Forest arboretum 
+group is encouraging participation in this fun, educational, and easy activity! 
+In as little as 15 minutes you can participate in this Citizen Science event 
+to gather data on pollinators and the plants they are pollinating. This is a 
+great activity for all ages and requires no prior experience! The data gathered 
+helps educators, scientists, and gardeners with useful information. To 
+participate check out their website at https://gsepc.org for easy instructions 
+and counting sheets. Please help scientists study pollinators.
+
+Tod needs to speak slower
+
+**Rent the Center**
+
+The Cedar Mountain Community Center has been beautifully restored, remodeled, 
+and improved. It's available for rental and reservations are going fast. The 
+center now meets handicap accessibility guidelines. Reservations can be made by 
+calling Caroline Chambers at 828-290-9662 or at 
+https://www.cedarmountaincommunitycenter.com/rental.
+
+Tod needs to speak slower
+
+**Around the House by Linda Packer Young**
+
+Well I've managed to do some serious weeding the last few days. I get run out 
+with the almost daily rain showers, but managed to complete one area. I prefer 
+pulling weeds rather than spraying them. You just end up with brown dead stuff 
+that you need to remove anyway. The Japanese grass I did spray "died" but I 
+noticed it's all coming up from the roots again. It's a very determined 
+invasive weed. The Maidenhair ferns have turned brown and once beautiful they 
+now need to be "et". The moss is beautiful but also requires pulling 
+individual weeds and tiny tree seedlings. It doesn't need mowing but really 
+needs a lot of painstaking hand weeding. It's work, but so pretty when cleaned 
+up. Having balance issues I have to sit in a lawn chair to weed. I just move 
+the chair forward as needed.
+
+Tod needs to speak slower
+
+## Canteen News
+
+**Cedar Mountain Canteen**
+
+Monday July 30th Owen Grooms Presents Paddle Faster. Scott Ritter and Karen 
+Batten, together known as Paddle Faster, have provided a blend of acoustic 
+Bluegrass, Americana and traditional Country music for 10 years. They have 
+played in the area as a duo and in different groups and genres.
+
+Tod needs to speak slower
+
+**Hours**
+
+We have new hours for Tuesday when we will be opening at 12:30 pm and closing 
+at 7pm. And on Saturdays we will be closing at 8pm on nights when we don't have 
+music.
+
+Tod needs to speak slower
+
+**Story Corps**
+
+For months we have been hosting the John Lewis book club using his book Carry 
+On. The book is full of chapters that range in length from half a page to 5 
+pages. We spent time talking about topics and hearing each others stories. As 
+a group we agreed we would love to hear more stories from those in our 
+community. Also, we now have a live streaming "TV station" and have the 
+expertise and equipment to capture and share stories.
+
+We are using the DIY StoryCorps guidance as we navigate the project and we are 
+at the point of training where we are asked to assemble our team. So we are. 
+Are you interested in being a part of the team? Please let us know. You can 
+email us at LittleEddyLLC@gmail.com. We look forward to growing together.
+
+Tod needs to speak slower
+
+**Regular Events**
+
+Thursday, from 6 to 8 p.m., join Paddle Faster for a Song Swap — acoustic, all 
 genres, all instruments welcome. Just bring yourself and a tune or two to share.
 
-**Fridays** from 2 to 4 p.m. - Jason DiCristfario Jazz Trio
+Tod needs to speak slower
 
-**Saturdays** from 2 to 4 p.m. - Bluegrass Jam led by Bruce Threlkeld. Whether 
-you want to pick, grin, or just tap your feet, everyone's welcome.
+Friday, from 2 to 4pm Jason DiCristfario Jazz Trio
 
-**Sundays** from 3 to 5 p.m. - Mountain Music Jam featuring mostly old-time 
+Tod needs to speak slower
+
+Saturday afternoons, from 2 to 4 p.m., it's the Bluegrass Jam led by Bruce 
+Threlkeld. Whether you want to pick, grin, or just tap your feet, everyone's 
+welcome.
+
+Tod needs to speak slower
+
+Every Sunday from 3 to 5 p.m., it's the Mountain Music Jam — mostly old-time 
 fiddle tunes and acoustic fun. Come play or just soak in the sound.
 
-**Mondays** from 6 to 8 p.m. - Owen Grooms Presents with Mark and Sally Wingate. 
-Join us for an evening of original music with host Owen Grooms.
+Tod needs to speak slower
 
-We also host a community potluck dinner every Monday during these hours. Bring 
-a dish to share or just come and enjoy what is here. We are a zero waste 
-facility so we encourage you to bring your own non-disposable place setting, 
-cups, and utensils if you can.
+Monday from 6:00-8:00 Owen Grooms Presents. Join us for an evening of original 
+music with host, Owen Grooms Presents guest. We will also be hosting a community 
+potluck dinner this evening and every Monday from 6–8 pm. Please bring a dish 
+to share and your own non-disposable place setting. If you cannot bring food, 
+for any reason, we are happy to feed you. We look forward to sharing a meal 
+together.
 
-**Tuesdays** from 1:00 to 3:00 p.m. - The Carolina Flat Tops perform "Acoustic 
-Music Without Borders" featuring Marc Brown, Richard Hardy, and Ed Phillips.
+Tod needs to speak slower
 
-### Cedar Mountain Canteen Community Storytelling
-The Cedar Mountain Canteen announces Community Storytelling on Friday, September 
-26th from 6:30 to 8:00 PM, a year after Helene. Share your stories of love and 
-community resilience. There will be a potluck dinner too.
+Tuesday, 1:00 - 3:00 The Carolina Flat Tops - Acoustic Music Without Borders 
+- Marc Brown, Richard Hardy, Ed Phillips
 
-As we near the one year anniversary of Hurricane Helene we hold in our hearts 
-the love and community we experienced and continue to experience. The Canteen 
-would not be open if it wasn't for all the volunteer labor, help and donations 
-our community provided and continues to provide. We still have a lot to do to 
-get back to where we were. We want to take a moment and celebrate how far we 
-have come in the past year because of our community.
-
-We are hosting an evening of storytelling on September 26th and a community 
-potluck. We will be recording the stories and will share them on our Canteen 
-TV station. Please join us and share your story and listen to others as we 
-celebrate the strength and love of our precious village. With deep gratitude.
-
-### New Hours and Story Corps Project
-**Updated Hours**: We have new hours for Tuesday when we will be opening at 12:30 PM 
-and closing at 7:00 PM. And on Saturdays we will be closing at 8:00 PM on nights 
-when we don't have music.
-
-**Story Corps Project**: For months we have been hosting the John Lewis book club 
-using his book "Carry On." The book is full of chapters that range in length from 
-half a page to 5 pages. We spent time talking about topics and hearing each other's 
-stories. As a group we agreed we would love to hear more stories from those in our 
-community. Also, we now have a live streaming "TV station" and have the expertise 
-and equipment to capture and share stories.
-
-We are using the DIY StoryCorps guidance as we navigate the project and we are at 
-the point of training where we are asked to assemble our team. So we are. Are you 
-interested in being a part of the team? Please let us know. You can email us at 
-LittleEddyLLC@gmail.com.
-
-We look forward to growing together.
-
-## Hiring
-
-We are looking to hiring a server/bartender here a the canteen if you or anyone else
-is interested.
+Tod needs to speak slower
 
 ## Other Events
 
-### Cedar Mountain Outpost
-**Sunday, August 17th** from 4 to 6 p.m. - Music: 'Pisgah Playboys' featuring 
-JT Linville, John Trufant, Adam Masters & Jerry Sapp
+**Cedar Mountain Outpost**
 
-**Wednesday, August 20th** from 5 to 7 p.m. - Music: Open Mic hosted by Keturah Allgood
+Sat 8/23 5-7pm Music: Josh Carter of Pretty Little Goat and Friends
 
-### Cedar Mountain Moonshine
-**Friday, August 8th** - Frim Fram. A Canadian singer and a Hungarian musician 
-that play a mix of swing, blues, folk and jazz.
+Tod needs to speak slower
 
-## Closing
-That wraps up our Cedar Mountain Community news! From the upcoming Bear Wise 
-program to all the great music happening at the Canteen and Outpost, there's 
-plenty to look forward to. Don't forget about the Terra Nova Center fundraiser 
-on August 23rd, the Pisgah Playboys at the Outpost on August 17th, and the 
-important Community Storytelling event on September 26th.
+Sun 8/24 4-6pm Music: Nicky Talley and Jason Sharp
 
-Thanks for listening to the Cedar Mountain Community Podcast. Keep supporting 
-your neighbors, enjoy the beautiful summer weather, and we'll see you next time 
-with more news from our mountain home.
+Tod needs to speak slower
 
-Take care, Cedar Mountain!
+Wed 8/20 5-7pm Music: Open Mic hosted by Keturah Allgood
+
+Tod needs to speak slower
+
+**Cedar Mountain Moonshine**
+
+Friday 8/8 The Harrows
+
+Tod needs to speak slower
+
+---
+
+*Please note that the deadline to submit articles for the Cedar Mountain News 
+is Monday night. Let me know If your contribution will be later. Email 
+cedarmountainnews@gmail.com with all news. Photos are welcome and need to be 
+900kb or more to be used in the paper. Please do not send PDF files. Word doc 
+or JPG only.*

@@ -25,6 +25,11 @@
  - Text should be limited to 100 character line lengths to make it easier to read
  - There should be a header with the current date similar to this
    # Cedar Mountain Community Podcast Script for 07-30-2025
+ - Just after the header inclue a line with an estimate for how long it will take to read out loud
+ - After each item header add a blank line
+ - After each item, add 'Tod needs to speak slower' 
+ - Longer items should be summarized without losing any key information, generally 2-3 paragraphs
+   at most
 
 # Tone
  - The tone should be conversational and low key.
