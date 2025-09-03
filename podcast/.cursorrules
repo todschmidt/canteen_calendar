@@ -10,6 +10,8 @@
     normally scheduled events
   - Cedar Mountain Canteen events and news should be consolidated and events married. For instance Monday night Owen Grooms will be in events with more details in news    
   - other_events.txt will have any additional events from around CM (Cedar Mountain)
+  - Check the podcast/news directory to make sure all files have been updated and saved, ie check
+    the date
 
 
 # Specific Formatting
@@ -26,8 +28,7 @@
  - There should be a header with the current date similar to this
    # Cedar Mountain Community Podcast Script for 07-30-2025
  - Just after the header inclue a line with an estimate for how long it will take to read out loud
- - After each item header add a blank line
- - After each item, add 'Tod needs to speak slower' 
+ - After each category, add 'Tod, speak slower!' 
  - Longer items should be summarized without losing any key information, generally 2-3 paragraphs
    at most
  - Lets put clear markers with blank lines and full length hash lines in between categories of events, 
@@ -35,6 +36,10 @@
  - Lets put clear markers with blank lines and full length hash lines in between events
  - Let's also number the events per dates to make it easier for host to mark places and also
    to note any sections that should be updated. 
+
+ - Monday night Owne Grooms presents is set as a regular event in cm_canteen_events.txt and the details of
+   a specific guest (if present) will be in the cm_canteen_news.txt. Those should be consolidated into 
+   Cedar Mountain Canteen Events
 
 # Tone
  - The tone should be conversational and low key.
