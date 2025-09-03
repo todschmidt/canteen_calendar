@@ -30,6 +30,11 @@
  - After each item, add 'Tod needs to speak slower' 
  - Longer items should be summarized without losing any key information, generally 2-3 paragraphs
    at most
+ - Lets put clear markers with blank lines and full length hash lines in between categories of events, 
+   meaning CM Community News, Canteen Events, Canteen News, and Other Events
+ - Lets put clear markers with blank lines and full length hash lines in between events
+ - Let's also number the events per dates to make it easier for host to mark places and also
+   to note any sections that should be updated. 
 
 # Tone
  - The tone should be conversational and low key.
