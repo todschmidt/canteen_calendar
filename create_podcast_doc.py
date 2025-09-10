@@ -189,16 +189,266 @@ def clear_document_content(docs_service, document_id):
 
 
 def format_script_for_docs(script_content):
-    """Format the script content for Google Docs API."""
-    # Return the script content as a simple insert request
-    return [{
-        'insertText': {
-            'location': {
-                'index': 1
-            },
-            'text': script_content
-        }
-    }]
+    """Format the script content for Google Docs API with enhanced styling."""
+    requests = []
+    current_index = 1
+    
+    # Split content into lines for processing
+    lines = script_content.split('\n')
+    
+    for line in lines:
+        line = line.rstrip()  # Remove trailing whitespace
+        
+        if not line:  # Empty line
+            requests.append({
+                'insertText': {
+                    'location': {'index': current_index},
+                    'text': '\n'
+                }
+            })
+            current_index += 1
+            continue
+            
+        # Handle main title (starts with #)
+        if line.startswith('# '):
+            text = line[2:] + '\n'  # Remove # and add newline
+            requests.append({
+                'insertText': {
+                    'location': {'index': current_index},
+                    'text': text
+                }
+            })
+            # Format as title with larger font
+            end_index = current_index + len(text) - 1
+            requests.append({
+                'updateParagraphStyle': {
+                    'range': {
+                        'startIndex': current_index,
+                        'endIndex': end_index
+                    },
+                    'paragraphStyle': {
+                        'namedStyleType': 'TITLE'
+                    },
+                    'fields': 'namedStyleType'
+                }
+            })
+            current_index += len(text)
+            
+        # Handle section headers (starts with ##)
+        elif line.startswith('## '):
+            text = line[3:] + '\n'  # Remove ## and add newline
+            requests.append({
+                'insertText': {
+                    'location': {'index': current_index},
+                    'text': text
+                }
+            })
+            # Format as heading 1 with larger font
+            end_index = current_index + len(text) - 1
+            requests.append({
+                'updateParagraphStyle': {
+                    'range': {
+                        'startIndex': current_index,
+                        'endIndex': end_index
+                    },
+                    'paragraphStyle': {
+                        'namedStyleType': 'HEADING_1'
+                    },
+                    'fields': 'namedStyleType'
+                }
+            })
+            # Add some spacing after section headers
+            requests.append({
+                'insertText': {
+                    'location': {'index': current_index + len(text)},
+                    'text': '\n'
+                }
+            })
+            current_index += len(text) + 1
+            
+        # Handle numbered items (starts with **number.**)
+        elif line.startswith('**') and '.**' in line:
+            text = line + '\n'
+            requests.append({
+                'insertText': {
+                    'location': {'index': current_index},
+                    'text': text
+                }
+            })
+            # Format as heading 2 with medium font
+            end_index = current_index + len(text) - 1
+            requests.append({
+                'updateParagraphStyle': {
+                    'range': {
+                        'startIndex': current_index,
+                        'endIndex': end_index
+                    },
+                    'paragraphStyle': {
+                        'namedStyleType': 'HEADING_2'
+                    },
+                    'fields': 'namedStyleType'
+                }
+            })
+            current_index += len(text)
+            
+        # Handle separator lines (starts with ---)
+        elif line.startswith('---'):
+            text = line + '\n'
+            requests.append({
+                'insertText': {
+                    'location': {'index': current_index},
+                    'text': text
+                }
+            })
+            # Format separator with center alignment and different styling
+            requests.append({
+                'updateParagraphStyle': {
+                    'range': {
+                        'startIndex': current_index,
+                        'endIndex': current_index + len(text) - 1
+                    },
+                    'paragraphStyle': {
+                        'alignment': 'CENTER'
+                    },
+                    'fields': 'alignment'
+                }
+            })
+            current_index += len(text)
+            
+        # Handle "Tod, speak slower!" reminders
+        elif line.startswith('Tod, speak slower!'):
+            text = line + '\n'
+            requests.append({
+                'insertText': {
+                    'location': {'index': current_index},
+                    'text': text
+                }
+            })
+            # Format as italic with different styling
+            requests.append({
+                'updateTextStyle': {
+                    'range': {
+                        'startIndex': current_index,
+                        'endIndex': current_index + len(text) - 1
+                    },
+                    'textStyle': {
+                        'italic': True,
+                        'foregroundColor': {
+                            'color': {
+                                'rgbColor': {
+                                    'red': 0.6,
+                                    'green': 0.2,
+                                    'blue': 0.2
+                                }
+                            }
+                        }
+                    },
+                    'fields': 'italic,foregroundColor'
+                }
+            })
+            current_index += len(text)
+            
+        # Handle hash separator lines (starts with #)
+        elif line.startswith('#'):
+            text = line + '\n'
+            requests.append({
+                'insertText': {
+                    'location': {'index': current_index},
+                    'text': text
+                }
+            })
+            # Format as center-aligned separator
+            requests.append({
+                'updateParagraphStyle': {
+                    'range': {
+                        'startIndex': current_index,
+                        'endIndex': current_index + len(text) - 1
+                    },
+                    'paragraphStyle': {
+                        'alignment': 'CENTER'
+                    },
+                    'fields': 'alignment'
+                }
+            })
+            current_index += len(text)
+            
+        # Handle italic text (starts with *)
+        elif line.startswith('*') and line.endswith('*'):
+            text = line + '\n'
+            requests.append({
+                'insertText': {
+                    'location': {'index': current_index},
+                    'text': text
+                }
+            })
+            # Format as italic
+            requests.append({
+                'updateTextStyle': {
+                    'range': {
+                        'startIndex': current_index,
+                        'endIndex': current_index + len(text) - 1
+                    },
+                    'textStyle': {
+                        'italic': True
+                    },
+                    'fields': 'italic'
+                }
+            })
+            current_index += len(text)
+            
+        # Handle bold text (anything surrounded by **)
+        elif line.startswith('**') and line.endswith('**'):
+            text = line + '\n'
+            requests.append({
+                'insertText': {
+                    'location': {'index': current_index},
+                    'text': text
+                }
+            })
+            # Format as bold
+            requests.append({
+                'updateTextStyle': {
+                    'range': {
+                        'startIndex': current_index,
+                        'endIndex': current_index + len(text) - 1
+                    },
+                    'textStyle': {
+                        'bold': True
+                    },
+                    'fields': 'bold'
+                }
+            })
+            current_index += len(text)
+            
+        # Regular text
+        else:
+            text = line + '\n'
+            requests.append({
+                'insertText': {
+                    'location': {'index': current_index},
+                    'text': text
+                }
+            })
+            # Set 13-point font for regular text
+            end_index = current_index + len(text) - 1
+            requests.append({
+                'updateTextStyle': {
+                    'range': {
+                        'startIndex': current_index,
+                        'endIndex': end_index
+                    },
+                    'textStyle': {
+                        'fontSize': {
+                            'magnitude': 13,
+                            'unit': 'PT'
+                        }
+                    },
+                    'fields': 'fontSize'
+                }
+            })
+            current_index += len(text)
+    
+    return requests
 
 def update_document_content(docs_service, document_id, requests):
     """Update the document content with the formatted script."""
