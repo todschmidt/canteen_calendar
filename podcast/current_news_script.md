@@ -274,6 +274,30 @@ For more information and registration visit www.CenterSW.org
 
 Tod needs to speak slower
 
+---
+
+**4.** SPIRIT OF CARL SANDBURG
+
+The People's Poet In His Own Words
+
+Saturday September 13th at 7:00 PM
+Cedar Mountain Community Center
+10635 Greenville Highway, Cedar Mountain, NC
+
+Free or by donation
+
+In 2019, Max Walter, a former elementary school teacher, created Spirit of Carl 
+Sandburg: The People's Poet in His Own Words. He was drawn to the poet's take 
+on political themes, such as Abraham Lincoln's call for freedom and the poet's 
+role in politics, as well as the universal themes of children and family, the 
+ephemeral nature of beauty, time, mortality and death. The play consists of 
+Walter's impersonation of Sandburg through recitation of poems, stories and 
+songs, as well as some of Lincoln's most profound utterances. Max Walter is 
+deeply grateful for the honor of impersonating and representing Carl Sandburg—
+someone who speaks compellingly to the issues of both his own era and of today.
+
+Tod needs to speak slower
+
 ################################################################################
 
 *End of Cedar Mountain Community Podcast Script*

@@ -161,25 +161,39 @@ def clear_document_content(docs_service, document_id):
     try:
         # Get the document to see its current content
         doc = docs_service.documents().get(documentId=document_id).execute()
-        content_length = len(doc.get('body', {}).get('content', []))
+        content = doc.get('body', {}).get('content', [])
         
-        if content_length > 1:  # Document has content beyond the initial newline
-            # Delete all content except the initial newline
-            requests = [{
-                'deleteContentRange': {
-                    'range': {
-                        'startIndex': 1,
-                        'endIndex': content_length
+        if len(content) > 1:  # Document has content beyond the initial newline
+            # Calculate the actual end index from the document content
+            end_index = 1
+            for element in content[1:]:  # Skip the first element (initial paragraph)
+                if 'paragraph' in element:
+                    for text_element in element['paragraph'].get('elements', []):
+                        if 'textRun' in text_element:
+                            end_index += len(text_element['textRun'].get('content', ''))
+                elif 'table' in element:
+                    # Handle tables if present
+                    pass
+            
+            if end_index > 1:
+                # Delete all content except the initial newline
+                requests = [{
+                    'deleteContentRange': {
+                        'range': {
+                            'startIndex': 1,
+                            'endIndex': end_index
+                        }
                     }
-                }
-            }]
-            
-            docs_service.documents().batchUpdate(
-                documentId=document_id,
-                body={'requests': requests}
-            ).execute()
-            
-            print("Document content cleared successfully")
+                }]
+                
+                docs_service.documents().batchUpdate(
+                    documentId=document_id,
+                    body={'requests': requests}
+                ).execute()
+                
+                print(f"Document content cleared successfully (removed {end_index - 1} characters)")
+            else:
+                print("Document is already empty")
         else:
             print("Document is already empty")
             
@@ -315,8 +329,8 @@ def format_script_for_docs(script_content):
             })
             current_index += len(text)
             
-        # Handle "Tod, speak slower!" reminders
-        elif line.startswith('Tod, speak slower!'):
+        # Handle "Tod needs to speak slower" reminders
+        elif line.startswith('Tod needs to speak slower'):
             text = line + '\n'
             requests.append({
                 'insertText': {
@@ -459,10 +473,9 @@ def update_document_content(docs_service, document_id, requests):
         doc = docs_service.documents().get(documentId=document_id).execute()
         print(f"Document retrieved successfully: {doc.get('title', 'No title')}")
         
-        # Now try to insert the actual script content
+        # Now try to insert the formatted script content
         if requests and len(requests) > 0:
-            script_content = requests[0]['insertText']['text']
-            print(f"Inserting script content ({len(script_content)} characters)")
+            print(f"Inserting formatted script content ({len(requests)} formatting requests)")
             
             result = docs_service.documents().batchUpdate(
                 documentId=document_id,
@@ -571,6 +584,21 @@ def main():
     # Update the document content
     print(f"\n=== STEP 6: Updating Document Content ===")
     update_document_content(docs_service, document_id, requests)
+    
+    # Verify the document was updated correctly
+    print(f"\n=== STEP 7: Verifying Document Content ===")
+    try:
+        doc = docs_service.documents().get(documentId=document_id).execute()
+        content = doc.get('body', {}).get('content', [])
+        total_chars = 0
+        for element in content:
+            if 'paragraph' in element:
+                for text_element in element['paragraph'].get('elements', []):
+                    if 'textRun' in text_element:
+                        total_chars += len(text_element['textRun'].get('content', ''))
+        print(f"Document now contains {total_chars} characters")
+    except Exception as e:
+        print(f"Could not verify document content: {e}")
     
     print("\nPodcast script document created successfully!")
     print(f"Document ID: {document_id}")
