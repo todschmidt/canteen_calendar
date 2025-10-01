@@ -1,15 +1,15 @@
 ### Cedar Mountain Canteen
 
- ## Story Corps
+## Story Corps
 
- Friday Septmeber 26th
- 
- For months we have been hosting the John Lewis book club using his book Carry
- On.  The book is full of chapters that range in length from half a page to 5
- pages.  We spent time talking about topics and hearing each others stories.  As
- a group we agreed we would love to hear more stories from those in our
- community.  Also, we now have a live streaming “TV station” and have the
- expertise and equipment to capture and share stories.
+Friday September 26th
+
+For months we have been hosting the John Lewis book club using his book Carry
+On.  The book is full of chapters that range in length from half a page to 5
+pages.  We spent time talking about topics and hearing each others stories.  As
+a group we agreed we would love to hear more stories from those in our
+community.  Also, we now have a live streaming "TV station" and have the
+expertise and equipment to capture and share stories.
 
 We are using the DIY StoryCorps guidance as we navigate the project and we are
 at the point of training where we are asked to assemble our team.  So we are.
@@ -20,11 +20,11 @@ We look forward to growing together.
 
 ###
 
-September 16th Canteen Fall Golf League
+## Canteen Fall Golf League - September 16th
 
-Congratulations to Paul Hensley, winner of the Canteen’s Spring Golf League!
+Congratulations to Paul Hensley, winner of the Canteen's Spring Golf League!
 
-The Canteen’s Tuesday evening golf league is back for Fall.  The league will be begin September 2nd and will run through October 28th.
+The Canteen's Tuesday evening golf league is back for Fall.  The league will begin September 2nd and will run through October 28th.
 
 All levels are welcome for a relaxed walks around Sherwood Forest Golf Course.
 
@@ -43,11 +43,5 @@ Fees:  $20 entry plus $1 per game.
 Looking forward to spending time together.
 
 ###
-
-Kim Coram, John Wiseman, and Owen Grooms invite you to taste and enjoy with the option to order wines of your choice (and/or beer or sparkling water).Their delightful, knowledgeable wine rep,Taylor, will be there to tell the stories of the wines and their makers.
-
-Cedar Mountain Canteen is now a worker-owned co-op. Kim will talk briefly about how this all unfolded and how empowering this model can be for a community. The canteen also celebrates art, music, a no-waste model, sustainable breweries and vineyards, and the welcoming and feeding of people—a vision for enriching our community and our democracy.
-
-We did a version of this in June and had a blast. Hope you can join us.
-
-An RSVP is appreciated but not required.
+# merge this with the canteen events 
+Monday from 6:00-8:00 Owen Grooms Presents Cody Hale featuring local artists and community potluck dinner.
