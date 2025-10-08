@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cedar Mountain Community Podcast - Test Player</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        .episode {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        .episode-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .episode-description {
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+        .rss-link {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            background: #ecf0f1;
+            border-radius: 5px;
+        }
+        .rss-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .rss-link a:hover {
+            text-decoration: underline;
+        }
+        .loading {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎙️ Cedar Mountain Community Podcast</h1>
+        <p class="subtitle">Test Player - Listen to our latest episodes</p>
+        
+        <div id="episodes">
+            <div class="loading">Loading episodes...</div>
+        </div>
+        
+        <div class="rss-link">
+            <p>📡 <strong>RSS Feed:</strong> <a href="https://cedarmountainnews.todschmidt.com/rss.xml" target="_blank">https://cedarmountainnews.todschmidt.com/rss.xml</a></p>
+            <p><small>Copy this link to subscribe in your favorite podcast app</small></p>
+        </div>
+    </div>
+
+    <script>
+        // Fetch and parse RSS feed
+        async function loadEpisodes() {
+            try {
+                const response = await fetch('https://cedarmountainnews.todschmidt.com/rss.xml');
+                const xmlText = await response.text();
+                
+                // Parse XML
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+                
+                // Get episodes
+                const items = xmlDoc.querySelectorAll('item');
+                const episodesContainer = document.getElementById('episodes');
+                
+                if (items.length === 0) {
+                    episodesContainer.innerHTML = '<div class="episode"><p>No episodes found in RSS feed.</p></div>';
+                    return;
+                }
+                
+                let episodesHTML = '';
+                
+                items.forEach((item, index) => {
+                    const title = item.querySelector('title')?.textContent || 'Untitled Episode';
+                    const description = item.querySelector('description')?.textContent || 'No description available';
+                    const enclosure = item.querySelector('enclosure');
+                    const audioUrl = enclosure?.getAttribute('url') || '';
+                    
+                    episodesHTML += `
+                        <div class="episode">
+                            <div class="episode-title">${title}</div>
+                            <div class="episode-description">${description}</div>
+                            ${audioUrl ? `<audio controls><source src="${audioUrl}" type="audio/mpeg">Your browser does not support the audio element.</audio>` : '<p>No audio file available</p>'}
+                        </div>
+                    `;
+                });
+                
+                episodesContainer.innerHTML = episodesHTML;
+                
+            } catch (error) {
+                document.getElementById('episodes').innerHTML = `
+                    <div class="episode">
+                        <p>❌ Error loading episodes: ${error.message}</p>
+                        <p>Please check that the RSS feed is accessible.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Load episodes when page loads
+        loadEpisodes();
+    </script>
+</body>
+</html>

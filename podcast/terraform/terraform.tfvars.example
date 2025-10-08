@@ -1,0 +1,27 @@
+# Copy this file to terraform.tfvars and update the values
+
+# AWS Configuration
+aws_region = "us-east-1"
+environment = "dev"
+
+# Project Configuration
+project_name = "podcast"
+
+# Domain Configuration (optional)
+# Leave empty to use CloudFront domain only
+domain_name = ""
+subdomain = "media"
+
+# Podcast Information
+podcast_title = "Canteen Calendar Podcast"
+podcast_description = "Weekly podcast covering canteen events and community news"
+podcast_author = "Canteen Calendar Team"
+podcast_email = "podcast@example.com"
+
+# S3 Configuration
+enable_versioning = true
+enable_encryption = true
+
+# Lambda Configuration
+lambda_timeout = 30
+lambda_memory_size = 128

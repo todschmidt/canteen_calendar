@@ -1,0 +1,12 @@
+# Audio Processing Dependencies
+# Install with: pip install -r requirements-audio.txt
+
+# Audio metadata handling
+mutagen>=1.47.0
+
+# AWS SDK (if not already installed)
+boto3>=1.26.0
+
+# Additional audio processing (optional)
+# pydub>=0.25.1  # Alternative audio processing library
+# librosa>=0.10.0  # Advanced audio analysis (if needed)
