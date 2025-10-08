@@ -171,3 +171,8 @@ canteenmonthlyposter.jpg
 
 credentials.json
 token.pickle
+
+.terraform 
+**/.terraform*
+
+.terraform.lock.hcl
