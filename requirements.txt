@@ -1,5 +1,6 @@
 lxml
 pillow
+requests
 
 google-auth==2.23.4
 google-auth-oauthlib==1.1.0
