@@ -6,19 +6,56 @@ Welcome to this week's Cedar Mountain Community Podcast. Here are the highlights
 
 ### Community News
 
-- The Cedar Mountain Community Center continues to be a hub for local activities and events. Check their website for upcoming programs and rental opportunities.
+CEDAR MOUNTAIN TRUNK OR TREAT
 
-- Thank you for supporting the CMCC BBQ Fundraiser! We sold out to the last ounce of food. A great evening of friends, neighbors, and fantastic BBQ from Smoke On.
+The Cedar Mountain Trunk or Treat at Cedar Mountain Moonshine is happening Sunday, October 26, from 4 to 7 pm! Contact Sarah at studio276.art@gmail.com if you’d like to join in the trunkin’ fun or donate a treat!
 
-- Arts & Crafts Show planning is underway for the spring season. Local artists from Cedar Mountain, Connestee, and beyond will showcase their work. Stay tuned for dates and details!
+ 
+
+ 
+
+CEDAR MOUNTAIN COMMUNITY CENTER
+
+Our Thanksgiving Potluck dinner will be held on Tuesday November 11th. Dishes to share need to be on the table by 6:15 pm, and dinner begins at 6:30 pm. Turkey and ham will be provided, so please bring your favorite dish or dessert. Join us as we celebrate with friends and neighbors during this season of thankfulness.
+
+ 
+
+The Cedar Mountain Community Center would like to thank everyone for making our BBQ fundraiser a great success. We sold out to the last ounce of food. There was a lot of visiting with friends and neighbors. Fun was had by all, but the best thing was the BBQ and fixings from Smoke on BBQ.
+
+ 
+
+CEDAR MOUNTAIN CANTEEN
+
+Join us at the Cedar Mountain Canteen Friday, October 24 from 6:30 pm - 8:00 pm for storytelling around the campfire with Smores.  This is the third installment of our storytelling Fridays and this one's theme is folklore. Join us as we explore the shadowy corners of the known world, share ghost stories, and weave some tall tales.  All are welcome.  Costumes are encouraged.
+
+ 
+
+CEDAR MOUNTAIN ARTS AND CRAFTS RETURNS
+
+Mark your calendars! The Cedar Mountain Community Center Arts and Crafts Show, canceled last year due to Helene is making its return. Join us on Saturday, Nov. 1st, from 9 a.m. to 3 p.m. for this charming and friendly event featuring local artists from Cedar Mountain, Connestee, and beyond. It's the perfect opportunity to kick off your holiday shopping!
+
+ 
+
+RENT THE CENTER   
+
+Please call Caroline Chambers at 828-290-9662 for reservations or use https://www.cedarmountaincommunitycenter.com/rental.
+
+ 
+
+AROUND THE HOUSE by Linda Packer Young
+
+I am doing some “spring” housework by donating excess items that we don’t use.  We combined two households in 2021 and still need to eliminate duplicates.  It is difficult to get rid of favorites for both of us.  My honey has his favorite cookware and I have mine.  There is no budging on that.  So when my “chef” cooks he uses his and vise versa.  He is a pretty good cook so I don’t mind.  It just takes up so much room in our little pantry.
+
+I’ve started bringing house in plants that have spent the summer outside.  My Christmas cactus is in bloom.  I guess it doesn’t realize it’s only October. 
+
+
+SHARE YOUR NEWS 
+
+The deadline for submitting articles to Cedar Mountain News is Monday night. If your contribution is late, please let me know. Send all news to cedarmountainnews@gmail.com. Photos are welcome but should be at least 900kb to be included in the paper. Please avoid sending PDFs or posters. Word documents or JPGs are preferred.
 
 ---
 
 ### Cedar Mountain Canteen News
-
-- Story Corps update: We've been exploring stories together through the DIY StoryCorps guidance and are assembling our team. Interested in helping? Email LittleEddyLLC@gmail.com.
-
-- Winter activities are in full swing at the Canteen. Join us for warm drinks, good company, and community events throughout the season.
 
 - Storytelling by the Fire continues every other Friday at 6:30–8:00 PM, hosted by George. Themes vary each week, and all are welcome to share stories or just listen. S'mores provided.
 
@@ -38,11 +75,10 @@ Welcome to this week's Cedar Mountain Community Podcast. Here are the highlights
 
 ### Cedar Mountain Outpost
 
-- Check the Outpost for regular live music events and open mic nights. Contact them directly for current schedules and upcoming performances.
+Sun 10/26, 4–6 pm: Live Music – Nikki Talley & Jason Sharp
+
+Wed 10/29, 4–6 pm: Open Mic Night – Ketura Alligood
 
 ---
 
-### Share Your News
-
-The deadline for submitting articles to Cedar Mountain News is Monday night. If your contribution will be late, please let us know. Send items to cedarmountainnews@gmail.com. Photos are welcome and should be at least 900 KB. Please avoid PDFs or posters — Word documents or JPGs are preferred.
 
