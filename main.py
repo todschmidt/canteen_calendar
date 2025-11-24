@@ -47,13 +47,16 @@ def main():
             date = event.get("_EventStartDate")[0]
             print(f"{date} {event.get('post_title')}")
             if date and datetime.fromisoformat(date) > datetime.today():
-                day = datetime.fromisoformat(date).strftime("%m%d")
-                day_of_week = datetime.fromisoformat(date).strftime("%a")
-                time = datetime.fromisoformat(date).strftime("%I:%M %p")
+                event_date = datetime.fromisoformat(date)
+                # Use YYYYMMDD format to preserve year for sorting
+                day = event_date.strftime("%Y%m%d")
+                day_of_week = event_date.strftime("%a")
+                time = event_date.strftime("%I:%M %p")
                 # strip the leading zero from just the hour
                 time_stripped = re.sub(r"^0+", " ", time)
+                event_title = event.get("post_title")
                 lines.append(
-                    {day: f'{day_of_week} {time_stripped} {event.get("post_title")}'}
+                    {day: f'{day_of_week} {time_stripped} {event_title}'}
                 )
                 if args.debug:
                     print(f"Event {event.get('post_title')} on {date}")
@@ -63,45 +66,61 @@ def main():
     # Create the calendar image
     calendar = Image.new(mode="RGB", size=(1080, 1920), color=(64, 64, 64))
     with Image.open("canteenmonthlyposterheader.jpg") as header:
-        calendar.paste(ImageOps.contain(header, (1080, int(1920 * 0.27))), (0, 0))
+        header_size = (1080, int(1920 * 0.27))
+        calendar.paste(ImageOps.contain(header, header_size), (0, 0))
     with Image.open("canteenmonthlyposterfooter.jpg") as footer:
-        calendar.paste(
-            ImageOps.contain(footer, (1080, int(1920 * 0.27))), (0, int(1920 * 0.82))
-        )
+        footer_size = (1080, int(1920 * 0.27))
+        footer_pos = (0, int(1920 * 0.82))
+        calendar.paste(ImageOps.contain(footer, footer_size), footer_pos)
 
     font = ImageFont.truetype(r"arialbd.ttf", 24)
     header_font = ImageFont.truetype(r"arialbd.ttf", 40)
     text = ImageDraw.Draw(calendar)
 
-    month = datetime.today().month
+    last_month = None
+    last_year = None
 
     # Add the events to the calendar
     list_start = int(1920 * 0.257)
     list_spacing = int(1920 * 0.016)
     for event in sorted(lines, key=lambda d: list(d.keys())):
         for key, value in event.items():
-            if month < int(key[0:2]):
-                month += 1
+            # Parse YYYYMMDD format
+            event_year = int(key[0:4])
+            event_month = int(key[4:6])
+            event_day = int(key[6:8])
+
             list_start += list_spacing
             # break so we don't write past footer
             if list_start + list_spacing > int(1920 * 0.82):
                 break
-            # add month separator
-            if month == int(key[0:2]):
+
+            # add month separator when month or year changes
+            month_changed = (
+                last_month is None or
+                event_month != last_month or
+                event_year != last_year
+            )
+            if month_changed:
                 if list_start + (list_spacing * 2) > int(1920 * 0.82):
                     break
                 list_start += list_spacing * 0.04
+                month_name = datetime(
+                    event_year, event_month, 1
+                ).strftime('%B %Y')
                 text.text(
                     (0, list_start),
-                    f"{datetime(2024, month, 1).strftime('%B')} Events",
+                    f"{month_name} Events",
                     font=header_font,
                     fill=(255, 255, 255),
                 )
-                month += 1
                 list_start += list_spacing * 1.8
+                last_month = event_month
+                last_year = event_year
+
             if list_start + list_spacing > int(1920 * 0.82):
                 break
-            day = f"{key[len(key)-2:]}"
+            day = f"{event_day}"
             day_of_week, event_time, event_name = value.split(" ", 2)
             if args.debug:
                 print(f"{day} {day_of_week} {event_time} {event_name}")
