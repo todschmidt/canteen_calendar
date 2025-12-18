@@ -17,6 +17,9 @@ podcast_title = "Canteen Calendar Podcast"
 podcast_description = "Weekly podcast covering canteen events and community news"
 podcast_author = "Canteen Calendar Team"
 podcast_email = "podcast@example.com"
+artwork_url = "https://cedarmountainnews.todschmidt.com/artwork.jpg"
+podcast_category = "News"
+podcast_category_subcategory = "Local"
 
 # S3 Configuration
 enable_versioning = true

@@ -13,10 +13,13 @@ domain_name = "todschmidt.com"
 subdomain = "cedarmountainnews"
 
 # Podcast Information
-podcast_title = "Canteen Calendar Podcast"
-podcast_description = "Weekly podcast covering Cedar Mountain Community news"
-podcast_author = "Cedar Mountain Canteer Team"
+podcast_title = "Cedar Mountain Community News Podcast"
+podcast_description = "Weekly podcast covering Cedar Mountain, NC Community news"
+podcast_author = "Cedar Mountain Canteen Team"
 podcast_email = "tschmidty@yahoo.com"
+artwork_url="https://cedarmountainnews.todschmidt.com/Cedar_Mountain_Community_News_Podcast.jpg"
+podcast_category = "News"
+podcast_category_subcategory = "Local"
 
 # S3 Configuration
 enable_versioning = true

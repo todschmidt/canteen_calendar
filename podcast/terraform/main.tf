@@ -52,12 +52,16 @@ resource "aws_s3_bucket_logging" "podcast_bucket_logging" {
   target_prefix = "logs/"
 }
 
-# Origin Access Identity for CloudFront
-resource "aws_cloudfront_origin_access_identity" "podcast_oai" {
-  comment = "OAI for ${var.project_name}-${var.environment} podcast bucket"
+# Origin Access Control for CloudFront (replaces deprecated OAI)
+resource "aws_cloudfront_origin_access_control" "podcast_oac" {
+  name                              = "${var.project_name}-${var.environment}-oac"
+  description                       = "OAC for ${var.project_name}-${var.environment} podcast bucket"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                 = "always"
+  signing_protocol                 = "sigv4"
 }
 
-# S3 Bucket policy for CloudFront access
+# S3 Bucket policy for CloudFront OAC access
 resource "aws_s3_bucket_policy" "podcast_bucket_policy" {
   bucket = aws_s3_bucket.podcast_bucket.id
 
@@ -65,18 +69,26 @@ resource "aws_s3_bucket_policy" "podcast_bucket_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid    = "AllowCloudFrontOriginAccessIdentity"
+        Sid    = "AllowCloudFrontOriginAccessControl"
         Effect = "Allow"
         Principal = {
-          AWS = aws_cloudfront_origin_access_identity.podcast_oai.iam_arn
+          Service = "cloudfront.amazonaws.com"
         }
         Action   = "s3:GetObject"
         Resource = "${aws_s3_bucket.podcast_bucket.arn}/*"
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = aws_cloudfront_distribution.podcast_distribution.arn
+          }
+        }
       }
     ]
   })
 
-  depends_on = [aws_cloudfront_origin_access_identity.podcast_oai]
+  depends_on = [
+    aws_cloudfront_origin_access_control.podcast_oac,
+    aws_cloudfront_distribution.podcast_distribution
+  ]
 }
 
 # ACM Certificate (only if domain is provided)
@@ -110,12 +122,9 @@ resource "aws_acm_certificate_validation" "podcast_cert_validation" {
 # CloudFront Distribution
 resource "aws_cloudfront_distribution" "podcast_distribution" {
   origin {
-    domain_name = aws_s3_bucket.podcast_bucket.bucket_regional_domain_name
-    origin_id   = "S3-${aws_s3_bucket.podcast_bucket.bucket}"
-
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.podcast_oai.cloudfront_access_identity_path
-    }
+    domain_name              = aws_s3_bucket.podcast_bucket.bucket_regional_domain_name
+    origin_id                = "S3-${aws_s3_bucket.podcast_bucket.bucket}"
+    origin_access_control_id = aws_cloudfront_origin_access_control.podcast_oac.id
   }
 
   enabled             = true
@@ -183,25 +192,26 @@ resource "aws_cloudfront_distribution" "podcast_distribution" {
     max_ttl     = 31536000
   }
 
-  # Cache behavior for RSS feed
+  # Cache behavior for RSS feed - no caching to ensure fresh content
   ordered_cache_behavior {
     path_pattern           = "rss.xml"
-    allowed_methods        = ["GET", "HEAD"]
+    allowed_methods        = ["GET", "HEAD", "OPTIONS"]
     cached_methods         = ["GET", "HEAD"]
     target_origin_id       = "S3-${aws_s3_bucket.podcast_bucket.bucket}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
 
     forwarded_values {
-      query_string = false
+      query_string = true  # Forward query strings for cache-busting
       cookies {
         forward = "none"
       }
     }
 
+    # Disable caching - always fetch from origin
     min_ttl     = 0
-    default_ttl = 300
-    max_ttl     = 300
+    default_ttl = 0
+    max_ttl     = 0
   }
 
   price_class = "PriceClass_100"
@@ -218,17 +228,66 @@ resource "aws_cloudfront_distribution" "podcast_distribution" {
   }
 }
 
+# Download XML parser library
+resource "null_resource" "download_xml_parser" {
+  triggers = {
+    script = filemd5("${path.module}/download-xml-parser.py")
+  }
+
+  provisioner "local-exec" {
+    working_dir = path.module
+    command     = "python download-xml-parser.py"
+  }
+}
+
+# Upload XML parser library to S3
+resource "aws_s3_object" "xml_parser_lib" {
+  depends_on = [null_resource.download_xml_parser]
+  bucket     = aws_s3_bucket.podcast_bucket.id
+  key        = "lib/fast-xml-parser.min.js"
+  source     = "${path.module}/lib/fast-xml-parser.min.js"
+  etag       = filemd5("${path.module}/lib/fast-xml-parser.min.js")
+  content_type = "application/javascript"
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-xml-parser"
+    Environment = var.environment
+    Purpose     = "XML parser library for test player"
+  }
+}
+
 # Upload test player HTML file to S3
 resource "aws_s3_object" "test_player" {
-  bucket = aws_s3_bucket.podcast_bucket.id
-  key    = "test-player.html"
-  source = "${path.module}/test-player.html"
-  etag   = filemd5("${path.module}/test-player.html")
+  depends_on = [null_resource.download_xml_parser]
+  bucket     = aws_s3_bucket.podcast_bucket.id
+  key        = "test-player.html"
+  source     = "${path.module}/test-player.html"
+  etag       = filemd5("${path.module}/test-player.html")
   content_type = "text/html"
 
   tags = {
     Name        = "${var.project_name}-${var.environment}-test-player"
     Environment = var.environment
     Purpose     = "Podcast test player"
+  }
+}
+
+# CloudFront cache invalidation for test player
+# This invalidates the cache when test-player.html changes
+# Using null_resource with AWS CLI since aws_cloudfront_invalidation may not be available
+resource "null_resource" "cloudfront_invalidation" {
+  depends_on = [aws_s3_object.test_player, aws_s3_object.xml_parser_lib]
+
+  # Trigger invalidation when files change
+  triggers = {
+    test_player_etag = aws_s3_object.test_player.etag
+    xml_parser_etag  = aws_s3_object.xml_parser_lib.etag
+    distribution_id  = aws_cloudfront_distribution.podcast_distribution.id
+  }
+
+  provisioner "local-exec" {
+    # Single-line command to avoid Windows cmd.exe line continuation issues
+    # Paths must be passed as space-separated values without extra quotes around individual paths
+    command = "aws cloudfront create-invalidation --distribution-id ${aws_cloudfront_distribution.podcast_distribution.id} --paths /test-player.html /lib/fast-xml-parser.min.js --region ${var.aws_region}"
   }
 }

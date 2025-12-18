@@ -70,12 +70,77 @@
             color: #7f8c8d;
             font-style: italic;
         }
+        .artwork {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .artwork img {
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .debug-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .debug-info h3 {
+            margin-top: 0;
+            color: #856404;
+            font-size: 1em;
+        }
+        .debug-info pre {
+            margin: 5px 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .debug-error {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .debug-success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .debug-toggle {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .debug-toggle button {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+        .debug-toggle button:hover {
+            background: #5a6268;
+        }
+        #debug-info.hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🎙️ Cedar Mountain Community Podcast</h1>
         <p class="subtitle">Test Player - Listen to our latest episodes</p>
+        
+        <div class="artwork" id="artwork">
+            <!-- Artwork will be loaded from RSS feed -->
+        </div>
         
         <div id="episodes">
             <div class="loading">Loading episodes...</div>
@@ -84,36 +149,234 @@
         <div class="rss-link">
             <p>📡 <strong>RSS Feed:</strong> <a href="https://cedarmountainnews.todschmidt.com/rss.xml" target="_blank">https://cedarmountainnews.todschmidt.com/rss.xml</a></p>
             <p><small>Copy this link to subscribe in your favorite podcast app</small></p>
+            <p><small>💡 <a href="?nocache=1" style="color: #7f8c8d;">Clear cache and reload</a></small></p>
+        </div>
+        
+        <div class="debug-toggle">
+            <button id="debug-toggle-btn" onclick="toggleDebugInfo()">🔍 Show Debug Info</button>
+        </div>
+        
+        <div id="debug-info" class="hidden">
+            <!-- Debug information will be displayed here -->
         </div>
     </div>
 
+    <!-- Use fast-xml-parser library for robust XML parsing -->
+    <!-- This library handles malformed XML much better than DOMParser -->
+    <!-- Using local version for reliability and version pinning -->
+    <script src="lib/fast-xml-parser.min.js"></script>
     <script>
-        // Fetch and parse RSS feed
+        // Toggle debug info visibility
+        function toggleDebugInfo() {
+            const debugInfo = document.getElementById('debug-info');
+            const toggleBtn = document.getElementById('debug-toggle-btn');
+            
+            if (debugInfo.classList.contains('hidden')) {
+                debugInfo.classList.remove('hidden');
+                debugInfo.style.display = 'block';
+                toggleBtn.textContent = '🔍 Hide Debug Info';
+            } else {
+                debugInfo.classList.add('hidden');
+                debugInfo.style.display = 'none';
+                toggleBtn.textContent = '🔍 Show Debug Info';
+            }
+        }
+        
+        // Wait for fast-xml-parser to load, then parse RSS
+        let xmlParserReady = false;
+        
+        // Check if library is already available (might be cached)
+        function checkParserAvailable() {
+            return typeof XMLParser !== 'undefined' || 
+                   typeof window.XMLParser !== 'undefined' ||
+                   (typeof fastXmlParser !== 'undefined' && fastXmlParser.XMLParser);
+        }
+        
+        // Wait for library to load or timeout after 3 seconds
+        function waitForParser(timeout = 3000) {
+            return new Promise((resolve) => {
+                if (checkParserAvailable()) {
+                    resolve(true);
+                    return;
+                }
+                
+                let resolved = false;
+                const timeoutId = setTimeout(() => {
+                    if (!resolved) {
+                        resolved = true;
+                        resolve(false);
+                    }
+                }, timeout);
+                
+                window.addEventListener('fast-xml-parser-loaded', function() {
+                    if (!resolved) {
+                        resolved = true;
+                        clearTimeout(timeoutId);
+                        resolve(true);
+                    }
+                }, { once: true });
+                
+                window.addEventListener('fast-xml-parser-load-error', function() {
+                    if (!resolved) {
+                        resolved = true;
+                        clearTimeout(timeoutId);
+                        resolve(false);
+                    }
+                }, { once: true });
+            });
+        }
+        
         async function loadEpisodes() {
+            const pageLoadTime = new Date().toISOString();
+            const buildTime = document.lastModified ? new Date(document.lastModified).toISOString() : 'Unknown';
+            
             try {
-                const response = await fetch('https://cedarmountainnews.todschmidt.com/rss.xml');
+                // Add cache-busting parameter to RSS feed URL
+                const cacheBuster = new URLSearchParams(window.location.search).get('nocache') || Date.now();
+                const rssUrl = `https://cedarmountainnews.todschmidt.com/rss.xml?t=${cacheBuster}`;
+                
+                const fetchStartTime = Date.now();
+                const response = await fetch(rssUrl);
                 const xmlText = await response.text();
+                const fetchEndTime = Date.now();
+                const fetchDuration = fetchEndTime - fetchStartTime;
                 
-                // Parse XML
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+                // Wait for parser to be available (with timeout)
+                const parserAvailable = await waitForParser(3000);
                 
-                // Get episodes
-                const items = xmlDoc.querySelectorAll('item');
+                // Try to use fast-xml-parser if available
+                let XMLParserClass = null;
+                if (parserAvailable) {
+                    if (typeof XMLParser !== 'undefined') {
+                        XMLParserClass = XMLParser;
+                    } else if (typeof window.XMLParser !== 'undefined') {
+                        XMLParserClass = window.XMLParser;
+                    } else if (typeof fastXmlParser !== 'undefined' && fastXmlParser.XMLParser) {
+                        XMLParserClass = fastXmlParser.XMLParser;
+                    }
+                }
+                
+                if (!XMLParserClass) {
+                    // Fallback to DOMParser
+                    console.warn('fast-xml-parser not available, using DOMParser fallback');
+                    parseWithDOMParser(xmlText);
+                    return;
+                }
+                
+                const parser = new XMLParserClass({
+                    ignoreAttributes: false,
+                    attributeNamePrefix: "@_",
+                    textNodeName: "#text",
+                    parseAttributeValue: true,
+                    trimValues: true,
+                    parseTrueNumberOnly: false,
+                    arrayMode: false,
+                    ignoreNameSpace: false
+                });
+                
+                let jsonObj;
+                try {
+                    jsonObj = parser.parse(xmlText);
+                } catch (parseError) {
+                    throw new Error('XML parsing failed: ' + parseError.message);
+                }
+                
+                // Extract channel data
+                const channel = jsonObj.rss?.channel;
+                if (!channel) {
+                    throw new Error('Invalid RSS feed structure - no channel found');
+                }
+                
+                // Debug: Prepare debug info (but don't show it automatically)
+                const debugContainer = document.getElementById('debug-info');
+                const channelKeys = Object.keys(channel);
+                // Keep debug info hidden by default - user can toggle with button
+                debugContainer.className = 'debug-info hidden';
+                debugContainer.innerHTML = `
+                    <h3>🔍 Debug Information</h3>
+                    <pre>Page Load Time: ${pageLoadTime}</pre>
+                    <pre>Page Build Time: ${buildTime}</pre>
+                    <pre>RSS Fetch Duration: ${fetchDuration}ms</pre>
+                    <pre>RSS URL: ${rssUrl}</pre>
+                    <pre>Channel keys: ${JSON.stringify(channelKeys, null, 2)}</pre>
+                    <pre>Channel structure: ${JSON.stringify(channel, null, 2).substring(0, 500)}...</pre>
+                `;
+                
+                // Get artwork from channel (handle various namespace formats)
+                let artworkUrl = '';
+                
+                // Try different possible structures
+                if (channel['itunes:image']) {
+                    if (typeof channel['itunes:image'] === 'string') {
+                        artworkUrl = channel['itunes:image'];
+                    } else if (channel['itunes:image']['@_href']) {
+                        artworkUrl = channel['itunes:image']['@_href'];
+                    } else if (channel['itunes:image'].href) {
+                        artworkUrl = channel['itunes:image'].href;
+                    }
+                } else if (channel['@_itunes:image']) {
+                    artworkUrl = channel['@_itunes:image']['@_href'] || channel['@_itunes:image'].href || '';
+                } else if (channel.image) {
+                    artworkUrl = channel.image['@_href'] || channel.image.href || '';
+                }
+                
+                // Update debug info with artwork URL
+                debugContainer.innerHTML += `<pre>Extracted artwork URL: ${artworkUrl || 'NOT FOUND'}</pre>`;
+                
+                const artworkContainer = document.getElementById('artwork');
+                if (artworkUrl) {
+                    // Create image with error handling
+                    const img = document.createElement('img');
+                    img.src = artworkUrl;
+                    img.alt = 'Podcast Artwork';
+                    img.onerror = function() {
+                        debugContainer.className = 'debug-info debug-error';
+                        debugContainer.innerHTML += `<pre>❌ Image load error: Failed to load ${artworkUrl}</pre>`;
+                        debugContainer.innerHTML += `<pre>Check browser console (F12) for more details</pre>`;
+                        this.style.display = 'none';
+                        artworkContainer.innerHTML = '<p style="color: #dc3545;">❌ Artwork image failed to load</p>';
+                    };
+                    img.onload = function() {
+                        // Update className but keep hidden class
+                        debugContainer.className = 'debug-info debug-success hidden';
+                        debugContainer.innerHTML += `<pre>✅ Image loaded successfully: ${artworkUrl}</pre>`;
+                        // Don't show automatically on success - user can toggle with button
+                    };
+                    artworkContainer.innerHTML = '';
+                    artworkContainer.appendChild(img);
+                } else {
+                    debugContainer.className = 'debug-info debug-error';
+                    debugContainer.innerHTML += `<pre>❌ No artwork URL found in RSS feed</pre>`;
+                    debugContainer.innerHTML += `<pre>Available channel keys: ${channelKeys.join(', ')}</pre>`;
+                    // Show debug info automatically on error
+                    debugContainer.classList.remove('hidden');
+                    debugContainer.style.display = 'block';
+                    artworkContainer.innerHTML = '<p style="color: #999;">No artwork available</p>';
+                }
+                
+                // Get episodes - handle both single item and array of items
+                const items = Array.isArray(channel.item) ? channel.item : 
+                             (channel.item ? [channel.item] : []);
+                
                 const episodesContainer = document.getElementById('episodes');
                 
                 if (items.length === 0) {
-                    episodesContainer.innerHTML = '<div class="episode"><p>No episodes found in RSS feed.</p></div>';
+                    episodesContainer.innerHTML = `
+                        <div class="episode">
+                            <p>No episodes found in RSS feed.</p>
+                        </div>
+                    `;
                     return;
                 }
                 
                 let episodesHTML = '';
                 
                 items.forEach((item, index) => {
-                    const title = item.querySelector('title')?.textContent || 'Untitled Episode';
-                    const description = item.querySelector('description')?.textContent || 'No description available';
-                    const enclosure = item.querySelector('enclosure');
-                    const audioUrl = enclosure?.getAttribute('url') || '';
+                    // Extract data from parsed JSON object
+                    const title = item.title || 'Untitled Episode';
+                    const description = item.description || 'No description available';
+                    const enclosure = item.enclosure || {};
+                    const audioUrl = enclosure['@_url'] || enclosure.url || '';
                     
                     episodesHTML += `
                         <div class="episode">
@@ -127,17 +390,149 @@
                 episodesContainer.innerHTML = episodesHTML;
                 
             } catch (error) {
+                // Display error visibly
+                const debugContainer = document.getElementById('debug-info');
+                debugContainer.classList.remove('hidden');
+                debugContainer.style.display = 'block';
+                debugContainer.className = 'debug-info debug-error';
+                debugContainer.innerHTML = `
+                    <h3>❌ Error</h3>
+                    <pre>fast-xml-parser error: ${error.message}</pre>
+                    <pre>Trying DOMParser fallback...</pre>
+                `;
+                
+                // If fast-xml-parser fails, try DOMParser fallback
+                console.warn('fast-xml-parser failed, trying DOMParser:', error);
+                parseWithDOMParser(await fetch('https://cedarmountainnews.todschmidt.com/rss.xml').then(r => r.text()));
+            }
+        }
+        
+        // Fallback function using DOMParser
+        async function parseWithDOMParser(xmlText) {
+            const pageLoadTime = new Date().toISOString();
+            const buildTime = document.lastModified ? new Date(document.lastModified).toISOString() : 'Unknown';
+            
+            if (typeof xmlText === 'string') {
+                // xmlText is already a string
+            } else {
+                // xmlText is a Response, get the text
+                xmlText = await xmlText.text();
+            }
+            try {
+                // Clean XML - escape unescaped & characters
+                xmlText = xmlText.replace(/&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[0-9a-fA-F]+;)/g, '&amp;');
+                
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+                
+                const parserError = xmlDoc.querySelector('parsererror');
+                if (parserError) {
+                    throw new Error('XML parsing error: ' + parserError.textContent);
+                }
+                
+                const channel = xmlDoc.querySelector('channel');
+                if (!channel) {
+                    throw new Error('No channel found in RSS feed');
+                }
+                
+                // Get artwork
+                const images = channel.getElementsByTagNameNS(
+                    'http://www.itunes.com/dtds/podcast-1.0.dtd', 'image');
+                const artworkUrl = images.length > 0 ? images[0].getAttribute('href') : '';
+                
+                // Debug: Prepare debug info (but don't show it automatically)
+                const debugContainer = document.getElementById('debug-info');
+                // Keep debug info hidden by default - user can toggle with button
+                debugContainer.className = 'debug-info hidden';
+                debugContainer.innerHTML = `
+                    <h3>🔍 Debug Information (DOMParser fallback)</h3>
+                    <pre>Page Load Time: ${pageLoadTime}</pre>
+                    <pre>Page Build Time: ${buildTime}</pre>
+                    <pre>Found ${images.length} itunes:image elements</pre>
+                    <pre>Extracted artwork URL: ${artworkUrl || 'NOT FOUND'}</pre>
+                `;
+                
+                const artworkContainer = document.getElementById('artwork');
+                if (artworkUrl) {
+                    // Create image with error handling
+                    const img = document.createElement('img');
+                    img.src = artworkUrl;
+                    img.alt = 'Podcast Artwork';
+                    img.onerror = function() {
+                        debugContainer.className = 'debug-info debug-error';
+                        debugContainer.innerHTML += `<pre>❌ Image load error: Failed to load ${artworkUrl}</pre>`;
+                        debugContainer.innerHTML += `<pre>Check browser console (F12) for more details</pre>`;
+                        // Show debug info automatically on error
+                        debugContainer.classList.remove('hidden');
+                        debugContainer.style.display = 'block';
+                        this.style.display = 'none';
+                        artworkContainer.innerHTML = '<p style="color: #dc3545;">❌ Artwork image failed to load</p>';
+                    };
+                    img.onload = function() {
+                        // Update className but keep hidden class
+                        debugContainer.className = 'debug-info debug-success hidden';
+                        debugContainer.innerHTML += `<pre>✅ Image loaded successfully: ${artworkUrl}</pre>`;
+                        // Don't show automatically on success - user can toggle with button
+                    };
+                    artworkContainer.innerHTML = '';
+                    artworkContainer.appendChild(img);
+                } else {
+                    debugContainer.className = 'debug-info debug-error';
+                    debugContainer.innerHTML += `<pre>❌ No artwork URL found in RSS feed</pre>`;
+                    // Show debug info automatically on error
+                    debugContainer.classList.remove('hidden');
+                    debugContainer.style.display = 'block';
+                    artworkContainer.innerHTML = '<p style="color: #999;">No artwork available</p>';
+                }
+                
+                // Get items
+                const items = channel.getElementsByTagName('item');
+                const episodesContainer = document.getElementById('episodes');
+                
+                if (items.length === 0) {
+                    episodesContainer.innerHTML = '<div class="episode"><p>No episodes found.</p></div>';
+                    return;
+                }
+                
+                let episodesHTML = '';
+                Array.from(items).forEach((item) => {
+                    const title = item.getElementsByTagName('title')[0]?.textContent || 'Untitled';
+                    const description = item.getElementsByTagName('description')[0]?.textContent || '';
+                    const enclosure = item.getElementsByTagName('enclosure')[0];
+                    const audioUrl = enclosure?.getAttribute('url') || '';
+                    
+                    episodesHTML += `
+                        <div class="episode">
+                            <div class="episode-title">${title}</div>
+                            <div class="episode-description">${description}</div>
+                            ${audioUrl ? `<audio controls><source src="${audioUrl}" type="audio/mpeg"></audio>` : ''}
+                        </div>
+                    `;
+                });
+                
+                episodesContainer.innerHTML = episodesHTML;
+            } catch (error) {
+                const debugContainer = document.getElementById('debug-info');
+                debugContainer.classList.remove('hidden');
+                debugContainer.style.display = 'block';
+                debugContainer.className = 'debug-info debug-error';
+                debugContainer.innerHTML = `
+                    <h3>❌ DOMParser Error</h3>
+                    <pre>Error: ${error.message}</pre>
+                    <pre>Stack: ${error.stack || 'N/A'}</pre>
+                `;
+                
                 document.getElementById('episodes').innerHTML = `
                     <div class="episode">
-                        <p>❌ Error loading episodes: ${error.message}</p>
-                        <p>Please check that the RSS feed is accessible.</p>
+                        <p>❌ Error: ${error.message}</p>
+                        <p>Check the debug information above for details.</p>
                     </div>
                 `;
             }
         }
         
         // Load episodes when page loads
-        loadEpisodes();
+        window.addEventListener('DOMContentLoaded', loadEpisodes);
     </script>
 </body>
 </html>

@@ -75,3 +75,21 @@ variable "lambda_memory_size" {
   type        = number
   default     = 128
 }
+
+variable "artwork_url" {
+  description = "URL to podcast artwork image (required for Apple/Spotify)"
+  type        = string
+  default     = "https://cedarmountainnews.todschmidt.com/artwork.jpg"
+}
+
+variable "podcast_category" {
+  description = "iTunes podcast category (e.g., 'News', 'Society & Culture')"
+  type        = string
+  default     = "News"
+}
+
+variable "podcast_category_subcategory" {
+  description = "iTunes podcast category subcategory (e.g., 'Local' for News, optional)"
+  type        = string
+  default     = "Local"
+}

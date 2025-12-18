@@ -65,6 +65,7 @@ resource "aws_lambda_function" "rss_generator" {
   runtime         = "python3.13"
   timeout         = var.lambda_timeout
   memory_size     = var.lambda_memory_size
+  layers          = [aws_lambda_layer_version.python_dependencies.arn]
 
   environment {
     variables = {
@@ -75,6 +76,9 @@ resource "aws_lambda_function" "rss_generator" {
       PODCAST_EMAIL = var.podcast_email
       CLOUDFRONT_DOMAIN = aws_cloudfront_distribution.podcast_distribution.domain_name
       DOMAIN_NAME = var.domain_name != "" ? "${var.subdomain}.${var.domain_name}" : ""
+      ARTWORK_URL = var.artwork_url
+      PODCAST_CATEGORY = var.podcast_category
+      PODCAST_CATEGORY_SUBCATEGORY = var.podcast_category_subcategory
     }
   }
 
@@ -82,6 +86,42 @@ resource "aws_lambda_function" "rss_generator" {
     Name        = "${var.project_name}-${var.environment}-rss-generator"
     Environment = var.environment
   }
+}
+
+# Build Lambda layer with Python dependencies
+resource "null_resource" "lambda_layer" {
+  triggers = {
+    requirements = filemd5("${path.module}/requirements-audio.txt")
+    build_script = filemd5("${path.module}/build-layer.py")
+    python_version = "3.13"
+  }
+
+  # Use Python script for cross-platform compatibility
+  # The script will try multiple Python/pip commands automatically
+  provisioner "local-exec" {
+    # Call Python script - works on Windows, Linux, Mac
+    # Use relative path to avoid Windows quoting issues
+    working_dir = path.module
+    command     = "python build-layer.py"
+  }
+}
+
+# Create Lambda layer zip file
+data "archive_file" "lambda_layer_zip" {
+  depends_on = [null_resource.lambda_layer]
+  type        = "zip"
+  output_path = "${path.module}/layer.zip"
+  source_dir  = "${path.module}/layer"
+}
+
+# Lambda layer for Python dependencies
+resource "aws_lambda_layer_version" "python_dependencies" {
+  filename            = data.archive_file.lambda_layer_zip.output_path
+  layer_name          = "${var.project_name}-${var.environment}-python-deps"
+  compatible_runtimes = ["python3.13"]
+  source_code_hash    = data.archive_file.lambda_layer_zip.output_base64sha256
+
+  depends_on = [null_resource.lambda_layer]
 }
 
 # Create the Lambda function zip file
