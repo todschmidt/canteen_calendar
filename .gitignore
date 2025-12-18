@@ -176,3 +176,12 @@ token.pickle
 **/.terraform*
 
 .terraform.lock.hcl
+
+# Terraform downloaded dependencies
+podcast/terraform/lib/
+
+**/layer/
+podcast/terraform/layer
+
+**/layer.zip
+**/*.zip

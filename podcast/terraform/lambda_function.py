@@ -60,21 +60,25 @@ def handler(event, context):
                 duration, _ = get_audio_metadata(s3_client, bucket_name, key)
                 
                 # Extract publication date from filename (format: MM_DD_YYYY or MM-DD-YYYY)
-                # Use current time for the time component
-                pub_date = extract_date_from_filename(key)
-                if pub_date is None:
+                # Store the parsed date (date only, no time) for description
+                parsed_date = extract_date_from_filename(key)
+                
+                if parsed_date is None:
                     # Fall back to S3 upload date if no date found in filename
                     pub_date = obj['LastModified']
+                    episode_date = obj['LastModified'].date()
                 else:
-                    # Set time to current time when lambda runs
+                    # Use parsed date with current time when lambda runs
                     now = datetime.now()
-                    pub_date = pub_date.replace(hour=now.hour, minute=now.minute, 
-                                                second=now.second, microsecond=now.microsecond)
+                    pub_date = parsed_date.replace(hour=now.hour, minute=now.minute, 
+                                                  second=now.second, microsecond=now.microsecond)
+                    episode_date = parsed_date.date()
 
                 audio_files.append({
                     'key': key,
                     'last_modified': obj['LastModified'],
-                    'pub_date': pub_date,
+                    'pub_date': pub_date,  # Full datetime for pubDate
+                    'episode_date': episode_date,  # Date only for description
                     'size': obj['Size'],
                     'duration': duration
                 })
@@ -199,15 +203,15 @@ def generate_rss_feed(audio_files, base_url, podcast_title,
         episode_link = f"{test_player_url}?episode={encoded_filename}"
         ET.SubElement(item, 'link').text = episode_link
 
-        # Generate episode description using date from filename
+        # Generate episode description using parsed date from filename
         episode_description = generate_episode_description(
-            audio_file['key'], audio_file['pub_date'])
+            audio_file['key'], audio_file['episode_date'])
         ET.SubElement(item, 'description').text = episode_description
 
         # Generate GUID (unique identifier) - permanent, never reused
         # Format: cedarmountainnews-YYYY-MM-DD[-suffix]
-        # Suffix added only if multiple episodes on same day
-        guid = generate_permanent_guid(audio_file['key'], audio_file['pub_date'])
+        # Use episode_date (parsed from filename) for consistency
+        guid = generate_permanent_guid(audio_file['key'], audio_file['episode_date'])
         guid_elem = ET.SubElement(item, 'guid')
         guid_elem.text = guid
         guid_elem.set('isPermaLink', 'false')
@@ -269,14 +273,17 @@ def extract_date_from_filename(filename):
     
     # Try to find date patterns: MM_DD_YYYY or MM-DD-YYYY
     # Look for patterns like: 12_10_2025, 12-10-2025, etc.
+    # Prefer MM-DD-YYYY format (most common in filenames)
     patterns = [
         r'(\d{1,2})[_-](\d{1,2})[_-](\d{4})',  # MM_DD_YYYY or MM-DD-YYYY
         r'(\d{4})[_-](\d{1,2})[_-](\d{1,2})',  # YYYY_MM_DD or YYYY-MM-DD
     ]
     
     for pattern in patterns:
-        match = re.search(pattern, basename)
-        if match:
+        matches = list(re.finditer(pattern, basename))
+        # Use the last match (most likely to be the episode date, not year in title)
+        if matches:
+            match = matches[-1]
             try:
                 if len(match.group(3)) == 4:  # MM_DD_YYYY format
                     month = int(match.group(1))
@@ -287,24 +294,35 @@ def extract_date_from_filename(filename):
                     month = int(match.group(2))
                     day = int(match.group(3))
                 
-                # Validate date
-                if 1 <= month <= 12 and 1 <= day <= 31 and year >= 1900:
-                    return datetime(year, month, day)
-            except (ValueError, IndexError):
+                # Validate date ranges
+                if 1 <= month <= 12 and 1 <= day <= 31 and year >= 1900 and year <= 2100:
+                    # Additional validation: check if day is valid for the month
+                    try:
+                        return datetime(year, month, day)
+                    except ValueError:
+                        # Invalid date (e.g., Feb 30)
+                        continue
+            except (ValueError, IndexError, AttributeError):
                 continue
     
     return None
 
 
-def generate_permanent_guid(filename, pub_date):
+def generate_permanent_guid(filename, episode_date):
     """
     Generate a permanent, unique GUID for an episode.
     Format: cedarmountainnews-YYYY-MM-DD[-suffix]
     The suffix is added only if needed to ensure uniqueness.
     GUIDs are permanent and never reused or reassigned.
+    episode_date can be a date or datetime object.
     """
     # Base GUID format: cedarmountainnews-YYYY-MM-DD
-    date_str = pub_date.strftime('%Y-%m-%d')
+    # Handle both date and datetime objects
+    if hasattr(episode_date, 'strftime'):
+        date_str = episode_date.strftime('%Y-%m-%d')
+    else:
+        # Fallback: convert to string and extract date part
+        date_str = str(episode_date)[:10]  # YYYY-MM-DD format
     base_guid = f"cedarmountainnews-{date_str}"
     
     # Create a deterministic hash from filename to ensure uniqueness
@@ -330,14 +348,19 @@ def generate_episode_title(filename):
     return title
 
 
-def generate_episode_description(filename, pub_date):
+def generate_episode_description(filename, episode_date):
     """
-    Generate a description for the episode using the publication date
+    Generate a description for the episode using the parsed date from filename
+    episode_date can be a date object or datetime object
     """
-    title = generate_episode_title(filename)
-    date_str = pub_date.strftime('%B %d, %Y')
+    # Format date nicely: "December 17, 2025"
+    if hasattr(episode_date, 'strftime'):
+        date_str = episode_date.strftime('%B %d, %Y')
+    else:
+        # Fallback if it's already a string or other format
+        date_str = str(episode_date)
     return (
-        f"Episode from {date_str}. {title} - "
+        f"Episode from {date_str}. "
         f"Join us for the latest community news and updates from "
         f"Cedar Mountain, North Carolina."
     )
