@@ -93,3 +93,9 @@ variable "podcast_category_subcategory" {
   type        = string
   default     = "Local"
 }
+
+variable "alarm_sns_topic_arn" {
+  description = "SNS topic ARN for CloudWatch alarm notifications"
+  type        = string
+  default     = "arn:aws:sns:us-east-1:164175555474:Tod"
+}

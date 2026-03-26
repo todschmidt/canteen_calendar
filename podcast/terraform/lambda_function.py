@@ -2,7 +2,7 @@ import json
 import boto3
 import os
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from urllib.parse import quote
 import xml.etree.ElementTree as ET
 from mutagen import File
@@ -68,8 +68,7 @@ def handler(event, context):
                     pub_date = obj['LastModified']
                     episode_date = obj['LastModified'].date()
                 else:
-                    # Use parsed date with current time when lambda runs
-                    now = datetime.now()
+                    now = datetime.now(timezone.utc)
                     pub_date = parsed_date.replace(hour=now.hour, minute=now.minute, 
                                                   second=now.second, microsecond=now.microsecond)
                     episode_date = parsed_date.date()
@@ -126,10 +125,7 @@ def handler(event, context):
 
     except Exception as e:
         print(f"Error generating RSS feed: {str(e)}")
-        return {
-            'statusCode': 500,
-            'body': json.dumps(f'Error: {str(e)}')
-        }
+        raise
 
 
 def generate_rss_feed(audio_files, base_url, podcast_title,
@@ -154,11 +150,11 @@ def generate_rss_feed(audio_files, base_url, podcast_title,
     ET.SubElement(channel, 'link').text = base_url
     ET.SubElement(channel, 'language').text = 'en-us'
     ET.SubElement(channel, 'copyright').text = (
-        f'Copyright {datetime.now().year} {podcast_author}')
+        f'Copyright {datetime.now(timezone.utc).year} {podcast_author}')
     ET.SubElement(channel, 'managingEditor').text = podcast_email
     ET.SubElement(channel, 'webMaster').text = podcast_email
     ET.SubElement(channel, 'lastBuildDate').text = (
-        datetime.now().strftime('%a, %d %b %Y %H:%M:%S GMT'))
+        datetime.now(timezone.utc).strftime('%a, %d %b %Y %H:%M:%S GMT'))
     ET.SubElement(channel, 'generator').text = 'AWS Lambda RSS Generator'
 
     # iTunes specific channel tags
@@ -298,7 +294,7 @@ def extract_date_from_filename(filename):
                 if 1 <= month <= 12 and 1 <= day <= 31 and year >= 1900 and year <= 2100:
                     # Additional validation: check if day is valid for the month
                     try:
-                        return datetime(year, month, day)
+                        return datetime(year, month, day, tzinfo=timezone.utc)
                     except ValueError:
                         # Invalid date (e.g., Feb 30)
                         continue

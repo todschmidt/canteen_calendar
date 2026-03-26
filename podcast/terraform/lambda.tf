@@ -156,6 +156,32 @@ resource "aws_s3_bucket_notification" "podcast_bucket_notification" {
   depends_on = [aws_lambda_permission.allow_s3]
 }
 
+# CloudWatch alarm for Lambda errors
+resource "aws_cloudwatch_metric_alarm" "rss_generator_errors" {
+  alarm_name          = "${var.project_name}-${var.environment}-rss-generator-errors"
+  alarm_description   = "RSS generator Lambda function invocation errors"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = 1
+  metric_name         = "Errors"
+  namespace           = "AWS/Lambda"
+  period              = 300
+  statistic           = "Sum"
+  threshold           = 1
+  treat_missing_data  = "notBreaching"
+
+  dimensions = {
+    FunctionName = aws_lambda_function.rss_generator.function_name
+  }
+
+  alarm_actions = [var.alarm_sns_topic_arn]
+  ok_actions    = [var.alarm_sns_topic_arn]
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-rss-generator-errors"
+    Environment = var.environment
+  }
+}
+
 # Lambda permission for S3 to invoke the function
 resource "aws_lambda_permission" "allow_s3" {
   statement_id  = "AllowExecutionFromS3Bucket"
