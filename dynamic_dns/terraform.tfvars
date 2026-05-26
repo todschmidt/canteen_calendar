@@ -1,0 +1,18 @@
+# Copy to terraform.tfvars and set values. Do not commit terraform.tfvars.
+
+aws_region  = "us-east-1"
+environment = "prod"
+
+# Route53 hosted zone ID (e.g. Z2HGXTW05Q9PAJ)
+zone_id = "Z2HGXTW05Q9PAJ"
+
+# DNS record label (FQDN will be record_name.<zone_name>)
+record_name = "home"
+
+# API key for GET requests (keep secret; use in query param api_key=)
+# specify as env var, 'export TF_VAR_api_key="MY_KEY"'
+# api_key = "your-secret-api-key"
+
+# Optional
+# lambda_timeout     = 10
+# lambda_memory_size = 128
