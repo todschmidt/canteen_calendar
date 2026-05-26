@@ -167,19 +167,22 @@ class AudioProcessor:
         
         return filename
     
-    def upload_to_s3(self, local_file, s3_key):
+    def upload_to_s3(self, local_file, s3_key, audio_metadata=None):
         """Upload file to S3 bucket."""
         print(f"☁️  Uploading {local_file} to S3...")
         
         try:
-            # Upload with metadata
+            metadata = {
+                'podcast': PODCAST_TITLE,
+                'author': PODCAST_AUTHOR,
+                'upload-date': datetime.now().isoformat(),
+            }
+            if audio_metadata and audio_metadata.get('duration'):
+                metadata['duration-seconds'] = str(int(audio_metadata['duration']))
+
             extra_args = {
                 'ContentType': 'audio/mpeg',
-                'Metadata': {
-                    'podcast': PODCAST_TITLE,
-                    'author': PODCAST_AUTHOR,
-                    'upload-date': datetime.now().isoformat()
-                }
+                'Metadata': metadata,
             }
             
             self.s3_client.upload_file(
@@ -190,6 +193,11 @@ class AudioProcessor:
             )
             
             print(f"✅ Upload successful: s3://{S3_BUCKET}/{s3_key}")
+            if audio_metadata and audio_metadata.get('duration'):
+                print(
+                    f"   Cached duration metadata: "
+                    f"{self.format_duration(audio_metadata['duration'])}"
+                )
             return True
             
         except Exception as e:
@@ -242,8 +250,8 @@ class AudioProcessor:
                                    episode_description, episode_number):
                 return False
             
-            # Upload to S3
-            if not self.upload_to_s3(str(output_path), output_filename):
+            # Upload to S3 (includes duration-seconds metadata for RSS Lambda)
+            if not self.upload_to_s3(str(output_path), output_filename, metadata):
                 return False
             
             # Print summary

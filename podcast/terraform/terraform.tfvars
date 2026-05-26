@@ -26,5 +26,5 @@ enable_versioning = true
 enable_encryption = true
 
 # Lambda Configuration
-lambda_timeout = 30
+lambda_timeout = 60
 lambda_memory_size = 128
