@@ -1,0 +1,42 @@
+{
+  "events_api_url": "https://cedarmountaincanteen.com/wp-json/custom/v1/custom-event-exporter/",
+  "tv1": { "width": 1920, "height": 1080 },
+  "tv2": {
+    "canvas_width": 1080,
+    "canvas_height": 1920,
+    "width": 1920,
+    "height": 1080,
+    "rotate_degrees": -90
+  },
+  "fonts": {
+    "header": "assets/fonts/Merriweather-Bold.ttf",
+    "body": "assets/fonts/Oswald-Bold.ttf",
+    "fallback": "assets/fonts/arialbd.ttf"
+  },
+  "menu_groups": [
+    { "key": "draft", "label": "Draft", "width_percent": 60 },
+    { "key": "food", "label": "Food", "width_percent": 40 }
+  ],
+  "menu_columns": [
+    { "key": "name", "label": "Name", "group": "draft", "width_percent": 45 },
+    { "key": "abv", "label": "ABV", "group": "draft", "width_percent": 25 },
+    { "key": "price", "label": "Price", "group": "draft", "width_percent": 30 },
+    { "key": "food_name", "label": "Food", "group": "food", "width_percent": 65 },
+    { "key": "food_price", "label": "Price", "group": "food", "width_percent": 35 }
+  ],
+  "placeholders": {
+    "header": "Cedar Mountain Canteen",
+    "footer": "Ask your server"
+  },
+  "display_refresh_seconds": 30,
+  "ports": { "editor": 9000, "tv1": 9001, "tv2": 9002 },
+  "cron_schedule": "0 8 * * *",
+  "assets": {
+    "events_header": "assets/header.png"
+  },
+  "output": {
+    "tv1_menu": "output/tv1_menu.jpg",
+    "tv2_events": "output/tv2_events.jpg"
+  },
+  "menu_row_count": 10
+}

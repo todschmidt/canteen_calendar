@@ -1,0 +1,15 @@
+[Unit]
+Description=cdr_mtn_tv Flask editor (port 9000)
+After=network.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__INSTALL_DIR__
+Environment=CDR_ROLE=editor
+ExecStart=__INSTALL_DIR__/venv/bin/python web/app.py --role editor --host 0.0.0.0 --port 9000
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

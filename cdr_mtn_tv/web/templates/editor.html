@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Editor — cdr_mtn_tv</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  {% include '_nav.html' %}
+
+  <main>
+    <h1>TV1 Menu Editor</h1>
+
+    {% if saved == '1' %}
+    <p class="notice">Menu saved.</p>
+    {% elif saved == 'generated' %}
+    <p class="notice">Menu image generated. TV1 display will refresh automatically.</p>
+    {% endif %}
+
+    <form method="post" action="{{ url_for('save_menu') }}">
+      <fieldset>
+        <legend>Header &amp; Footer</legend>
+        <label>Header <input type="text" name="header" value="{{ menu.header }}"></label>
+        <label>Footer <input type="text" name="footer" value="{{ menu.footer }}"></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Menu Rows ({{ config.menu_row_count }})</legend>
+        <table class="editor-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              {% for col in config.menu_columns %}
+              <th>{{ col.label }} ({{ col.group }})</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in range(config.menu_row_count) %}
+            {% set row = menu.rows[i] if i < menu.rows|length else {} %}
+            <tr>
+              <td>{{ i + 1 }}</td>
+              {% for col in config.menu_columns %}
+              <td>
+                <input
+                  type="text"
+                  name="row_{{ i }}_{{ col.key }}"
+                  value="{{ row.get(col.key, '') }}"
+                >
+              </td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit">Save</button>
+      </div>
+    </form>
+
+    <form method="post" action="{{ url_for('generate_menu') }}" class="generate-form">
+      <button type="submit" class="primary">Generate TV1 Image</button>
+    </form>
+  </main>
+</body>
+</html>
