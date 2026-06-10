@@ -3,7 +3,7 @@
 import argparse
 import json
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 from pprint import pp
 from urllib.request import Request, urlopen
@@ -17,15 +17,18 @@ from paths import load_config, root_path  # noqa: E402
 CANVAS_WIDTH = 1080
 CANVAS_HEIGHT = 1920
 FONT_SIZE = 36
+TITLE_FONT_SIZE = int(FONT_SIZE * 1.15)
 SECTION_FONT_SIZE = 48
 LEFT_MARGIN = 40
 RIGHT_MARGIN = 40
 LINE_HEIGHT = FONT_SIZE + 15
+TITLE_LINE_HEIGHT = TITLE_FONT_SIZE + 15
+THIS_WEEK_SLOT_COUNT = 5
 
 TIGHTEN_PX = 15
 SECTION_HEADING_GAP_AFTER = LINE_HEIGHT - 15
 _EVENT_ROW_SPACING_BASE = int(CANVAS_HEIGHT * 0.018) + 35
-EVENT_ROW_SPACING = int(_EVENT_ROW_SPACING_BASE * 0.3)
+EVENT_ROW_SPACING = int(_EVENT_ROW_SPACING_BASE * 0.3 * 0.8)
 INTER_SECTION_GAP = max(
     _EVENT_ROW_SPACING_BASE, _EVENT_ROW_SPACING_BASE * 2 - 50
 )
@@ -81,10 +84,6 @@ def wrap_text(draw, text, font, max_width):
     return lines
 
 
-def monday_of_week(d):
-    return d - timedelta(days=d.weekday())
-
-
 def format_time_compact(dt):
     hour = dt.hour % 12 or 12
     suffix = "am" if dt.hour < 12 else "pm"
@@ -97,43 +96,54 @@ def format_date_slash(dt):
     return f"{dt.month}/{dt.day}"
 
 
-def title_line_count(draw, title, font, title_x):
+def title_line_count(draw, title, title_font, title_x):
+    if not title:
+        return 1
     max_width = CANVAS_WIDTH - RIGHT_MARGIN - title_x
-    lines = wrap_text(draw, title, font, max_width)
+    lines = wrap_text(draw, title, title_font, max_width)
     return max(1, len(lines))
 
 
 def event_block_height(line_count):
-    return line_count * LINE_HEIGHT
+    return line_count * TITLE_LINE_HEIGHT
 
 
 def can_fit_event(y, line_count, content_bottom, row_spacing):
     return y + row_spacing + event_block_height(line_count) <= content_bottom
 
 
-def draw_wrapped_title(draw, font, x, y, title, max_width):
-    lines = wrap_text(draw, title, font, max_width)
+def draw_wrapped_title(draw, title_font, x, y, title, max_width):
+    if not title:
+        return 1
+    lines = wrap_text(draw, title, title_font, max_width)
     for j, wline in enumerate(lines):
-        draw.text((x, y + j * LINE_HEIGHT), wline, font=font, fill=(255, 255, 255))
+        draw.text(
+            (x, y + j * TITLE_LINE_HEIGHT),
+            wline,
+            font=title_font,
+            fill=(255, 255, 255),
+        )
     return len(lines)
 
 
-def draw_this_week_row(draw, font, y, day_name, time_str, title):
+def draw_this_week_row(draw, font, title_font, y, day_name, time_str, title):
     draw.text((LEFT_MARGIN, y), day_name, font=font, fill=(255, 255, 255))
     draw.text((THIS_WEEK_TIME_X, y), time_str, font=font, fill=(255, 255, 255))
     title_max_width = CANVAS_WIDTH - RIGHT_MARGIN - THIS_WEEK_TITLE_X
     return draw_wrapped_title(
-        draw, font, THIS_WEEK_TITLE_X, y, title, title_max_width
+        draw, title_font, THIS_WEEK_TITLE_X, y, title, title_max_width
     )
 
 
-def draw_upcoming_row(draw, font, y, day_abbrev, date_str, time_str, title):
+def draw_upcoming_row(
+    draw, font, title_font, y, day_abbrev, date_str, time_str, title
+):
     draw.text((LEFT_MARGIN, y), day_abbrev, font=font, fill=(255, 255, 255))
     draw.text((UPCOMING_DATE_X, y), date_str, font=font, fill=(255, 255, 255))
     draw.text((UPCOMING_TIME_X, y), time_str, font=font, fill=(255, 255, 255))
     title_max_width = CANVAS_WIDTH - RIGHT_MARGIN - UPCOMING_TITLE_X
     return draw_wrapped_title(
-        draw, font, UPCOMING_TITLE_X, y, title, title_max_width
+        draw, title_font, UPCOMING_TITLE_X, y, title, title_max_width
     )
 
 
@@ -153,6 +163,7 @@ def upcoming_section_overhead():
 def render_event_list(
     draw,
     font,
+    title_font,
     list_start,
     events,
     content_bottom,
@@ -162,13 +173,15 @@ def render_event_list(
     debug=0,
 ):
     for event_date, title in events:
-        line_count = title_line_count(draw, title, font, title_x)
+        line_count = title_line_count(draw, title, title_font, title_x)
         if not can_fit_event(list_start, line_count, content_bottom, row_spacing):
             if debug:
                 print(f"Skipping (no room): {title}")
             break
         list_start += row_spacing
-        line_count = draw_row(draw, font, list_start, event_date, title)
+        line_count = draw_row(
+            draw, font, title_font, list_start, event_date, title
+        )
         list_start += event_block_height(line_count)
     return list_start
 
@@ -178,18 +191,24 @@ def draw_section_heading(draw, font, y, label):
     return y + section_heading_advance()
 
 
-def draw_this_week_event(draw, font, y, event_date, title):
-    day_name = event_date.strftime("%A")
+def draw_this_week_event(draw, font, title_font, y, event_date, title):
+    if event_date is None or not title:
+        return 1
+    day_abbrev = DAY_ABBREV[event_date.weekday()]
     time_str = format_time_compact(event_date)
-    return draw_this_week_row(draw, font, y, day_name, time_str, title)
+    return draw_this_week_row(
+        draw, font, title_font, y, day_abbrev, time_str, title
+    )
 
 
-def draw_upcoming_event(draw, font, y, event_date, title):
+def draw_upcoming_event(draw, font, title_font, y, event_date, title):
+    if event_date is None or not title:
+        return 1
     day_abbrev = DAY_ABBREV[event_date.weekday()]
     date_str = format_date_slash(event_date)
     time_str = format_time_compact(event_date)
     return draw_upcoming_row(
-        draw, font, y, day_abbrev, date_str, time_str, title
+        draw, font, title_font, y, day_abbrev, date_str, time_str, title
     )
 
 
@@ -203,14 +222,49 @@ def fetch_events(api_url: str, debug: int = 0) -> list:
     return events
 
 
+def event_row_for_editor(event_date, title) -> dict:
+    """Format an event tuple for the web editor tables."""
+    if event_date is None or not title:
+        return {"day": "", "date": "", "time": "", "title": ""}
+    return {
+        "day": DAY_ABBREV[event_date.weekday()],
+        "date": format_date_slash(event_date),
+        "time": format_time_compact(event_date),
+        "title": title,
+    }
+
+
+def streamed_events(events: list) -> list[dict]:
+    """Events with 'streamed' in the title, formatted for the editor."""
+    rows = []
+    for event in events:
+        if "tribe_events" not in event.get("post_type", ""):
+            continue
+        title = event.get("post_title", "")
+        if "streamed" not in title.lower():
+            continue
+        date = event.get("_EventStartDate", [None])[0]
+        if not date:
+            continue
+        event_date = datetime.fromisoformat(date)
+        rows.append((event_date, event_row_for_editor(event_date, title)))
+    rows.sort(key=lambda item: item[0])
+    return [row for _, row in rows]
+
+
+def editor_event_sections(events: list, debug: int = 0) -> dict:
+    """Build This Week, Upcoming, and Streamed sections for the web editor."""
+    this_week, upcoming = categorize_events(events, debug=debug)
+    return {
+        "this_week": [event_row_for_editor(d, t) for d, t in this_week],
+        "upcoming": [event_row_for_editor(d, t) for d, t in upcoming],
+        "streamed": streamed_events(events),
+    }
+
+
 def categorize_events(events: list, debug: int = 0) -> tuple[list, list]:
     today = datetime.now().date()
-    this_week_monday = monday_of_week(today)
-    this_week_sunday = this_week_monday + timedelta(days=6)
-    next_week_monday = this_week_monday + timedelta(days=7)
-
-    this_week_events = []
-    upcoming_events = []
+    all_future = []
 
     for event in events:
         if "tribe_events" not in event.get("post_type", ""):
@@ -223,16 +277,19 @@ def categorize_events(events: list, debug: int = 0) -> tuple[list, list]:
         title = event.get("post_title", "")
         print(f"{date} {title}")
 
-        if this_week_monday <= event_day <= this_week_sunday:
-            this_week_events.append((event_date, title))
-        elif event_day >= next_week_monday:
-            upcoming_events.append((event_date, title))
+        if event_day >= today:
+            all_future.append((event_date, title))
 
         if debug:
             print(f"Event {title} on {date}")
 
-    this_week_events.sort(key=lambda e: e[0])
-    upcoming_events.sort(key=lambda e: e[0])
+    all_future.sort(key=lambda e: e[0])
+
+    this_week_events = all_future[:THIS_WEEK_SLOT_COUNT]
+    while len(this_week_events) < THIS_WEEK_SLOT_COUNT:
+        this_week_events.append((None, ""))
+
+    upcoming_events = all_future[THIS_WEEK_SLOT_COUNT:]
     return this_week_events, upcoming_events
 
 
@@ -263,6 +320,7 @@ def render_events(config: dict | None = None, debug: int = 0) -> Path:
         content_top = header_resized.height + 30
 
     font = ImageFont.truetype(str(font_path), FONT_SIZE)
+    title_font = ImageFont.truetype(str(font_path), TITLE_FONT_SIZE)
     section_font = ImageFont.truetype(str(font_path), SECTION_FONT_SIZE)
     draw = ImageDraw.Draw(calendar)
 
@@ -277,6 +335,7 @@ def render_events(config: dict | None = None, debug: int = 0) -> Path:
     list_start = render_event_list(
         draw,
         font,
+        title_font,
         list_start,
         this_week_events,
         content_bottom,
@@ -307,6 +366,7 @@ def render_events(config: dict | None = None, debug: int = 0) -> Path:
         render_event_list(
             draw,
             font,
+            title_font,
             list_start,
             upcoming_events,
             content_bottom,

@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Menu Editor — cdr_mtn_tv</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    :root {
+      --color-white: rgb({{ config.menu_colors.white | join(', ') }});
+      --color-wine: rgb({{ config.menu_colors.wine | join(', ') }});
+      --color-beverage: rgb({{ config.menu_colors.beverage | join(', ') }});
+      --color-food: rgb({{ config.menu_colors.food | join(', ') }});
+      --color-yellow: rgb({{ config.menu_colors.yellow | join(', ') }});
+    }
+  </style>
 </head>
 <body>
   {% include '_nav.html' %}
@@ -19,41 +28,133 @@
     {% endif %}
 
     <form method="post" action="{{ url_for('save_menu') }}">
-      <fieldset>
-        <legend>Header &amp; Footer</legend>
-        <label>Header <input type="text" name="header" value="{{ menu.header }}"></label>
-        <label>Footer <input type="text" name="footer" value="{{ menu.footer }}"></label>
+      <fieldset class="menu-editor-full section-sidebars">
+        <legend>Sidebars</legend>
+        <p class="subtitle">Vertical labels on the left and right edges of the TV display.</p>
+        <div class="field-row">
+          <label>Left sidebar
+            <input type="text" name="sidebar_left" value="{{ menu.sidebar_left }}">
+          </label>
+          <label>Right sidebar
+            <input type="text" name="sidebar_right" value="{{ menu.sidebar_right }}">
+          </label>
+        </div>
       </fieldset>
 
-      <fieldset>
-        <legend>Menu Rows ({{ config.menu_row_count }})</legend>
-        <table class="editor-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              {% for col in config.menu_columns %}
-              <th>{{ col.label }} ({{ col.group }})</th>
-              {% endfor %}
-            </tr>
-          </thead>
-          <tbody>
-            {% for i in range(config.menu_row_count) %}
-            {% set row = menu.rows[i] if i < menu.rows|length else {} %}
-            <tr>
-              <td>{{ i + 1 }}</td>
-              {% for col in config.menu_columns %}
-              <td>
-                <input
-                  type="text"
-                  name="row_{{ i }}_{{ col.key }}"
-                  value="{{ row.get(col.key, '') }}"
-                >
-              </td>
-              {% endfor %}
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+      <div class="menu-editor-grid">
+        <div class="menu-editor-col menu-editor-left">
+          <fieldset class="section-draft">
+            <legend>Draft ({{ config.menu_layout.draft_row_count }})</legend>
+            <p class="subtitle">Left column on TV — name, ABV, and price.</p>
+            <table class="editor-table">
+              <thead>
+                <tr><th>#</th><th>Name</th><th>ABV</th><th>Price</th></tr>
+              </thead>
+              <tbody>
+                {% for i in range(config.menu_layout.draft_row_count) %}
+                {% set row = menu.draft[i] if i < menu.draft|length else {} %}
+                <tr>
+                  <td>{{ i + 1 }}</td>
+                  <td><input type="text" name="draft_{{ i }}_name" value="{{ row.get('name', '') }}"></td>
+                  <td><input type="text" name="draft_{{ i }}_abv" value="{{ row.get('abv', '') }}"></td>
+                  <td><input type="text" name="draft_{{ i }}_price" value="{{ row.get('price', '') }}"></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </fieldset>
+        </div>
+
+        <div class="menu-editor-col menu-editor-right">
+          <fieldset class="section-wine">
+            <legend>Wine ({{ config.menu_layout.wine_row_count }})</legend>
+            <p class="subtitle">Orange text on TV — right column top section.</p>
+            <label>Note
+              <input type="text" name="wine_note" value="{{ menu.wine.note }}" class="wide">
+            </label>
+            <table class="editor-table">
+              <thead>
+                <tr><th>#</th><th>Name</th><th>Price</th></tr>
+              </thead>
+              <tbody>
+                {% for i in range(config.menu_layout.wine_row_count) %}
+                {% set item = menu.wine['items'][i] if i < menu.wine['items']|length else {} %}
+                <tr>
+                  <td>{{ i + 1 }}</td>
+                  <td><input type="text" name="wine_{{ i }}_name" value="{{ item.get('name', '') }}"></td>
+                  <td><input type="text" name="wine_{{ i }}_price" value="{{ item.get('price', '') }}"></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </fieldset>
+
+          <fieldset class="section-beverage">
+            <legend>Coffee &amp; Tea</legend>
+            <p class="subtitle">Blue text on TV.</p>
+            <label>Coffee price line
+              <input type="text" name="coffee_price_line" value="{{ menu.coffee.price_line }}" class="wide">
+            </label>
+            <label>Coffee subtext
+              <input type="text" name="coffee_subtext" value="{{ menu.coffee.subtext }}">
+            </label>
+            <label>Tea price line
+              <input type="text" name="tea_price_line" value="{{ menu.tea.price_line }}">
+            </label>
+            <label>Tea varieties
+              <input type="text" name="tea_varieties" value="{{ menu.tea.varieties }}" class="wide">
+            </label>
+          </fieldset>
+
+          <fieldset class="section-yellow">
+            <legend>Cooler Note</legend>
+            <p class="subtitle">Yellow informational text on TV.</p>
+            <label><input type="text" name="cooler_note" value="{{ menu.cooler_note }}" class="wide"></label>
+          </fieldset>
+
+          <fieldset class="section-food">
+            <legend>Food ({{ config.menu_layout.food_row_count }})</legend>
+            <p class="subtitle">Green text on TV.</p>
+            <table class="editor-table">
+              <thead>
+                <tr><th>#</th><th>Name</th><th>Subtext</th><th>Price</th></tr>
+              </thead>
+              <tbody>
+                {% for i in range(config.menu_layout.food_row_count) %}
+                {% set item = menu.food['items'][i] if i < menu.food['items']|length else {} %}
+                <tr>
+                  <td>{{ i + 1 }}</td>
+                  <td><input type="text" name="food_{{ i }}_name" value="{{ item.get('name', '') }}"></td>
+                  <td><input type="text" name="food_{{ i }}_subtext" value="{{ item.get('subtext', '') }}"></td>
+                  <td><input type="text" name="food_{{ i }}_price" value="{{ item.get('price', '') }}"></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </fieldset>
+
+          <fieldset class="section-sidebars">
+            <legend>Glass Note</legend>
+            <p class="subtitle">Centered white note below food on TV.</p>
+            <label><input type="text" name="glass_note" value="{{ menu.glass_note }}" class="wide"></label>
+          </fieldset>
+        </div>
+      </div>
+
+      <fieldset class="menu-editor-full section-footer">
+        <legend>Footer</legend>
+        <p class="subtitle">Bottom bar on TV — white and yellow text.</p>
+        <div class="field-row">
+          <label>½ Pour line
+            <input type="text" name="footer_half_pour" value="{{ menu.footer.half_pour }}">
+          </label>
+          <label>WiFi password
+            <input type="text" name="footer_wifi_password" value="{{ menu.footer.wifi_password }}">
+          </label>
+        </div>
+        <label>Newsletter
+          <input type="text" name="footer_newsletter" value="{{ menu.footer.newsletter }}" class="wide">
+        </label>
       </fieldset>
 
       <div class="actions">
@@ -64,6 +165,18 @@
     <form method="post" action="{{ url_for('generate_menu') }}" class="generate-form">
       <button type="submit" class="primary">Generate TV1 Image</button>
     </form>
+
+    {% if has_preview %}
+    <fieldset class="menu-editor-full section-preview">
+      <legend>TV1 Preview</legend>
+      <p class="subtitle">Current generated image shown on TV1.</p>
+      <img
+        class="menu-preview"
+        src="{{ url_for('tv1_image') }}?t={{ preview_ts }}"
+        alt="TV1 menu preview"
+      >
+    </fieldset>
+    {% endif %}
   </main>
 </body>
 </html>

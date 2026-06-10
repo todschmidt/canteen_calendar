@@ -6,27 +6,39 @@
     "canvas_height": 1920,
     "width": 1920,
     "height": 1080,
-    "rotate_degrees": -90
+    "rotate_degrees": -90,
+    "this_week_slots": 5
   },
   "fonts": {
-    "header": "assets/fonts/Merriweather-Bold.ttf",
-    "body": "assets/fonts/Oswald-Bold.ttf",
+    "header": "assets/fonts/Lexend-Bold.ttf",
+    "body": "assets/fonts/arialbd.ttf",
+    "sidebar": "assets/fonts/Lexend-Bold.ttf",
     "fallback": "assets/fonts/arialbd.ttf"
   },
-  "menu_groups": [
-    { "key": "draft", "label": "Draft", "width_percent": 60 },
-    { "key": "food", "label": "Food", "width_percent": 40 }
-  ],
-  "menu_columns": [
-    { "key": "name", "label": "Name", "group": "draft", "width_percent": 45 },
-    { "key": "abv", "label": "ABV", "group": "draft", "width_percent": 25 },
-    { "key": "price", "label": "Price", "group": "draft", "width_percent": 30 },
-    { "key": "food_name", "label": "Food", "group": "food", "width_percent": 65 },
-    { "key": "food_price", "label": "Price", "group": "food", "width_percent": 35 }
-  ],
-  "placeholders": {
-    "header": "Cedar Mountain Canteen",
-    "footer": "Ask your server"
+  "menu_layout": {
+    "sidebar_width": 100,
+    "sidebar_inset": 2,
+    "sidebar_inner_pad": 0,
+    "sidebar_outer_pad": 0,
+    "sidebar_border_inset": 2,
+    "sidebar_font_size": 96,
+    "column_gutter": 28,
+    "content_pad_x": 12,
+    "footer_height": 90,
+    "draft_width_percent": 52,
+    "draft_row_count": 12,
+    "draft_abv_x_percent": 84,
+    "wine_row_count": 11,
+    "food_row_count": 5
+  },
+  "menu_colors": {
+    "background": [0, 0, 0],
+    "white": [255, 255, 255],
+    "wine": [255, 165, 0],
+    "beverage": [100, 180, 255],
+    "food": [80, 220, 80],
+    "yellow": [255, 230, 0],
+    "sidebar_border": [0, 0, 0]
   },
   "display_refresh_seconds": 30,
   "ports": { "editor": 9000, "tv1": 9001, "tv2": 9002 },
@@ -37,6 +49,5 @@
   "output": {
     "tv1_menu": "output/tv1_menu.jpg",
     "tv2_events": "output/tv2_events.jpg"
-  },
-  "menu_row_count": 10
+  }
 }

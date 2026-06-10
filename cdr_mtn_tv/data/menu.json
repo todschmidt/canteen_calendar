@@ -1,76 +1,159 @@
 {
-  "header": "Cedar Mountain Canteen",
-  "footer": "WIFI: RideBikes",
-  "rows": [
+  "sidebar_left": "DRAFT",
+  "sidebar_right": "Cedar Mountain Canteen",
+  "draft": [
     {
-      "name": "",
-      "abv": "",
-      "price": "",
-      "food_name": "",
-      "food_price": ""
+      "name": "Ecusta Porter",
+      "abv": "5.4%",
+      "price": "$6"
     },
     {
-      "name": "",
-      "abv": "",
-      "price": "",
-      "food_name": "",
-      "food_price": ""
+      "name": "Homeplace Brown Mule",
+      "abv": "5%",
+      "price": "$6"
     },
     {
-      "name": "",
-      "abv": "",
-      "price": "",
-      "food_name": "",
-      "food_price": ""
+      "name": "Brevard Lager",
+      "abv": "4.9%",
+      "price": "$6"
     },
     {
-      "name": "",
-      "abv": "",
-      "price": "",
-      "food_name": "",
-      "food_price": ""
+      "name": "Burial Rust Vienna Lager",
+      "abv": "5.2%",
+      "price": "$7"
     },
     {
-      "name": "",
-      "abv": "",
-      "price": "",
-      "food_name": "",
-      "food_price": ""
+      "name": "Triple C Amber Ale",
+      "abv": "5.5%",
+      "price": "$7"
     },
     {
-      "name": "",
-      "abv": "",
-      "price": "",
-      "food_name": "",
-      "food_price": ""
+      "name": "Burial Vivid Dry Hopped Pilsner",
+      "abv": "5%",
+      "price": "$7"
     },
     {
-      "name": "",
-      "abv": "",
-      "price": "",
-      "food_name": "",
-      "food_price": ""
+      "name": "Flat Rock Blood Orange Cider",
+      "abv": "5.5%",
+      "price": "$7"
     },
     {
-      "name": "",
-      "abv": "",
-      "price": "",
-      "food_name": "",
-      "food_price": ""
+      "name": "Divine Barrel Key Lime Pie Sour",
+      "abv": "6%",
+      "price": "$7"
     },
     {
-      "name": "",
-      "abv": "",
-      "price": "",
-      "food_name": "",
-      "food_price": ""
+      "name": "Heist Citraquential Hazy IPA",
+      "abv": "7.1%",
+      "price": "$7"
     },
     {
-      "name": "",
-      "abv": "",
-      "price": "",
-      "food_name": "",
-      "food_price": ""
+      "name": "Creature Comforts Tropicalia IPA",
+      "abv": "6.6%",
+      "price": "$7"
+    },
+    {
+      "name": "Hi Wire Hi Pitch West Coast IPA",
+      "abv": "6.7%",
+      "price": "$7"
+    },
+    {
+      "name": "Burial Absolutely Extra Pale Ale",
+      "abv": "4.8%",
+      "price": "$7"
     }
-  ]
+  ],
+  "wine": {
+    "note": "Enjoy any 750ml bottle on site for $5 more!",
+    "items": [
+      {
+        "name": "Freakshow Chardonnay",
+        "price": "$8"
+      },
+      {
+        "name": "Prisma Cabernet Sauvignon",
+        "price": "$8"
+      },
+      {
+        "name": "Stoller Swing Pinot Gris",
+        "price": "$8"
+      },
+      {
+        "name": "Oona Orange Pinot Gris",
+        "price": "$10"
+      },
+      {
+        "name": "Stoller Swing Pinot Noir",
+        "price": "$8"
+      },
+      {
+        "name": "Freakshow Cabernet Savignon",
+        "price": "$8"
+      },
+      {
+        "name": "Stoller Swing Sparkling White",
+        "price": "$8"
+      },
+      {
+        "name": "Cap Frizz Sparkling Rose",
+        "price": "$8"
+      },
+      {
+        "name": "Santa Julia Malbec",
+        "price": "$8"
+      },
+      {
+        "name": "Cotes du Rhone Red Blend",
+        "price": "$11"
+      },
+      {
+        "name": "Joie Non-alcoholic Sparkling Brut",
+        "price": "$11"
+      }
+    ]
+  },
+  "coffee": {
+    "price_line": "$3 (unlimited refills)",
+    "subtext": "Regular or Decaf"
+  },
+  "tea": {
+    "price_line": "$4 per pot",
+    "varieties": "Earl Grey Black * English Breakfast * Elderberry Echinacea * Turmeric Ginger"
+  },
+  "cooler_note": "More cold beverages in the front & back cooler. NA, THC, Beer & Wine. Large selection in front room bottle shop.",
+  "food": {
+    "items": [
+      {
+        "name": "Hot Pretzels",
+        "subtext": "Locally made from Underground Bakery",
+        "price": "$5"
+      },
+      {
+        "name": "Energy Bars",
+        "subtext": "",
+        "price": "$3.59"
+      },
+      {
+        "name": "Chips",
+        "subtext": "",
+        "price": "$5"
+      },
+      {
+        "name": "Pistachios",
+        "subtext": "",
+        "price": "$4"
+      },
+      {
+        "name": "Free Vegan Soup & Rice",
+        "subtext": "(just wash your bowl please)",
+        "price": ""
+      }
+    ]
+  },
+  "glass_note": "Bringing your own glass is encouraged.",
+  "footer": {
+    "half_pour": "\u00bd Pour - \u00bd Price",
+    "wifi_password": "RideBikes",
+    "newsletter": "Sign up for our newsletter at CedarMountainCanteen.com"
+  }
 }
