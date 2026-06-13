@@ -165,7 +165,14 @@ export.xml
 export-events.*
 events-export.*
 events.dict
+
+# Generated calendar / TV display outputs
 canteenmonthlyposter.jpg
+canteenmonthlyposter_rotated.jpg
+tv_display/canteenmonthlyposter.jpg
+tv_display/canteenmonthlyposter_rotated.jpg
+cdr_mtn_tv/output/*
+!cdr_mtn_tv/output/.gitkeep
 
 .ruff_cache
 
