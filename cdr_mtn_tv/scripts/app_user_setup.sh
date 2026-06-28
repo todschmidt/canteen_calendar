@@ -20,14 +20,36 @@ INSTALL_DIR="${REPO_DIR}/cdr_mtn_tv"
 VENV="${INSTALL_DIR}/venv"
 PIP="${VENV}/bin/pip"
 
+abspath() {
+  readlink -f "$1" 2>/dev/null || realpath "$1" 2>/dev/null || echo "$1"
+}
+
 echo "=== cdr_mtn_tv app setup (user: $(whoami)) ==="
 echo "Repo dir:    ${REPO_DIR}"
 echo "Install dir: ${INSTALL_DIR}"
 
 git config --global core.fileMode false
 
+# A directory with .git is not enough — reject root-poisoned clones whose gitdir
+# or worktree still points at /root/WORK/... (git then stats paths cdr_mtn_tv cannot read).
 repo_ok() {
-  [[ -d "${REPO_DIR}/.git" ]] && [[ -r "${INSTALL_DIR}/scripts/install_pi.sh" ]]
+  git -C "${REPO_DIR}" rev-parse --is-inside-work-tree >/dev/null 2>&1 || return 1
+  local top
+  top="$(git -C "${REPO_DIR}" rev-parse --show-toplevel)"
+  [[ "$(abspath "${top}")" == "$(abspath "${REPO_DIR}")" ]] || return 1
+  [[ -r "${INSTALL_DIR}/scripts/install_pi.sh" ]] || return 1
+}
+
+reclaim_repo() {
+  if [[ -e "${REPO_DIR}" ]]; then
+    echo "WARN: reclaiming ${REPO_DIR} (broken or root-poisoned git metadata)"
+    rm -rf "${REPO_DIR}" || {
+      echo "ERROR: cannot remove ${REPO_DIR}" >&2
+      echo "       as root run: rm -rf ${REPO_DIR}" >&2
+      exit 1
+    }
+  fi
+  git clone "${REPO_URL}" "${REPO_DIR}"
 }
 
 echo "--- Syncing repository ---"
@@ -39,11 +61,7 @@ if repo_ok; then
     git reset --hard origin/main
   fi
 else
-  if [[ -e "${REPO_DIR}" ]]; then
-    echo "WARN: ${REPO_DIR} unusable; moving aside"
-    mv "${REPO_DIR}" "${REPO_DIR}.bak.$(date +%s)"
-  fi
-  git clone "${REPO_URL}" "${REPO_DIR}"
+  reclaim_repo
 fi
 
 if [[ ! -d "${INSTALL_DIR}" ]]; then

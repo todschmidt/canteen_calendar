@@ -66,9 +66,19 @@ if command -v apt-get >/dev/null 2>&1; then
 fi
 
 # ---------------------------------------------------------------------------
-# 3. Bootstrap clone (git as cdr_mtn_tv only) so app_user_setup.sh exists
+# 3. Ensure a healthy user-owned clone exists (root may delete poisoned trees only)
 # ---------------------------------------------------------------------------
-if ! run_as_user test -d "${REPO_DIR}/.git"; then
+git_works_as_user() {
+  run_as_user git -C "${REPO_DIR}" rev-parse --is-inside-work-tree >/dev/null 2>&1
+}
+
+if [[ -e "${REPO_DIR}" ]] && ! git_works_as_user; then
+  echo "--- Removing root-poisoned repo at ${REPO_DIR} ---"
+  echo "    (git metadata pointed outside ~${APP_USER}, e.g. /root/WORK/...)"
+  rm -rf "${REPO_DIR}"
+fi
+
+if ! git_works_as_user; then
   echo "--- Initial clone (as ${APP_USER}) ---"
   run_as_user git clone "https://github.com/todschmidt/canteen_calendar.git" "${REPO_DIR}"
 fi
