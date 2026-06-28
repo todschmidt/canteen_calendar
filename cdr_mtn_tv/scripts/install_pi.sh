@@ -26,7 +26,7 @@ SESSION_NAME="cdr-mtn-tv"
 APP_SETUP="${INSTALL_DIR}/scripts/app_user_setup.sh"
 
 run_as_user() {
-  sudo -u "${APP_USER}" HOME="${HOME_DIR}" "$@"
+  sudo -i -u "${APP_USER}" HOME="${HOME_DIR}" "$@"
 }
 
 if [[ "${EUID}" -ne 0 ]]; then
