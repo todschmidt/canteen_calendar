@@ -2,10 +2,9 @@
 # Application setup run entirely as cdr_mtn_tv — NEVER as root.
 #
 # Called by install_pi.sh:
-#   sudo -u cdr_mtn_tv bash /home/cdr_mtn_tv/canteen_calendar/cdr_mtn_tv/scripts/app_user_setup.sh
+#   sudo -u cdr_mtn_tv env HOME=/home/cdr_mtn_tv bash .../app_user_setup.sh
 #
-# Handles everything under ~cdr_mtn_tv that must not be touched by root:
-#   git clone / pull, venv, pip, output dir, script permissions.
+# No login shell (no sudo -i) — avoids .bashrc cd/GIT_* pointing at /root/WORK.
 
 set -euo pipefail
 
@@ -19,33 +18,20 @@ REPO_DIR="${HOME}/canteen_calendar"
 INSTALL_DIR="${REPO_DIR}/cdr_mtn_tv"
 VENV="${INSTALL_DIR}/venv"
 PIP="${VENV}/bin/pip"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-abspath() {
-  readlink -f "$1" 2>/dev/null || realpath "$1" 2>/dev/null || echo "$1"
-}
+# shellcheck source=git_repo_check.sh
+source "${SCRIPT_DIR}/git_repo_check.sh"
 
-echo "=== cdr_mtn_tv app setup (user: $(whoami)) ==="
+echo "=== cdr_mtn_tv app setup (user: $(whoami), HOME=${HOME}) ==="
 echo "Repo dir:    ${REPO_DIR}"
 echo "Install dir: ${INSTALL_DIR}"
-
-git config --global core.fileMode false
-
-# A directory with .git is not enough — reject root-poisoned clones whose gitdir
-# or worktree still points at /root/WORK/... (git then stats paths cdr_mtn_tv cannot read).
-repo_ok() {
-  git -C "${REPO_DIR}" rev-parse --is-inside-work-tree >/dev/null 2>&1 || return 1
-  local top
-  top="$(git -C "${REPO_DIR}" rev-parse --show-toplevel)"
-  [[ "$(abspath "${top}")" == "$(abspath "${REPO_DIR}")" ]] || return 1
-  [[ -r "${INSTALL_DIR}/scripts/install_pi.sh" ]] || return 1
-}
 
 reclaim_repo() {
   if [[ -e "${REPO_DIR}" ]]; then
     echo "WARN: reclaiming ${REPO_DIR} (broken or root-poisoned git metadata)"
     rm -rf "${REPO_DIR}" || {
-      echo "ERROR: cannot remove ${REPO_DIR}" >&2
-      echo "       as root run: rm -rf ${REPO_DIR}" >&2
+      echo "ERROR: cannot remove ${REPO_DIR}; as root run: rm -rf ${REPO_DIR}" >&2
       exit 1
     }
   fi
@@ -53,8 +39,9 @@ reclaim_repo() {
 }
 
 echo "--- Syncing repository ---"
-if repo_ok; then
+if git_repo_healthy "${REPO_DIR}"; then
   cd "${REPO_DIR}"
+  git config core.fileMode false
   if ! git pull --ff-only; then
     echo "WARN: pull failed; resetting to origin/main"
     git fetch origin
@@ -62,6 +49,8 @@ if repo_ok; then
   fi
 else
   reclaim_repo
+  cd "${REPO_DIR}"
+  git config core.fileMode false
 fi
 
 if [[ ! -d "${INSTALL_DIR}" ]]; then
@@ -82,6 +71,7 @@ mkdir -p output
 chmod +x \
   scripts/install_pi.sh \
   scripts/app_user_setup.sh \
+  scripts/git_repo_check.sh \
   scripts/start_displays.sh \
   scripts/xsession.sh \
   scripts/startup_render.sh \

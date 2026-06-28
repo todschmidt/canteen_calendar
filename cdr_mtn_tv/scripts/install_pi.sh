@@ -5,11 +5,10 @@
 #   sudo bash /home/cdr_mtn_tv/canteen_calendar/cdr_mtn_tv/scripts/install_pi.sh
 #
 # Permission model:
-#   ROOT  — apt, useradd, /etc (systemd, lightdm), systemctl; never git/chmod in ~cdr_mtn_tv
-#   cdr_mtn_tv — all repo, venv, and app files via app_user_setup.sh
+#   ROOT  — apt, useradd, /etc (systemd, lightdm), systemctl; rm poisoned ~cdr_mtn_tv clones only
+#   cdr_mtn_tv — all repo, venv, app files via app_user_setup.sh (never sudo -i)
 #
-# If invoked from a root-owned checkout (e.g. /root/WORK/...), bootstraps the user repo
-# then re-execs itself from the canonical install path.
+# Invoked from /root/WORK/...? Re-execs immediately to the canonical script (runs once).
 
 set -euo pipefail
 
@@ -23,16 +22,32 @@ SYSTEMD_DIR="/etc/systemd/system"
 LIGHTDM_DROPIN="/etc/lightdm/lightdm.conf.d/50-cdr-mtn-tv.conf"
 XSESSION_DESKTOP="/usr/share/xsessions/cdr-mtn-tv.desktop"
 SESSION_NAME="cdr-mtn-tv"
+CANONICAL="${INSTALL_DIR}/scripts/install_pi.sh"
 APP_SETUP="${INSTALL_DIR}/scripts/app_user_setup.sh"
+GIT_CHECK="${INSTALL_DIR}/scripts/git_repo_check.sh"
+REPO_URL="https://github.com/todschmidt/canteen_calendar.git"
 
+# Never sudo -i — login shells source .bashrc and may cd or export GIT_* for /root/WORK.
 run_as_user() {
-  echo "Running as ${APP_USER}: $@"
-  sudo -i -u "${APP_USER}" HOME="${HOME_DIR}" "$@"
+  sudo -u "${APP_USER}" env HOME="${HOME_DIR}" "$@"
 }
 
 if [[ "${EUID}" -ne 0 ]]; then
   echo "ERROR: run as root: sudo bash $0" >&2
   exit 1
+fi
+
+# ---------------------------------------------------------------------------
+# Re-exec first — avoid running apt/setup twice when called from /root/WORK
+# ---------------------------------------------------------------------------
+THIS="$(readlink -f "$0" 2>/dev/null || realpath "$0" 2>/dev/null || echo "$0")"
+if [[ -f "${CANONICAL}" ]]; then
+  TARGET="$(readlink -f "${CANONICAL}" 2>/dev/null || realpath "${CANONICAL}" 2>/dev/null || echo "${CANONICAL}")"
+  if [[ "${THIS}" != "${TARGET}" ]]; then
+    echo "NOTE: invoked ${THIS}"
+    echo "      re-exec → ${CANONICAL}"
+    exec env CDR_MTN_TV_INSTALL=1 bash "${CANONICAL}"
+  fi
 fi
 
 echo "=== cdr_mtn_tv Pi install (root) ==="
@@ -51,7 +66,7 @@ usermod -aG video,input,render,tty "${APP_USER}" 2>/dev/null || \
   usermod -aG video,input,tty "${APP_USER}" 2>/dev/null || true
 
 # ---------------------------------------------------------------------------
-# 2. Minimal X11 + lightdm (feh requires Xorg, not Wayland)
+# 2. Minimal X11 + lightdm
 # ---------------------------------------------------------------------------
 if command -v apt-get >/dev/null 2>&1; then
   echo "--- Installing apt packages (minimal X11 + lightdm) ---"
@@ -67,44 +82,45 @@ if command -v apt-get >/dev/null 2>&1; then
 fi
 
 # ---------------------------------------------------------------------------
-# 3. Ensure a healthy user-owned clone exists (root may delete poisoned trees only)
+# 3. Ensure a healthy user-owned clone (root deletes poisoned trees only)
 # ---------------------------------------------------------------------------
-git_works_as_user() {
-  run_as_user git -C "${REPO_DIR}" rev-parse --is-inside-work-tree >/dev/null 2>&1
+ensure_user_repo() {
+  git_repo_poisoned_local() {
+    local d="${REPO_DIR}"
+    [[ -L "${d}" ]] && return 0
+    [[ -f "${d}/.git" ]] && grep -q '/root/' "${d}/.git" 2>/dev/null && return 0
+    [[ -f "${d}/.git/config" ]] && grep -qE '(^|\s)/root/' "${d}/.git/config" 2>/dev/null && return 0
+    return 1
+  }
+
+  if [[ -f "${GIT_CHECK}" ]]; then
+    # shellcheck source=git_repo_check.sh
+    source "${GIT_CHECK}"
+  else
+    git_repo_poisoned() { git_repo_poisoned_local; }
+  fi
+
+  if [[ -e "${REPO_DIR}" ]] && { git_repo_poisoned "${REPO_DIR}" || ! run_as_user git -C "${REPO_DIR}" status >/dev/null 2>&1; }; then
+    echo "--- Removing root-poisoned repo at ${REPO_DIR} ---"
+    rm -rf "${REPO_DIR}"
+  fi
+
+  if ! run_as_user git -C "${REPO_DIR}" status >/dev/null 2>&1; then
+    echo "--- Cloning repository (as ${APP_USER}) ---"
+    run_as_user git clone "${REPO_URL}" "${REPO_DIR}"
+  fi
 }
 
-if [[ -e "${REPO_DIR}" ]] && ! git_works_as_user; then
-  echo "--- Removing root-poisoned repo at ${REPO_DIR} ---"
-  echo "    (git metadata pointed outside ~${APP_USER}, e.g. /root/WORK/...)"
-  rm -rf "${REPO_DIR}"
-fi
-
-if ! git_works_as_user; then
-  echo "--- Initial clone (as ${APP_USER}) ---"
-  run_as_user git clone "https://github.com/todschmidt/canteen_calendar.git" "${REPO_DIR}"
-fi
+ensure_user_repo
 
 # ---------------------------------------------------------------------------
-# 4. Re-exec from canonical path if invoked from a root-owned checkout
-# ---------------------------------------------------------------------------
-CANONICAL="${INSTALL_DIR}/scripts/install_pi.sh"
-THIS="$(readlink -f "$0" 2>/dev/null || realpath "$0" 2>/dev/null || echo "$0")"
-TARGET="$(readlink -f "${CANONICAL}" 2>/dev/null || realpath "${CANONICAL}" 2>/dev/null || echo "${CANONICAL}")"
-
-if [[ "${THIS}" != "${TARGET}" ]]; then
-  echo "NOTE: invoked ${THIS}"
-  echo "      re-exec → ${CANONICAL}"
-  exec bash "${CANONICAL}"
-fi
-
-# ---------------------------------------------------------------------------
-# 5. Repo, venv, app files — entirely as cdr_mtn_tv (never root in ~cdr_mtn_tv)
+# 4. App setup — entirely as cdr_mtn_tv
 # ---------------------------------------------------------------------------
 echo "--- App setup (as ${APP_USER}) ---"
 run_as_user bash "${APP_SETUP}"
 
 # ---------------------------------------------------------------------------
-# 6. X autologin session files
+# 5. X autologin session files
 # ---------------------------------------------------------------------------
 echo "--- Configuring X autologin ---"
 
@@ -136,7 +152,7 @@ TryExec=${INSTALL_DIR}/scripts/xsession.sh
 EOF
 
 # ---------------------------------------------------------------------------
-# 7. systemd units (system paths — root only)
+# 6. systemd units
 # ---------------------------------------------------------------------------
 echo "--- Installing systemd units ---"
 
@@ -156,7 +172,7 @@ systemctl daemon-reload
 systemctl enable cdr-mtn-tv-startup.service cdr-mtn-tv-web.service
 
 # ---------------------------------------------------------------------------
-# 8. Cron (as cdr_mtn_tv)
+# 7. Cron
 # ---------------------------------------------------------------------------
 CRON_LINE="0 8 * * * cd ${INSTALL_DIR} && ${PYTHON} scripts/refresh_events.py >> ${INSTALL_DIR}/output/refresh.log 2>&1"
 (
@@ -165,7 +181,7 @@ CRON_LINE="0 8 * * * cd ${INSTALL_DIR} && ${PYTHON} scripts/refresh_events.py >>
 ) | run_as_user crontab -
 
 # ---------------------------------------------------------------------------
-# 9. Start services
+# 8. Start services
 # ---------------------------------------------------------------------------
 echo "--- Starting services ---"
 systemctl restart cdr-mtn-tv-startup.service
