@@ -54,34 +54,42 @@ Edit menu values, click **Save**, then **Generate TV1 Image**. Display pages aut
 
 ## Raspberry Pi Installation
 
-Idempotent install script — safe to re-run:
+Run as **root** on the Pi (idempotent — safe to re-run):
 
 ```bash
-cd cdr_mtn_tv
-chmod +x scripts/install_pi.sh
-./scripts/install_pi.sh
+sudo bash scripts/install_pi.sh
 ```
+
+To remove systemd units and autologin config (keeps user + repo):
+
+```bash
+sudo bash scripts/cleanup.sh
+```
+
+The script can be run from any copy of the repo; it installs to `/home/cdr_mtn_tv/canteen_calendar/cdr_mtn_tv` by cloning [canteen_calendar](https://github.com/todschmidt/canteen_calendar.git) as the `cdr_mtn_tv` user.
 
 This script:
 
-1. Installs `feh`, `python3-venv`
-2. Creates/updates Python venv and installs dependencies
-3. Generates initial menu and events images
-4. Installs systemd services:
-   - `cdr-mtn-tv-web` — Flask editor on port 9000
-   - `cdr-mtn-tv-displays` — two `feh` instances (TV1 on `:0.0`, TV2 on `:0.1`)
-   - `cdr-mtn-tv-refresh` — events refresh on boot
-5. Adds cron: `0 8 * * *` — daily 8 AM events refresh
-6. Enables and starts all services
+1. Creates user `cdr_mtn_tv` and installs apt packages (X11, lightdm, feh, git, python venv)
+2. Clones or `git pull`s the repo as `cdr_mtn_tv`
+3. Creates/updates Python venv and installs dependencies
+4. Installs systemd services (run as `cdr_mtn_tv`):
+   - `cdr-mtn-tv-startup` — on boot: refresh events + render menu JPGs
+   - `cdr-mtn-tv-web` — Flask editor on port 9000 (starts after startup)
+5. Configures lightdm autologin → X11 `xsession` → `feh` on `:0.0` (TV1) and `:0.1` (TV2)
+6. Adds cron (as `cdr_mtn_tv`): `0 8 * * *` — daily 8 AM events refresh
+
+**Boot order:** `network` → startup (images) → web (editor) → lightdm autologin → feh displays
 
 Access editor from LAN: `http://<pi-ip>:9000/`
 
 ### Manual service commands
 
 ```bash
+sudo systemctl status cdr-mtn-tv-startup
 sudo systemctl status cdr-mtn-tv-web
-sudo systemctl status cdr-mtn-tv-displays
-sudo systemctl restart cdr-mtn-tv-displays
+sudo systemctl restart cdr-mtn-tv-startup
+sudo systemctl restart lightdm    # restart X + feh displays
 ```
 
 ### Chromium fallback (optional)
@@ -141,9 +149,10 @@ Other fonts to consider: **Lora** (food descriptions), **Bebas Neue** (large tit
 
 ### feh not showing on second HDMI
 
-- Verify dual outputs: `xrandr`
+- Verify dual outputs: `xrandr` (as `cdr_mtn_tv` on the Pi)
 - Check `DISPLAY=:0.0` and `DISPLAY=:0.1` in `scripts/start_displays.sh`
-- Ensure graphical session is running before `cdr-mtn-tv-displays` starts
+- Ensure lightdm autologin is active: `cat /etc/lightdm/lightdm.conf.d/50-cdr-mtn-tv.conf`
+- Restart displays: `sudo systemctl restart lightdm`
 
 ### TV2 events not updating
 

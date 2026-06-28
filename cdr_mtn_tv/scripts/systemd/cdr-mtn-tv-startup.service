@@ -1,0 +1,22 @@
+[Unit]
+Description=cdr_mtn_tv boot image generation (TV1 menu + TV2 events)
+Documentation=file://__INSTALL_DIR__/README.md
+# Network first — events poster pulls from WordPress API.
+After=network-online.target
+Wants=network-online.target
+Before=cdr-mtn-tv-web.service graphical.target
+DefaultDependencies=yes
+
+[Service]
+Type=oneshot
+User=__USER__
+Group=__USER__
+WorkingDirectory=__INSTALL_DIR__
+# Creates /run/cdr-mtn-tv/ for the ready marker consumed by xsession.sh
+RuntimeDirectory=cdr-mtn-tv
+Environment=CDR_MTN_TV_READY=/run/cdr-mtn-tv/ready
+ExecStart=__INSTALL_DIR__/scripts/startup_render.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
