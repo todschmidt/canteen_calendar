@@ -11,7 +11,7 @@
 #   - systemd units: cdr-mtn-tv-startup, cdr-mtn-tv-web (current)
 #   - systemd units: cdr-mtn-tv-refresh, cdr-mtn-tv-displays (legacy)
 #   - lightdm drop-in: /etc/lightdm/lightdm.conf.d/50-cdr-mtn-tv.conf
-#   - ~/.xsession for cdr_mtn_tv (install-managed autologin entry)
+#   - X session desktop: /usr/share/xsessions/cdr-mtn-tv.desktop
 #   - crontab entry for scripts/refresh_events.py (cdr_mtn_tv user)
 #
 # Does NOT remove:
@@ -26,6 +26,7 @@ HOME_DIR="/home/${APP_USER}"
 INSTALL_DIR="${HOME_DIR}/canteen_calendar/cdr_mtn_tv"
 SYSTEMD_DIR="/etc/systemd/system"
 LIGHTDM_DROPIN="/etc/lightdm/lightdm.conf.d/50-cdr-mtn-tv.conf"
+XSESSION_DESKTOP="/usr/share/xsessions/cdr-mtn-tv.desktop"
 
 # All known unit names — current and legacy install layouts
 UNITS=(
@@ -64,7 +65,12 @@ if [[ -f "${LIGHTDM_DROPIN}" ]]; then
   rm -f "${LIGHTDM_DROPIN}"
 fi
 
-# X session entry point for autologin
+if [[ -f "${XSESSION_DESKTOP}" ]]; then
+  echo "--- Removing ${XSESSION_DESKTOP} ---"
+  rm -f "${XSESSION_DESKTOP}"
+fi
+
+# X session entry point for autologin (legacy fallback)
 if [[ -f "${HOME_DIR}/.xsession" ]]; then
   echo "--- Removing ${HOME_DIR}/.xsession ---"
   rm -f "${HOME_DIR}/.xsession"

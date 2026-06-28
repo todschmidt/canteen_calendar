@@ -42,6 +42,8 @@ PYTHON="${VENV}/bin/python"
 PIP="${VENV}/bin/pip"
 SYSTEMD_DIR="/etc/systemd/system"
 LIGHTDM_DROPIN="/etc/lightdm/lightdm.conf.d/50-cdr-mtn-tv.conf"
+XSESSION_DESKTOP="/usr/share/xsessions/cdr-mtn-tv.desktop"
+SESSION_NAME="cdr-mtn-tv"
 
 # ---------------------------------------------------------------------------
 # Preflight — root only
@@ -88,8 +90,9 @@ if command -v apt-get >/dev/null 2>&1; then
     dbus-x11 \
     lightdm \
     openbox
-  # Ensure lightdm starts on boot (graphical login → cdr_mtn_tv autologin)
+  # Ensure graphical boot target and lightdm on boot
   systemctl enable lightdm.service 2>/dev/null || true
+  systemctl set-default graphical.target 2>/dev/null || true
 fi
 
 # ---------------------------------------------------------------------------
@@ -126,7 +129,8 @@ chmod +x \
   "${INSTALL_DIR}/scripts/start_displays.sh" \
   "${INSTALL_DIR}/scripts/xsession.sh" \
   "${INSTALL_DIR}/scripts/startup_render.sh" \
-  "${INSTALL_DIR}/scripts/cleanup.sh"
+  "${INSTALL_DIR}/scripts/cleanup.sh" \
+  "${INSTALL_DIR}/scripts/get_logs.sh"
 
 # ---------------------------------------------------------------------------
 # 6. X session autostart for APP_USER (lightdm → .xsession → xsession.sh)
@@ -142,14 +146,25 @@ EOF
 chown "${APP_USER}:${APP_USER}" "${HOME_DIR}/.xsession"
 chmod +x "${HOME_DIR}/.xsession"
 
-# lightdm drop-in: autologin APP_USER into X11 xsession (not Wayland)
+# lightdm drop-in: autologin APP_USER into our X11 session (not Wayland)
 mkdir -p /etc/lightdm/lightdm.conf.d
 cat > "${LIGHTDM_DROPIN}" <<EOF
 # Managed by install_pi.sh — autologin cdr_mtn_tv into X11 feh display session
 [Seat:*]
 autologin-user=${APP_USER}
 autologin-user-timeout=0
-user-session=xsession
+user-session=${SESSION_NAME}
+EOF
+
+# lightdm matches user-session to a file in /usr/share/xsessions/<name>.desktop
+cat > "${XSESSION_DESKTOP}" <<EOF
+[Desktop Entry]
+Name=cdr_mtn_tv
+Comment=Cedar Mountain Canteen TV displays (feh on dual HDMI)
+Exec=${INSTALL_DIR}/scripts/xsession.sh
+Type=XSession
+DesktopNames=cdr_mtn_tv
+TryExec=${INSTALL_DIR}/scripts/xsession.sh
 EOF
 
 # ---------------------------------------------------------------------------

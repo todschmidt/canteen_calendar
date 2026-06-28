@@ -147,6 +147,24 @@ Other fonts to consider: **Lora** (food descriptions), **Bebas Neue** (large tit
 
 ## Troubleshooting
 
+### X11 / lightdm did not start at boot
+
+Run the diagnostic script on the Pi:
+
+```bash
+sudo bash scripts/get_logs.sh
+sudo bash scripts/get_logs.sh -f    # follow live logs
+```
+
+Checklist (most common first):
+
+1. **Boot target** — must be `graphical.target`: `sudo systemctl set-default graphical.target && sudo reboot`
+2. **lightdm running** — `sudo systemctl enable --now lightdm`
+3. **X session desktop missing** — install writes `/usr/share/xsessions/cdr-mtn-tv.desktop`; `user-session=cdr-mtn-tv` in lightdm drop-in must match. Re-run `install_pi.sh` if missing.
+4. **Wayland vs X11** — feh needs Xorg; Pi OS may default to Wayland on newer images
+5. **Session errors** — `~cdr_mtn_tv/.xsession-errors` and `/var/log/Xorg.0.log`
+6. **Manual test** — `sudo -u cdr_mtn_tv DISPLAY=:0 /home/cdr_mtn_tv/canteen_calendar/cdr_mtn_tv/scripts/xsession.sh`
+
 ### feh not showing on second HDMI
 
 - Verify dual outputs: `xrandr` (as `cdr_mtn_tv` on the Pi)
