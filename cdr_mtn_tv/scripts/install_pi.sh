@@ -26,6 +26,7 @@ SESSION_NAME="cdr-mtn-tv"
 APP_SETUP="${INSTALL_DIR}/scripts/app_user_setup.sh"
 
 run_as_user() {
+  echo "Running as ${APP_USER}: $@"
   sudo -i -u "${APP_USER}" HOME="${HOME_DIR}" "$@"
 }
 
