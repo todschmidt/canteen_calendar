@@ -99,7 +99,13 @@ fi
 # 3. Clone or update repository as APP_USER (never as root)
 # ---------------------------------------------------------------------------
 echo "--- Syncing repository ---"
+
+# install_pi.sh chmods scripts below; without this, the next pull sees dirty files.
+sudo -u "${APP_USER}" git config --global core.fileMode false
+
 if [[ -d "${REPO_DIR}/.git" ]]; then
+  # Drop permission-only drift from previous install runs before updating.
+  sudo -u "${APP_USER}" git -C "${REPO_DIR}" restore cdr_mtn_tv/scripts/ 2>/dev/null || true
   sudo -u "${APP_USER}" git -C "${REPO_DIR}" pull --ff-only
 else
   sudo -u "${APP_USER}" git clone "${REPO_URL}" "${REPO_DIR}"
