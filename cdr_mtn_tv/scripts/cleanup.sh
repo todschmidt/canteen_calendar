@@ -11,6 +11,7 @@
 #   - systemd units: cdr-mtn-tv-startup, cdr-mtn-tv-web (current)
 #   - systemd units: cdr-mtn-tv-refresh, cdr-mtn-tv-displays (legacy)
 #   - lightdm drop-in: /etc/lightdm/lightdm.conf.d/50-cdr-mtn-tv.conf
+#   - Xorg no-blank: /etc/X11/xorg.conf.d/99-cdr-mtn-tv-no-blank.conf
 #   - X session desktop: /usr/share/xsessions/cdr-mtn-tv.desktop
 #   - crontab entry for scripts/refresh_events.py (cdr_mtn_tv user)
 #
@@ -27,6 +28,7 @@ INSTALL_DIR="${HOME_DIR}/canteen_calendar/cdr_mtn_tv"
 SYSTEMD_DIR="/etc/systemd/system"
 LIGHTDM_DROPIN="/etc/lightdm/lightdm.conf.d/50-cdr-mtn-tv.conf"
 XSESSION_DESKTOP="/usr/share/xsessions/cdr-mtn-tv.desktop"
+XORG_NOBLANK="/etc/X11/xorg.conf.d/99-cdr-mtn-tv-no-blank.conf"
 
 # All known unit names — current and legacy install layouts
 UNITS=(
@@ -68,6 +70,11 @@ fi
 if [[ -f "${XSESSION_DESKTOP}" ]]; then
   echo "--- Removing ${XSESSION_DESKTOP} ---"
   rm -f "${XSESSION_DESKTOP}"
+fi
+
+if [[ -f "${XORG_NOBLANK}" ]]; then
+  echo "--- Removing ${XORG_NOBLANK} ---"
+  rm -f "${XORG_NOBLANK}"
 fi
 
 # X session entry point for autologin (legacy fallback)

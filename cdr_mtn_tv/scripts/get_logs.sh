@@ -198,6 +198,13 @@ else
   echo "(not written yet — configure_displays.sh runs at X session start)"
 fi
 
+hr "X blanking state (xset q)"
+if id "${APP_USER}" >/dev/null 2>&1 && pgrep -x Xorg >/dev/null 2>&1; then
+  run sudo -u "${APP_USER}" env DISPLAY=:0 xset q 2>/dev/null || echo "  (xset unavailable)"
+else
+  echo "  (X not running)"
+fi
+
 hr "Startup marker + output images"
 echo "ready marker: ${READY} — $([[ -f ${READY} ]] && echo present || echo missing)"
 for f in tv1_menu.jpg tv2_events.jpg; do

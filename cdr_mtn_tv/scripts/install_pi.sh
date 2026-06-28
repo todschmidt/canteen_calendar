@@ -22,6 +22,7 @@ SYSTEMD_DIR="/etc/systemd/system"
 LIGHTDM_DROPIN="/etc/lightdm/lightdm.conf.d/50-cdr-mtn-tv.conf"
 XSESSION_DESKTOP="/usr/share/xsessions/cdr-mtn-tv.desktop"
 SESSION_NAME="cdr-mtn-tv"
+XORG_NOBLANK="/etc/X11/xorg.conf.d/99-cdr-mtn-tv-no-blank.conf"
 CANONICAL="${INSTALL_DIR}/scripts/install_pi.sh"
 APP_SETUP="${INSTALL_DIR}/scripts/app_user_setup.sh"
 GIT_CHECK="${INSTALL_DIR}/scripts/git_repo_check.sh"
@@ -81,6 +82,32 @@ if command -v apt-get >/dev/null 2>&1; then
   systemctl set-default graphical.target 2>/dev/null || true
 fi
 
+# Pi firmware blanking is separate from X11 — static feh images trigger HDMI sleep.
+configure_pi_firmware_blanking() {
+  local cfg cmdline
+  for cfg in /boot/firmware/config.txt /boot/config.txt; do
+    [[ -f "${cfg}" ]] || continue
+    if grep -qE '^hdmi_blanking=' "${cfg}"; then
+      sed -i 's/^hdmi_blanking=.*/hdmi_blanking=0/' "${cfg}"
+    else
+      echo 'hdmi_blanking=0' >> "${cfg}"
+    fi
+    echo "--- Set hdmi_blanking=0 in ${cfg} (reboot required) ---"
+    break
+  done
+  for cmdline in /boot/firmware/cmdline.txt /boot/cmdline.txt; do
+    [[ -f "${cmdline}" ]] || continue
+    if grep -qw 'consoleblank=' "${cmdline}"; then
+      sed -i 's/consoleblank=[^ ]*/consoleblank=0/g' "${cmdline}"
+    else
+      sed -i 's/$/ consoleblank=0/' "${cmdline}"
+    fi
+    echo "--- Set consoleblank=0 in ${cmdline} (reboot required) ---"
+    break
+  done
+}
+configure_pi_firmware_blanking
+
 # ---------------------------------------------------------------------------
 # 3. Ensure a healthy user-owned clone (root deletes poisoned trees only)
 # ---------------------------------------------------------------------------
@@ -139,6 +166,23 @@ cat > "${LIGHTDM_DROPIN}" <<EOF
 autologin-user=${APP_USER}
 autologin-user-timeout=0
 user-session=${SESSION_NAME}
+# Disable X server screen saver and DPMS at startup (-s 0 = no timeout, -dpms = no DPMS)
+xserver-command=X -s 0 -dpms
+EOF
+
+mkdir -p /etc/X11/xorg.conf.d
+cat > "${XORG_NOBLANK}" <<'EOF'
+# Managed by install_pi.sh — prevent Xorg from blanking HDMI outputs
+Section "ServerFlags"
+    Option "BlankTime" "0"
+    Option "StandbyTime" "0"
+    Option "SuspendTime" "0"
+    Option "OffTime" "0"
+EndSection
+Section "Monitor"
+    Identifier "Monitor0"
+    Option "DPMS" "false"
+EndSection
 EOF
 
 cat > "${XSESSION_DESKTOP}" <<EOF

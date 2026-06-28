@@ -16,10 +16,8 @@ READY="/run/cdr-mtn-tv/ready"
 TV1="${INSTALL_DIR}/output/tv1_menu.jpg"
 TV2="${INSTALL_DIR}/output/tv2_events.jpg"
 
-# Disable screen blanking so menu/events stay visible 24/7.
-xset s off
-xset -dpms
-xset s noblank
+# Disable screen blanking (X11 + console); keepalive loop runs in background.
+"${INSTALL_DIR}/scripts/disable_blanking.sh"
 
 # Extended dual-HDMI (disable mirror) before feh starts.
 "${INSTALL_DIR}/scripts/configure_displays.sh"

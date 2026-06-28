@@ -73,6 +73,7 @@ chmod +x \
   scripts/app_user_setup.sh \
   scripts/git_repo_check.sh \
   scripts/configure_displays.sh \
+  scripts/disable_blanking.sh \
   scripts/start_displays.sh \
   scripts/xsession.sh \
   scripts/startup_render.sh \
