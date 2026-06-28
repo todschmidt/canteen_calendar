@@ -57,8 +57,12 @@ Edit menu values, click **Save**, then **Generate TV1 Image**. Display pages aut
 Run as **root** on the Pi (idempotent — safe to re-run):
 
 ```bash
-sudo bash scripts/install_pi.sh
+sudo bash /home/cdr_mtn_tv/canteen_calendar/cdr_mtn_tv/scripts/install_pi.sh
 ```
+
+**Permission model:** root only touches system config (`/etc`, systemd, apt). All git, venv, and app files under `~cdr_mtn_tv` are managed by `app_user_setup.sh` running as `cdr_mtn_tv`. Do not run `git pull` as root in that home directory.
+
+If you only have a root checkout (`/root/WORK/...`), the install script bootstraps the user clone and re-execs from the canonical path above.
 
 To remove systemd units and autologin config (keeps user + repo):
 
