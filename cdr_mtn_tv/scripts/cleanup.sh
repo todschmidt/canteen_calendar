@@ -27,6 +27,7 @@ HOME_DIR="/home/${APP_USER}"
 INSTALL_DIR="${HOME_DIR}/canteen_calendar/cdr_mtn_tv"
 SYSTEMD_DIR="/etc/systemd/system"
 LIGHTDM_DROPIN="/etc/lightdm/lightdm.conf.d/50-cdr-mtn-tv.conf"
+LIGHTDM_SYSTEMD_DROPIN="/etc/systemd/system/lightdm.service.d/cdr-mtn-tv.conf"
 XSESSION_DESKTOP="/usr/share/xsessions/cdr-mtn-tv.desktop"
 XORG_NOBLANK="/etc/X11/xorg.conf.d/99-cdr-mtn-tv-no-blank.conf"
 
@@ -65,6 +66,11 @@ systemctl reset-failed 2>/dev/null || true
 if [[ -f "${LIGHTDM_DROPIN}" ]]; then
   echo "--- Removing ${LIGHTDM_DROPIN} ---"
   rm -f "${LIGHTDM_DROPIN}"
+fi
+
+if [[ -f "${LIGHTDM_SYSTEMD_DROPIN}" ]]; then
+  echo "--- Removing ${LIGHTDM_SYSTEMD_DROPIN} ---"
+  rm -f "${LIGHTDM_SYSTEMD_DROPIN}"
 fi
 
 if [[ -f "${XSESSION_DESKTOP}" ]]; then

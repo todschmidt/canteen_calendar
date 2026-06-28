@@ -11,9 +11,9 @@ KEEPALIVE_SEC="${CDR_BLANK_KEEPALIVE_SEC:-300}"
 disable_x_blanking() {
   command -v xset >/dev/null 2>&1 || return 0
   export DISPLAY="${DISPLAY:-:0}"
-  xset s off
-  xset s noblank
-  xset -dpms
+  xset s off 2>/dev/null || true
+  xset s noblank 2>/dev/null || true
+  xset -dpms 2>/dev/null || true
   xset dpms force off 2>/dev/null || true
 }
 

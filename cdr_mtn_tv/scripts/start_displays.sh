@@ -11,6 +11,7 @@ set -euo pipefail
 INSTALL_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 REFRESH="${CDR_DISPLAY_REFRESH:-30}"
 DISPLAY_ENV="/run/cdr-mtn-tv/display.env"
+export DISPLAY="${DISPLAY:-:0}"
 
 TV1="${INSTALL_DIR}/output/tv1_menu.jpg"
 TV2="${INSTALL_DIR}/output/tv2_events.jpg"
@@ -41,16 +42,40 @@ Image.new('RGB', (1920, 1080), (32, 32, 32)).save('${TV2}')
 "
 fi
 
-# Borderless + geometry on extended desktop (not --fullscreen — that spans all heads).
-# Legacy fallback: separate X screens :0.0 / :0.1 if TV2_GEOM is empty.
-if [[ -n "${TV2_GEOM}" ]]; then
+launch_feh() {
+  if [[ -f "${DISPLAY_ENV}" ]]; then
+    # shellcheck source=/dev/null
+    source "${DISPLAY_ENV}"
+  fi
+  : "${DISPLAY:=:0}"
+  : "${TV1_GEOM:=1920x1080+0+0}"
+  : "${TV2_GEOM:=1920x1080+1920+0}"
+  pkill -x feh 2>/dev/null || true
+  sleep 0.5
   DISPLAY="${DISPLAY}" feh --borderless --auto-zoom --reload "${REFRESH}" \
     --geometry "${TV1_GEOM}" "${TV1}" &
   DISPLAY="${DISPLAY}" feh --borderless --auto-zoom --reload "${REFRESH}" \
     --geometry "${TV2_GEOM}" "${TV2}" &
-else
-  DISPLAY=:0.0 feh --borderless --auto-zoom --reload "${REFRESH}" "${TV1}" &
-  DISPLAY=:0.1 feh --borderless --auto-zoom --reload "${REFRESH}" "${TV2}" &
+}
+
+launch_feh
+
+# If only one HDMI was up at session start, reconfigure when the second appears.
+if [[ "${DUAL_HDMI:-0}" != "1" ]]; then
+  (
+    for _ in $(seq 1 60); do
+      sleep 5
+      "${INSTALL_DIR}/scripts/configure_displays.sh" || true
+      if [[ -f "${DISPLAY_ENV}" ]]; then
+        # shellcheck source=/dev/null
+        source "${DISPLAY_ENV}"
+      fi
+      [[ "${DUAL_HDMI:-0}" == "1" ]] || continue
+      echo "start_displays: second HDMI ready — relaunching feh" >&2
+      launch_feh
+      break
+    done
+  ) &
 fi
 
 wait

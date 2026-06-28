@@ -80,10 +80,10 @@ This script:
 4. Installs systemd services (run as `cdr_mtn_tv`):
    - `cdr-mtn-tv-startup` — on boot: refresh events + render menu JPGs
    - `cdr-mtn-tv-web` — Flask editor on port 9000 (starts after startup)
-5. Configures lightdm autologin → X11 `xsession` → `feh` on `:0.0` (TV1) and `:0.1` (TV2)
+5. Configures lightdm autologin → extended dual-HDMI xrandr → `feh` on `:0` (TV1 + TV2)
 6. Adds cron (as `cdr_mtn_tv`): `0 8 * * *` — daily 8 AM events refresh
 
-**Boot order:** `network` → startup (images) → web (editor) → lightdm autologin → feh displays
+**Boot order:** `network` → startup (images + ready marker) → lightdm autologin → wait HDMI → feh displays
 
 Access editor from LAN: `http://<pi-ip>:9000/`
 
@@ -151,6 +151,18 @@ Other fonts to consider: **Lora** (food descriptions), **Bebas Neue** (large tit
 
 ## Troubleshooting
 
+### Displays work after `restart lightdm` but not after reboot
+
+Cold boot often brings up HDMI **after** X starts. `xsession.sh` now waits for the startup ready marker, then `configure_displays.sh` retries up to 90s for both outputs. lightdm also waits for `cdr-mtn-tv-startup.service` before starting.
+
+After pulling updates, re-run install (installs the lightdm systemd drop-in) and reboot:
+
+```bash
+cd /home/cdr_mtn_tv/canteen_calendar && git pull
+sudo bash cdr_mtn_tv/scripts/install_pi.sh
+sudo reboot
+```
+
 ### X11 / lightdm did not start at boot
 
 Run the diagnostic script on the Pi:
@@ -183,9 +195,9 @@ Pi OS often **mirrors** both HDMI outputs at boot. There is one X screen (`:0`),
 
 Layered disable is applied by install + xsession:
 
-- lightdm: `xserver-command=X -s 0 -dpms`
-- `/etc/X11/xorg.conf.d/99-cdr-mtn-tv-no-blank.conf`
+- `/etc/X11/xorg.conf.d/99-cdr-mtn-tv-no-blank.conf` (ServerFlags only — do not override lightdm `xserver-command`)
 - `disable_blanking.sh` — xset + 5-minute keepalive loop
+- Pi firmware: `hdmi_blanking=0` and `consoleblank=0` (install_pi.sh)
 
 Check: `DISPLAY=:0 xset q` — DPMS should be Disabled, timeout 0.
 

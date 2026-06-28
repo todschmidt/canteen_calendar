@@ -1,10 +1,9 @@
 [Unit]
 Description=cdr_mtn_tv boot image generation (TV1 menu + TV2 events)
 Documentation=file://__INSTALL_DIR__/README.md
-# Network first — events poster pulls from WordPress API.
-After=network-online.target
-Wants=network-online.target
-Before=cdr-mtn-tv-web.service graphical.target
+# Network first — events poster pulls from WordPress API (offline refresh is non-fatal).
+After=network.target
+Before=cdr-mtn-tv-web.service graphical.target lightdm.service
 DefaultDependencies=yes
 
 [Service]

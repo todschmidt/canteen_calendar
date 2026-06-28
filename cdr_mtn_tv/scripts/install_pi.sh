@@ -20,6 +20,7 @@ VENV="${INSTALL_DIR}/venv"
 PYTHON="${VENV}/bin/python"
 SYSTEMD_DIR="/etc/systemd/system"
 LIGHTDM_DROPIN="/etc/lightdm/lightdm.conf.d/50-cdr-mtn-tv.conf"
+LIGHTDM_SYSTEMD_DROPIN="/etc/systemd/system/lightdm.service.d/cdr-mtn-tv.conf"
 XSESSION_DESKTOP="/usr/share/xsessions/cdr-mtn-tv.desktop"
 SESSION_NAME="cdr-mtn-tv"
 XORG_NOBLANK="/etc/X11/xorg.conf.d/99-cdr-mtn-tv-no-blank.conf"
@@ -165,9 +166,8 @@ cat > "${LIGHTDM_DROPIN}" <<EOF
 [Seat:*]
 autologin-user=${APP_USER}
 autologin-user-timeout=0
+autologin-session=${SESSION_NAME}
 user-session=${SESSION_NAME}
-# Disable X server screen saver and DPMS at startup (-s 0 = no timeout, -dpms = no DPMS)
-xserver-command=X -s 0 -dpms
 EOF
 
 mkdir -p /etc/X11/xorg.conf.d
@@ -178,10 +178,6 @@ Section "ServerFlags"
     Option "StandbyTime" "0"
     Option "SuspendTime" "0"
     Option "OffTime" "0"
-EndSection
-Section "Monitor"
-    Identifier "Monitor0"
-    Option "DPMS" "false"
 EndSection
 EOF
 
@@ -211,6 +207,9 @@ for unit in cdr-mtn-tv-startup cdr-mtn-tv-web; do
       "${INSTALL_DIR}/scripts/systemd/${unit}.service" \
       > "${SYSTEMD_DIR}/${unit}.service"
 done
+
+mkdir -p /etc/systemd/system/lightdm.service.d
+cp "${INSTALL_DIR}/scripts/systemd/lightdm-cdr-mtn-tv.conf" "${LIGHTDM_SYSTEMD_DROPIN}"
 
 systemctl daemon-reload
 systemctl enable cdr-mtn-tv-startup.service cdr-mtn-tv-web.service
