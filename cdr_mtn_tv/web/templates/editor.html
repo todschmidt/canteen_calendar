@@ -55,9 +55,19 @@
                 {% set row = menu.draft[i] if i < menu.draft|length else {} %}
                 <tr>
                   <td>{{ i + 1 }}</td>
-                  <td><input type="text" name="draft_{{ i }}_name" value="{{ row.get('name', '') }}"></td>
-                  <td><input type="text" name="draft_{{ i }}_abv" value="{{ row.get('abv', '') }}"></td>
-                  <td><input type="text" name="draft_{{ i }}_price" value="{{ row.get('price', '') }}"></td>
+                    <td><input type="text" name="draft_{{ i }}_name" value="{{ row.get('name', '') }}"></td>
+                  <td>
+                    <span class="input-affix">
+                      <input type="text" name="draft_{{ i }}_abv" value="{{ row.get('abv', '') | editor_abv }}" inputmode="decimal">
+                      <span class="suffix">%</span>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="input-affix">
+                      <span class="prefix">$</span>
+                      <input type="text" name="draft_{{ i }}_price" value="{{ row.get('price', '') | editor_price }}" inputmode="decimal">
+                    </span>
+                  </td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -82,7 +92,12 @@
                 <tr>
                   <td>{{ i + 1 }}</td>
                   <td><input type="text" name="wine_{{ i }}_name" value="{{ item.get('name', '') }}"></td>
-                  <td><input type="text" name="wine_{{ i }}_price" value="{{ item.get('price', '') }}"></td>
+                  <td>
+                    <span class="input-affix">
+                      <span class="prefix">$</span>
+                      <input type="text" name="wine_{{ i }}_price" value="{{ item.get('price', '') | editor_price }}" inputmode="decimal">
+                    </span>
+                  </td>
                 </tr>
                 {% endfor %}
               </tbody>
@@ -126,7 +141,12 @@
                   <td>{{ i + 1 }}</td>
                   <td><input type="text" name="food_{{ i }}_name" value="{{ item.get('name', '') }}"></td>
                   <td><input type="text" name="food_{{ i }}_subtext" value="{{ item.get('subtext', '') }}"></td>
-                  <td><input type="text" name="food_{{ i }}_price" value="{{ item.get('price', '') }}"></td>
+                  <td>
+                    <span class="input-affix">
+                      <span class="prefix">$</span>
+                      <input type="text" name="food_{{ i }}_price" value="{{ item.get('price', '') | editor_price }}" inputmode="decimal">
+                    </span>
+                  </td>
                 </tr>
                 {% endfor %}
               </tbody>

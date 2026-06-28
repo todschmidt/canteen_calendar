@@ -26,6 +26,7 @@ from events_display.render import (  # noqa: E402
     render_events,
 )
 from menu_display.render import render_menu  # noqa: E402
+from menu_format import parse_abv, parse_price  # noqa: E402
 from paths import load_config, root_path  # noqa: E402
 
 ROLE = os.environ.get("CDR_ROLE", "editor")
@@ -37,6 +38,14 @@ def create_app(role: str = ROLE) -> Flask:
     app.config["TEMPLATES_AUTO_RELOAD"] = True
     config = load_config()
     app.config["CDR_CONFIG"] = config
+
+    @app.template_filter("editor_price")
+    def editor_price(value):
+        return parse_price(value or "")
+
+    @app.template_filter("editor_abv")
+    def editor_abv(value):
+        return parse_abv(value or "")
 
     def role_allows(*allowed: str) -> bool:
         return role in allowed
@@ -91,19 +100,19 @@ def create_app(role: str = ROLE) -> Flask:
         for i in range(layout.get("draft_row_count", 12)):
             menu["draft"].append({
                 "name": request.form.get(f"draft_{i}_name", ""),
-                "abv": request.form.get(f"draft_{i}_abv", ""),
-                "price": request.form.get(f"draft_{i}_price", ""),
+                "abv": parse_abv(request.form.get(f"draft_{i}_abv", "")),
+                "price": parse_price(request.form.get(f"draft_{i}_price", "")),
             })
         for i in range(layout.get("wine_row_count", 11)):
             menu["wine"]["items"].append({
                 "name": request.form.get(f"wine_{i}_name", ""),
-                "price": request.form.get(f"wine_{i}_price", ""),
+                "price": parse_price(request.form.get(f"wine_{i}_price", "")),
             })
         for i in range(layout.get("food_row_count", 5)):
             menu["food"]["items"].append({
                 "name": request.form.get(f"food_{i}_name", ""),
                 "subtext": request.form.get(f"food_{i}_subtext", ""),
-                "price": request.form.get(f"food_{i}_price", ""),
+                "price": parse_price(request.form.get(f"food_{i}_price", "")),
             })
 
         menu_path = root_path("data", "menu.json")

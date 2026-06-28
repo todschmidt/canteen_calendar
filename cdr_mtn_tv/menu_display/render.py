@@ -8,6 +8,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from menu_format import format_abv, format_price  # noqa: E402
 from paths import load_config, root_path  # noqa: E402
 
 # Set True to print sidebar font-fit diagnostics.
@@ -280,7 +281,9 @@ def render_menu(config: dict | None = None, menu: dict | None = None) -> Path:
         y = slot * row_h + (row_h - 34) // 2
         draw_split_row(
             draw, y,
-            row.get("name", ""), row.get("abv", ""), row.get("price", ""),
+            row.get("name", ""),
+            format_abv(row.get("abv", "")),
+            format_price(row.get("price", "")),
             main_x, draft_w, draft_font, white,
             abv_x, price_x, content_pad_x,
         )
@@ -304,7 +307,7 @@ def render_menu(config: dict | None = None, menu: dict | None = None) -> Path:
         item = wine_items[i] if i < len(wine_items) else {}
         draw_name_price_row(
             draw, ry + i * wine_row_h,
-            item.get("name", ""), item.get("price", ""),
+            item.get("name", ""), format_price(item.get("price", "")),
             right_x, right_w, right_body_font, wine_color, content_pad_x,
         )
     ry += wine_count * wine_row_h + 10
@@ -362,7 +365,7 @@ def render_menu(config: dict | None = None, menu: dict | None = None) -> Path:
     for i in range(food_count):
         item = food_items[i] if i < len(food_items) else {}
         name = item.get("name", "")
-        price = item.get("price", "")
+        price = format_price(item.get("price", ""))
         subtext = item.get("subtext", "")
         draw.text((right_x + content_pad_x, ry), name, font=right_body_font, fill=food_color)
         if price:
