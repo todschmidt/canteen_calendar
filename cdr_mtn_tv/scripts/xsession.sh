@@ -31,6 +31,9 @@ fi
 # Extended dual-HDMI (disable mirror) after startup + HDMI enumeration.
 "${INSTALL_DIR}/scripts/configure_displays.sh" || true
 
+# xrandr resets DPMS — re-apply blanking after display layout is set.
+"${INSTALL_DIR}/scripts/disable_blanking.sh" || true
+
 # Minimal window manager — feh fullscreen windows still benefit from a WM session.
 if command -v openbox >/dev/null 2>&1; then
   openbox &

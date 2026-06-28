@@ -56,6 +56,7 @@ launch_feh() {
     --geometry "${TV1_GEOM}" "${TV1}" &
   DISPLAY="${DISPLAY}" feh --borderless --auto-zoom --reload "${REFRESH}" \
     --geometry "${TV2_GEOM}" "${TV2}" &
+  "${INSTALL_DIR}/scripts/disable_blanking.sh" || true
 }
 
 launch_feh

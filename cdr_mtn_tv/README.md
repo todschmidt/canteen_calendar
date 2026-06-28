@@ -195,13 +195,13 @@ Pi OS often **mirrors** both HDMI outputs at boot. There is one X screen (`:0`),
 
 Layered disable is applied by install + xsession:
 
-- `/etc/X11/xorg.conf.d/99-cdr-mtn-tv-no-blank.conf` (ServerFlags only — do not override lightdm `xserver-command`)
-- `disable_blanking.sh` — xset + 5-minute keepalive loop
+- `/etc/X11/xorg.conf.d/99-cdr-mtn-tv-no-blank.conf` (ServerFlags only)
+- `disable_blanking.sh` — `xset -dpms`, per-output xrandr DPMS off, keepalive loop
 - Pi firmware: `hdmi_blanking=0` and `consoleblank=0` (install_pi.sh)
 
 Check: `DISPLAY=:0 xset q` — DPMS should be Disabled, timeout 0.
 
-If HDMI still blanks, add to `/boot/firmware/config.txt` (Pi firmware): `hdmi_blanking=0` then reboot.
+**Do not use `xset dpms force off`** — that turns monitors off (blank until keypress). Use `xset -dpms` and `xset dpms force on` to wake.
 
 ### TV2 events not updating
 
