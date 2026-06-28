@@ -171,9 +171,12 @@ Checklist (most common first):
 
 ### feh not showing on second HDMI
 
-- Verify dual outputs: `xrandr` (as `cdr_mtn_tv` on the Pi)
-- Check `DISPLAY=:0.0` and `DISPLAY=:0.1` in `scripts/start_displays.sh`
-- Ensure lightdm autologin is active: `cat /etc/lightdm/lightdm.conf.d/50-cdr-mtn-tv.conf`
+Pi OS often **mirrors** both HDMI outputs at boot. There is one X screen (`:0`), not separate `:0.0` / `:0.1`.
+
+- `configure_displays.sh` runs xrandr extended mode before feh starts
+- Both feh windows use `DISPLAY=:0` at `1920x1080+0+0` (TV1) and `1920x1080+1920+0` (TV2)
+- Check layout: `DISPLAY=:0 xrandr` (as `cdr_mtn_tv`)
+- Check geometry: `cat /run/cdr-mtn-tv/display.env`
 - Restart displays: `sudo systemctl restart lightdm`
 
 ### TV2 events not updating

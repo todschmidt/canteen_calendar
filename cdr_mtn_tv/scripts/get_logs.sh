@@ -191,6 +191,13 @@ echo ""
 echo "feh processes:"
 pgrep -af "feh.*tv[12]_" 2>/dev/null || echo "  (none)"
 
+hr "Display layout (/run/cdr-mtn-tv/display.env)"
+if [[ -f /run/cdr-mtn-tv/display.env ]]; then
+  cat /run/cdr-mtn-tv/display.env
+else
+  echo "(not written yet — configure_displays.sh runs at X session start)"
+fi
+
 hr "Startup marker + output images"
 echo "ready marker: ${READY} — $([[ -f ${READY} ]] && echo present || echo missing)"
 for f in tv1_menu.jpg tv2_events.jpg; do

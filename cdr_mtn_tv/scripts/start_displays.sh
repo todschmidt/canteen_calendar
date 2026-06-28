@@ -1,21 +1,29 @@
 #!/usr/bin/env bash
-# Launch feh fullscreen viewers — one per HDMI output.
+# Launch feh viewers — one per HDMI output on an extended :0 desktop.
 #
-# TV1 (draft menu)  → DISPLAY=:0.0  → output/tv1_menu.jpg
-# TV2 (events poster) → DISPLAY=:0.1 → output/tv2_events.jpg
+# TV1 (draft menu)   → geometry 1920x1080+0+0
+# TV2 (events poster) → geometry 1920x1080+1920+0
 #
-# Called by xsession.sh after cdr-mtn-tv-startup.service has generated images.
-# feh --reload watches file mtime; editor "Generate" updates propagate automatically.
+# configure_displays.sh must run first (xsession.sh) to disable mirror mode.
 
 set -euo pipefail
 
 INSTALL_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 REFRESH="${CDR_DISPLAY_REFRESH:-30}"
+DISPLAY_ENV="/run/cdr-mtn-tv/display.env"
 
 TV1="${INSTALL_DIR}/output/tv1_menu.jpg"
 TV2="${INSTALL_DIR}/output/tv2_events.jpg"
 
 mkdir -p "${INSTALL_DIR}/output"
+
+if [[ -f "${DISPLAY_ENV}" ]]; then
+  # shellcheck source=/dev/null
+  source "${DISPLAY_ENV}"
+fi
+: "${DISPLAY:=:0}"
+: "${TV1_GEOM:=1920x1080+0+0}"
+: "${TV2_GEOM:=1920x1080+1920+0}"
 
 # Placeholder images if startup_render has not yet produced real output.
 if [[ ! -f "$TV1" ]]; then
@@ -33,7 +41,16 @@ Image.new('RGB', (1920, 1080), (32, 32, 32)).save('${TV2}')
 "
 fi
 
-# Background both feh instances; wait keeps the X session alive.
-DISPLAY=:0.0 feh --fullscreen --auto-zoom --reload "${REFRESH}" "${TV1}" &
-DISPLAY=:0.1 feh --fullscreen --auto-zoom --reload "${REFRESH}" "${TV2}" &
+# Borderless + geometry on extended desktop (not --fullscreen — that spans all heads).
+# Legacy fallback: separate X screens :0.0 / :0.1 if TV2_GEOM is empty.
+if [[ -n "${TV2_GEOM}" ]]; then
+  DISPLAY="${DISPLAY}" feh --borderless --auto-zoom --reload "${REFRESH}" \
+    --geometry "${TV1_GEOM}" "${TV1}" &
+  DISPLAY="${DISPLAY}" feh --borderless --auto-zoom --reload "${REFRESH}" \
+    --geometry "${TV2_GEOM}" "${TV2}" &
+else
+  DISPLAY=:0.0 feh --borderless --auto-zoom --reload "${REFRESH}" "${TV1}" &
+  DISPLAY=:0.1 feh --borderless --auto-zoom --reload "${REFRESH}" "${TV2}" &
+fi
+
 wait

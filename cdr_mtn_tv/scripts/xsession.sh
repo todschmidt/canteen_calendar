@@ -5,9 +5,9 @@
 #   1. systemd multi-user.target
 #   2. cdr-mtn-tv-startup.service  — generates JPGs, writes /run/cdr-mtn-tv/ready
 #   3. cdr-mtn-tv-web.service      — Flask editor on port 9000
-#   4. lightdm autologin → this script → start_displays.sh (feh on :0.0 and :0.1)
+#   4. lightdm autologin → configure_displays.sh → start_displays.sh (feh on :0)
 #
-# feh requires X11 (not Wayland). lightdm must use user-session=xsession for this user.
+# Dual HDMI uses xrandr extended desktop, not separate :0.0 / :0.1 screens.
 
 set -euo pipefail
 
@@ -21,12 +21,10 @@ xset s off
 xset -dpms
 xset s noblank
 
-# Optional: configure dual HDMI outputs before feh starts.
-# Uncomment and adjust for your wiring if :0.0 / :0.1 are not assigned as expected.
-# xrandr --output HDMI-1 --primary --mode 1920x1080 --pos 0x0
-# xrandr --output HDMI-2 --mode 1920x1080 --pos 1920x0
+# Extended dual-HDMI (disable mirror) before feh starts.
+"${INSTALL_DIR}/scripts/configure_displays.sh"
 
-# Wait for systemd startup_render.sh (up to 120 s). Fall through if marker missing
+# Wait for systemd startup_render.sh (up to 120 s).
 # but placeholder images exist — start_displays.sh can create blanks.
 if [[ ! -f "${READY}" ]]; then
   echo "xsession: waiting for ${READY} ..."
