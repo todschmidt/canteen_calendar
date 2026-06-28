@@ -100,16 +100,33 @@ fi
 # ---------------------------------------------------------------------------
 echo "--- Syncing repository ---"
 
-# install_pi.sh chmods scripts below; without this, the next pull sees dirty files.
+# chmod below must not block the next pull; ignore executable-bit drift in git status.
 sudo -u "${APP_USER}" git config --global core.fileMode false
 
-if [[ -d "${REPO_DIR}/.git" ]]; then
-  # Drop permission-only drift from previous install runs before updating.
-  sudo -u "${APP_USER}" git -C "${REPO_DIR}" restore cdr_mtn_tv/scripts/ 2>/dev/null || true
-  sudo -u "${APP_USER}" git -C "${REPO_DIR}" pull --ff-only
+mkdir -p "${REPO_DIR}"
+chown "${APP_USER}:${APP_USER}" "${REPO_DIR}"
+
+repo_usable() {
+  [[ -d "${REPO_DIR}/.git" ]] \
+    && sudo -u "${APP_USER}" test -r "${INSTALL_DIR}/scripts/install_pi.sh"
+}
+
+if repo_usable; then
+  if ! sudo -u "${APP_USER}" git -C "${REPO_DIR}" pull --ff-only; then
+    echo "WARN: git pull failed; resetting ${REPO_DIR} to origin/main"
+    sudo -u "${APP_USER}" git -C "${REPO_DIR}" fetch origin
+    sudo -u "${APP_USER}" git -C "${REPO_DIR}" reset --hard origin/main
+  fi
 else
+  if [[ -d "${REPO_DIR}/.git" ]]; then
+    echo "WARN: ${REPO_DIR} exists but is not usable by ${APP_USER} (wrong owner or worktree)."
+    echo "      Moving aside and re-cloning to ${REPO_DIR}"
+    mv "${REPO_DIR}" "${REPO_DIR}.bak.$(date +%s)"
+  fi
   sudo -u "${APP_USER}" git clone "${REPO_URL}" "${REPO_DIR}"
 fi
+
+chown -R "${APP_USER}:${APP_USER}" "${REPO_DIR}"
 
 if [[ ! -d "${INSTALL_DIR}" ]]; then
   echo "ERROR: expected app at ${INSTALL_DIR} after clone" >&2
@@ -127,6 +144,13 @@ sudo -u "${APP_USER}" "${PIP}" install -q -r "${INSTALL_DIR}/requirements.txt"
 
 mkdir -p "${INSTALL_DIR}/output"
 chown -R "${APP_USER}:${APP_USER}" "${HOME_DIR}"
+
+# Warn when invoked from a root-owned checkout (e.g. /root/WORK/...) — not the runtime path.
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+if [[ "${SCRIPT_DIR}" != "${INSTALL_DIR}/scripts" ]]; then
+  echo "NOTE: running ${SCRIPT_DIR}/install_pi.sh"
+  echo "      production install path is ${INSTALL_DIR}/scripts/install_pi.sh"
+fi
 
 # ---------------------------------------------------------------------------
 # 5. Executable helper scripts
